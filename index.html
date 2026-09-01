@@ -7,6 +7,14 @@
 <title>Conformitive</title>
 
 <style>
+:root {
+    --black: #050505;
+    --purple: #7d4aa8;
+    --purple-light: #a16bc9;
+    --text-soft: rgba(255,255,255,.64);
+    --border: rgba(255,255,255,.09);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -19,152 +27,239 @@ html {
 
 body {
     min-height: 100vh;
+    background: var(--black);
+    color: white;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
     overflow-x: hidden;
-    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
-                 Roboto, Arial, sans-serif;
-    color: #fff;
-    background: #030204;
+
+    /* Keeps scrolling clean on touch devices */
+    -webkit-overflow-scrolling: touch;
 }
 
-/* =========================
-   MOVING BACKGROUND
-========================= */
+/* ==================================================
+   PAGE BACKGROUND
+   IMPORTANT:
+   NOT fixed.
+   NOT animated.
+   NOT zooming.
+   It scrolls naturally with the page.
+================================================== */
 
-.background {
-    position: fixed;
-    inset: -8%;
-    z-index: -10;
+.page-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    min-height: 100%;
 
     background:
         linear-gradient(
             180deg,
-            rgba(3,2,5,.35),
-            rgba(3,2,5,.78) 58%,
-            #030204 100%
+            rgba(0,0,0,.22) 0%,
+            rgba(0,0,0,.52) 35%,
+            rgba(0,0,0,.82) 68%,
+            #050505 100%
         ),
         url("cf163c6a-1a2d-4268-9b53-79f7bd22587a.jpg")
-        center / cover no-repeat;
+        center top / cover no-repeat;
 
-    animation: backgroundMove 22s ease-in-out infinite alternate;
-    transform-origin: center;
+    z-index: -2;
 }
 
-.background::after {
+.page-background::after {
     content: "";
+
     position: absolute;
     inset: 0;
 
     background:
         radial-gradient(
-            circle at 50% 30%,
-            rgba(110,55,180,.20),
+            circle at 50% 22%,
+            rgba(116,57,160,.15),
             transparent 38%
-        ),
-        linear-gradient(
-            90deg,
-            rgba(0,0,0,.38),
-            transparent 50%,
-            rgba(0,0,0,.38)
         );
+
+    pointer-events: none;
 }
 
-@keyframes backgroundMove {
-    0% {
-        transform: scale(1.04) translate3d(-1%, -1%, 0);
-    }
-
-    50% {
-        transform: scale(1.09) translate3d(1%, .5%, 0);
-    }
-
-    100% {
-        transform: scale(1.05) translate3d(-.5%, 1%, 0);
-    }
-}
-
-/* =========================
+/* ==================================================
    HEADER
-========================= */
+================================================== */
 
 header {
+    position: sticky;
+    top: 0;
+
+    z-index: 100;
+
     width: 100%;
-    padding: 28px 7%;
-    position: relative;
-    z-index: 10;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(5,5,5,.82),
+            rgba(5,5,5,.48)
+        );
+
+    border-bottom: 1px solid rgba(255,255,255,.045);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 }
 
-.logo-wrap {
-    display: inline-flex;
+.header-inner {
+    width: min(1400px, 92%);
+
+    min-height: 82px;
+
+    margin: auto;
+
+    display: flex;
     align-items: center;
-    cursor: default;
+    justify-content: space-between;
 }
 
-.logo {
-    position: relative;
+/* ==================================================
+   LOGO
+================================================== */
 
-    font-size: 25px;
-    font-weight: 900;
-    letter-spacing: -1.3px;
+.brand {
+    display: inline-flex;
+    flex-direction: column;
 
-    color: #fff;
+    cursor: pointer;
+
+    user-select: none;
 
     transition:
-        transform .45s cubic-bezier(.2,.8,.2,1),
-        letter-spacing .45s ease;
+        transform .35s cubic-bezier(.2,.75,.2,1);
 }
 
-.logo-main {
-    position: relative;
-    z-index: 2;
+.brand:hover {
+    transform: scale(1.04);
 }
 
-.logo-main span {
-    color: #9255d6;
+.brand-name {
+    font-size: 24px;
+    line-height: 1;
+
+    font-weight: 900;
+
+    letter-spacing: -1.2px;
+}
+
+.brand-name span {
+    color: var(--purple-light);
 }
 
 .fun-name {
-    position: absolute;
-    left: 100%;
-    top: 50%;
+    margin-top: 6px;
 
-    white-space: nowrap;
+    color: rgba(255,255,255,.55);
 
-    color: #a66be5;
-    font-size: 0;
-    font-weight: 900;
+    font-size: 10px;
+    line-height: 1;
 
-    opacity: 0;
+    font-weight: 800;
+    letter-spacing: 2px;
+
+    opacity: .72;
+
     transform:
-        translate(0, -50%)
-        scale(.5);
-
-    transform-origin: left center;
+        translateY(0);
 
     transition:
-        opacity .45s ease,
-        transform .55s cubic-bezier(.2,.8,.2,1),
-        font-size .45s ease;
+        color .3s ease,
+        transform .35s cubic-bezier(.2,.75,.2,1),
+        opacity .3s ease;
 }
 
-.logo-wrap:hover .logo {
-    transform: scale(1.08);
-    letter-spacing: -.5px;
-}
+.brand:hover .fun-name {
+    color: var(--purple-light);
 
-.logo-wrap:hover .fun-name {
-    opacity: 1;
-    font-size: 17px;
     transform:
-        translate(12px, -50%)
-        scale(1);
+        translateY(3px);
+
+    opacity: 1;
 }
 
-/* =========================
-   HERO
-========================= */
+/* ==================================================
+   CART
+================================================== */
+
+.cart {
+    position: relative;
+
+    width: 43px;
+    height: 43px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid var(--border);
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.025);
+
+    color: white;
+
+    text-decoration: none;
+
+    transition:
+        transform .35s cubic-bezier(.2,.75,.2,1),
+        border-color .3s ease,
+        background .3s ease;
+}
+
+.cart:hover {
+    transform: scale(1.1);
+
+    border-color:
+        rgba(161,107,201,.55);
+
+    background:
+        rgba(125,74,168,.12);
+}
+
+.cart svg {
+    width: 18px;
+    height: 18px;
+
+    stroke: currentColor;
+
+    fill: none;
+
+    stroke-width: 1.6;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* ==================================================
+   MAIN HERO
+================================================== */
+
+main {
+    position: relative;
+    z-index: 1;
+}
 
 .hero {
-    min-height: 63vh;
+    width: min(1250px, 92%);
+
+    min-height: 78vh;
+
+    margin: auto;
 
     display: flex;
     align-items: center;
@@ -172,534 +267,444 @@ header {
 
     text-align: center;
 
-    padding: 80px 20px 60px;
+    padding:
+        110px 20px
+        90px;
 }
 
 .hero-content {
-    width: min(800px, 100%);
+    width: min(900px, 100%);
 
     animation:
-        heroEnter 1s cubic-bezier(.2,.8,.2,1) both;
+        enter .9s cubic-bezier(.2,.75,.2,1) both;
 }
 
-.hero h1 {
-    font-size: clamp(54px, 9vw, 105px);
-    line-height: .9;
-    letter-spacing: -7px;
-    font-weight: 950;
+.royal-label {
+    display: inline-block;
 
-    text-shadow:
-        0 15px 70px rgba(0,0,0,.55);
-}
+    margin-bottom: 24px;
 
-.hero h1 span {
-    background:
-        linear-gradient(
-            120deg,
-            #7740ad,
-            #b477e7,
-            #8650bd
-        );
-
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.hero p {
-    width: min(560px, 100%);
-
-    margin: 28px auto 0;
-
-    color: #aaa1b1;
-
-    font-size: 15px;
-    line-height: 1.8;
-}
-
-/* =========================
-   PAYMENT AREA
-========================= */
-
-.payment-area {
-    width: min(820px, 92%);
-    margin: auto;
-
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-}
-
-.payment-box {
-    position: relative;
-    overflow: hidden;
-
-    padding: 27px;
-
-    border: 1px solid rgba(255,255,255,.075);
-    border-radius: 20px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(17,12,23,.86),
-            rgba(5,4,8,.90)
-        );
-
-    backdrop-filter: blur(20px);
-
-    transition:
-        transform .4s cubic-bezier(.2,.8,.2,1),
-        border-color .4s ease,
-        box-shadow .4s ease;
-}
-
-.payment-box::before {
-    content: "";
-
-    position: absolute;
-
-    width: 180px;
-    height: 180px;
-
-    right: -100px;
-    top: -100px;
-
-    border-radius: 50%;
-
-    background: #7b3db0;
-    opacity: .10;
-
-    filter: blur(50px);
-
-    transition: .5s ease;
-}
-
-.payment-box:hover {
-    transform: translateY(-5px) scale(1.015);
-
-    border-color: rgba(153,91,211,.38);
-
-    box-shadow:
-        0 20px 60px rgba(0,0,0,.38),
-        0 0 45px rgba(117,61,166,.08);
-}
-
-.payment-box:hover::before {
-    transform: scale(1.5);
-    opacity: .16;
-}
-
-.payment-number {
-    color: #79509d;
+    color: rgba(255,255,255,.55);
 
     font-size: 10px;
     font-weight: 800;
-    letter-spacing: 2px;
 
-    margin-bottom: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
 }
 
-.payment-box h2 {
-    font-size: 20px;
-    letter-spacing: -.4px;
+.hero-title {
+    font-size:
+        clamp(
+            58px,
+            10vw,
+            125px
+        );
+
+    line-height: .88;
+
+    letter-spacing: -8px;
+
+    font-weight: 950;
 }
 
-.payment-box p {
-    margin-top: 8px;
-
-    color: #77707f;
-
-    font-size: 12px;
-    line-height: 1.6;
+.hero-title .purple {
+    color: var(--purple-light);
 }
 
-.payment-form {
-    position: relative;
-    z-index: 2;
+.hero-description {
+    width: min(540px, 100%);
 
-    margin-top: 21px;
+    margin:
+        30px auto
+        0;
+
+    color: var(--text-soft);
+
+    font-size: 15px;
+
+    line-height: 1.8;
 }
 
-.field {
-    width: 100%;
-    height: 45px;
+/* ==================================================
+   ROYAL AREA
+================================================== */
 
-    margin-bottom: 9px;
-    padding: 0 13px;
+.royal-section {
+    width: min(1200px, 92%);
 
-    border: 1px solid #2a2230;
-    border-radius: 10px;
+    margin: auto;
 
-    background: rgba(3,2,5,.65);
-
-    color: #fff;
-
-    outline: none;
-
-    font-size: 12px;
-
-    transition:
-        border-color .25s ease,
-        box-shadow .25s ease,
-        transform .25s ease;
+    padding:
+        30px 0
+        130px;
 }
 
-.field::placeholder {
-    color: #5c5562;
+.royal-heading {
+    width: min(700px, 100%);
+
+    margin: auto;
+
+    text-align: center;
 }
 
-.field:focus {
-    border-color: #8050a9;
+.royal-heading h2 {
+    font-size:
+        clamp(30px, 5vw, 52px);
 
-    box-shadow:
-        0 0 0 3px rgba(128,80,169,.08);
+    line-height: 1;
 
-    transform: scale(1.01);
+    letter-spacing: -2px;
+
+    font-weight: 900;
 }
 
-.pay-button {
-    width: 100%;
-    height: 45px;
+.royal-heading p {
+    margin-top: 16px;
 
-    margin-top: 3px;
+    color: rgba(255,255,255,.48);
 
-    border: 0;
-    border-radius: 10px;
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+/* ==================================================
+   CONTENT PLACEHOLDER
+   This is intentionally spacious because you said
+   you will tell me what goes in the middle.
+================================================== */
+
+.middle-space {
+    width: min(900px, 92%);
+
+    min-height: 440px;
+
+    margin:
+        50px auto
+        0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.middle-text {
+    color: rgba(255,255,255,.16);
+
+    font-size: 11px;
+
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* ==================================================
+   BOTTOM BLACK RECTANGLE
+   Similar simple visual block to your reference.
+================================================== */
+
+.bottom-block {
+    width: min(1250px, 92%);
+
+    min-height: 360px;
+
+    margin:
+        0 auto
+        120px;
+
+    border-radius: 0;
 
     background:
         linear-gradient(
             135deg,
-            #663b88,
-            #8d4fc1
+            #050505,
+            #09070b
         );
 
-    color: #fff;
+    border:
+        1px solid
+        rgba(255,255,255,.07);
 
-    font-size: 12px;
-    font-weight: 800;
-
-    cursor: pointer;
-
-    transition:
-        transform .3s cubic-bezier(.2,.8,.2,1),
-        box-shadow .3s ease,
-        filter .3s ease;
-}
-
-.pay-button:hover {
-    transform: scale(1.025);
-
-    filter: brightness(1.08);
-
-    box-shadow:
-        0 12px 30px rgba(109,57,148,.25);
-}
-
-.pay-button:active {
-    transform: scale(.99);
-}
-
-/* =========================
-   LOWER BOXES
-========================= */
-
-.lower {
-    width: min(820px, 92%);
-    margin: 14px auto 90px;
-
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-}
-
-.info-box {
     position: relative;
 
-    border: 1px solid rgba(255,255,255,.07);
-    border-radius: 16px;
-
-    background: rgba(8,6,11,.78);
-
-    backdrop-filter: blur(18px);
-
     overflow: hidden;
-
-    transition:
-        transform .4s cubic-bezier(.2,.8,.2,1),
-        border-color .35s ease,
-        box-shadow .35s ease;
 }
 
-.info-box:hover {
-    transform: translateY(-5px) scale(1.025);
+.bottom-block::before {
+    content: "";
 
-    border-color: rgba(151,91,202,.32);
+    position: absolute;
 
-    box-shadow:
-        0 18px 45px rgba(0,0,0,.32);
+    left: -150px;
+    bottom: -180px;
+
+    width: 500px;
+    height: 500px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(110,57,150,.08);
+
+    filter: blur(90px);
 }
 
-.info-button {
-    width: 100%;
+.bottom-inner {
+    position: relative;
+    z-index: 1;
 
-    min-height: 78px;
+    min-height: 360px;
 
-    padding: 17px;
-
-    border: 0;
-    background: transparent;
-
-    color: #fff;
-
-    cursor: pointer;
-
-    text-align: left;
+    padding: 60px;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    gap: 40px;
 }
 
-.info-name {
+.bottom-title {
+    font-size: 38px;
+
+    letter-spacing: -1.5px;
+
+    font-weight: 900;
+}
+
+.bottom-copy {
+    margin-top: 12px;
+
+    color: rgba(255,255,255,.42);
+
     font-size: 13px;
-    font-weight: 800;
-}
 
-.info-description {
-    margin-top: 4px;
-
-    color: #615967;
-
-    font-size: 10px;
-}
-
-.arrow {
-    color: #8051a9;
-
-    font-size: 16px;
-
-    transition: transform .35s ease;
-}
-
-.info-box.open .arrow {
-    transform: rotate(180deg);
-}
-
-.info-content {
-    max-height: 0;
-    overflow: hidden;
-
-    transition:
-        max-height .5s cubic-bezier(.2,.8,.2,1);
-}
-
-.info-inner {
-    padding: 0 17px 20px;
-
-    color: #8e8794;
-
-    font-size: 11px;
     line-height: 1.7;
+
+    max-width: 420px;
 }
 
-.info-inner h3 {
-    margin: 16px 0 6px;
+/* ==================================================
+   SIMPLE BOTTOM LINKS
+================================================== */
 
-    color: #ddd5e5;
+.bottom-links {
+    display: flex;
 
-    font-size: 12px;
+    flex-wrap: wrap;
+
+    gap: 10px;
 }
 
-.info-inner strong {
-    color: #b382d3;
-}
+.bottom-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-.info-inner ul {
-    padding-left: 16px;
-}
+    min-width: 105px;
 
-.info-inner li {
-    margin: 4px 0;
-}
+    padding:
+        12px 17px;
 
-.external-link {
-    display: inline-block;
+    border:
+        1px solid
+        rgba(255,255,255,.09);
 
-    margin-top: 11px;
-
-    padding: 8px 12px;
-
-    border-radius: 8px;
-
-    border: 1px solid rgba(139,92,246,.18);
-
-    background: rgba(124,58,237,.09);
-
-    color: #b58bd1;
+    color: rgba(255,255,255,.72);
 
     text-decoration: none;
 
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
 
-    transition: .25s ease;
+    background: rgba(255,255,255,.025);
+
+    transition:
+        transform .3s cubic-bezier(.2,.75,.2,1),
+        border-color .3s ease,
+        background .3s ease,
+        color .3s ease;
 }
 
-.external-link:hover {
-    transform: translateY(-1px);
-    background: rgba(124,58,237,.17);
+.bottom-link:hover {
+    transform: translateY(-3px) scale(1.02);
+
+    border-color:
+        rgba(161,107,201,.42);
+
+    background:
+        rgba(125,74,168,.10);
+
+    color: white;
 }
 
-/* =========================
+/* ==================================================
    FOOTER
-========================= */
+================================================== */
 
 footer {
-    border-top: 1px solid rgba(255,255,255,.055);
+    width: min(1250px, 92%);
 
-    padding: 30px 20px;
+    margin: auto;
 
-    text-align: center;
+    padding:
+        28px 0
+        35px;
 
-    color: #48414e;
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    color:
+        rgba(255,255,255,.30);
 
     font-size: 10px;
 }
 
-footer span {
-    color: #704596;
+.footer-brand {
+    color: rgba(255,255,255,.50);
 }
 
-/* =========================
-   TOAST
-========================= */
-
-.toast {
-    position: fixed;
-
-    left: 50%;
-    bottom: 24px;
-
-    width: min(390px, 88%);
-
-    padding: 13px 17px;
-
-    border: 1px solid rgba(139,92,246,.22);
-    border-radius: 11px;
-
-    background: rgba(11,8,15,.95);
-
-    color: #d0c6d8;
-
-    text-align: center;
-
-    font-size: 11px;
-
-    backdrop-filter: blur(20px);
-
-    opacity: 0;
-    pointer-events: none;
-
-    transform:
-        translate(-50%, 20px);
-
-    transition:
-        opacity .3s ease,
-        transform .3s ease;
-
-    z-index: 999;
+.footer-brand span {
+    color: var(--purple-light);
 }
 
-.toast.show {
-    opacity: 1;
+/* ==================================================
+   ANIMATION
+================================================== */
 
-    transform:
-        translate(-50%, 0);
-}
-
-/* =========================
-   HERO ANIMATION
-========================= */
-
-@keyframes heroEnter {
+@keyframes enter {
     from {
         opacity: 0;
-        transform: translateY(24px);
+
+        transform:
+            translateY(18px);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+
+        transform:
+            translateY(0);
     }
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* ==================================================
+   MOBILE
+================================================== */
 
 @media (max-width: 700px) {
 
-    header {
-        padding: 23px 20px;
+    .header-inner {
+        min-height: 72px;
+    }
+
+    .brand-name {
+        font-size: 21px;
     }
 
     .hero {
-        min-height: 58vh;
-        padding: 70px 18px 50px;
+        min-height: 70vh;
+
+        padding:
+            80px 15px
+            70px;
     }
 
-    .hero h1 {
-        font-size: clamp(49px, 15vw, 75px);
-        letter-spacing: -4px;
+    .hero-title {
+        font-size:
+            clamp(
+                51px,
+                15vw,
+                78px
+            );
+
+        letter-spacing: -5px;
     }
 
-    .hero p {
+    .hero-description {
         font-size: 13px;
     }
 
-    .payment-area {
-        grid-template-columns: 1fr;
+    .royal-section {
+        padding-bottom: 80px;
     }
 
-    .lower {
-        grid-template-columns: 1fr;
+    .middle-space {
+        min-height: 320px;
     }
 
-    .info-button {
-        min-height: 70px;
+    .bottom-block {
+        min-height: auto;
+
+        margin-bottom: 75px;
     }
 
-    .logo-wrap:hover .fun-name {
-        font-size: 14px;
+    .bottom-inner {
+        min-height: 0;
+
+        padding: 35px 24px;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .bottom-title {
+        font-size: 30px;
+    }
+
+    footer {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
 
 @media (max-width: 420px) {
 
-    .hero h1 {
-        font-size: 48px;
+    .hero-title {
+        font-size: 47px;
+
+        letter-spacing: -4px;
     }
 
-    .payment-box {
-        padding: 22px;
+    .cart {
+        width: 40px;
+        height: 40px;
     }
 
-    .logo {
-        font-size: 22px;
+    .bottom-links {
+        width: 100%;
+    }
+
+    .bottom-link {
+        flex: 1;
     }
 }
 
-/* Respect reduced-motion settings */
+/* ==================================================
+   REDUCED MOTION
+================================================== */
 
 @media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
 
     *,
     *::before,
     *::after {
-        scroll-behavior: auto !important;
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
+        animation: none !important;
+        transition: none !important;
     }
 }
 </style>
@@ -707,424 +712,167 @@ footer span {
 
 <body>
 
-<div class="background"></div>
+<!-- BACKGROUND -->
+<div class="page-background"></div>
 
 
+<!-- HEADER -->
 <header>
 
-    <div class="logo-wrap">
+    <div class="header-inner">
 
-        <div class="logo">
+        <!-- LEFT -->
+        <div class="brand">
 
-            <span class="logo-main">
+            <div class="brand-name">
                 Conform<span>itive</span>
-            </span>
+            </div>
 
-            <span class="fun-name">
-                !! Fun
-            </span>
+            <div class="fun-name">
+                !! FUN
+            </div>
 
         </div>
+
+
+        <!-- RIGHT -->
+        <a
+            class="cart"
+            href="#"
+            aria-label="Cart"
+            onclick="openCart(event)"
+        >
+
+            <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+            >
+                <path
+                    d="M3 4h2l2.2 11.1a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 1.9-1.4L21 8H6"
+                />
+
+                <circle
+                    cx="10"
+                    cy="20"
+                    r="1"
+                />
+
+                <circle
+                    cx="18"
+                    cy="20"
+                    r="1"
+                />
+            </svg>
+
+        </a>
 
     </div>
 
 </header>
 
 
-<section class="hero">
+<main>
 
-    <div class="hero-content">
+    <!-- HERO -->
 
-        <h1>
-            Simple.<br>
-            <span>Powerful.</span>
-        </h1>
+    <section class="hero">
 
-        <p>
-            Secure payments, simple transactions and a
-            clean experience built around you.
-        </p>
+        <div class="hero-content">
 
-    </div>
+            <div class="royal-label">
+                ROYAL
+            </div>
 
-</section>
+            <h1 class="hero-title">
+                <span>Conform</span><br>
+                <span class="purple">itive.</span>
+            </h1>
 
-
-<!-- PAYMENT OPTIONS -->
-
-<section class="payment-area">
-
-    <!-- ORDER PAYMENT -->
-
-    <div class="payment-box">
-
-        <div class="payment-number">
-            01 / ORDER
-        </div>
-
-        <h2>
-            Order Payment
-        </h2>
-
-        <p>
-            Enter your sale information to continue
-            to secure checkout.
-        </p>
-
-        <div class="payment-form">
-
-            <input
-                id="sellAuth"
-                class="field"
-                type="text"
-                placeholder="Sell Auth"
-                autocomplete="off"
-            >
-
-            <input
-                id="orderId"
-                class="field"
-                type="text"
-                placeholder="Order ID"
-                autocomplete="off"
-            >
-
-            <input
-                id="orderAmount"
-                class="field"
-                type="number"
-                min="1"
-                step="0.01"
-                placeholder="Amount ($)"
-                inputmode="decimal"
-            >
-
-            <button
-                class="pay-button"
-                type="button"
-                onclick="orderPayment()"
-            >
-                Continue to Payment
-            </button>
+            <p class="hero-description">
+                A clean, simple and premium experience
+                built for smooth digital transactions.
+            </p>
 
         </div>
 
-    </div>
+    </section>
 
 
-    <!-- DIRECT PAYMENT -->
+    <!-- ROYAL -->
 
-    <div class="payment-box">
+    <section class="royal-section">
 
-        <div class="payment-number">
-            02 / DIRECT
-        </div>
+        <div class="royal-heading">
 
-        <h2>
-            Direct Payment
-        </h2>
+            <h2>
+                Royal
+            </h2>
 
-        <p>
-            No order information required.
-            Simply choose how much you want to pay.
-        </p>
-
-        <div class="payment-form">
-
-            <input
-                id="directAmount"
-                class="field"
-                type="number"
-                min="1"
-                step="0.01"
-                placeholder="Amount ($)"
-                inputmode="decimal"
-            >
-
-            <button
-                class="pay-button"
-                type="button"
-                onclick="directPayment()"
-            >
-                Continue to Payment
-            </button>
+            <p>
+                Everything stays simple.
+                Everything stays in one place.
+            </p>
 
         </div>
 
-    </div>
 
-</section>
+        <!-- EMPTY MIDDLE FOR YOUR NEXT IDEA -->
+
+        <div class="middle-space">
+
+            <div class="middle-text">
+                Main content goes here
+            </div>
+
+        </div>
+
+    </section>
 
 
-<!-- THREE SMALL BOXES -->
+    <!-- BLACK RECTANGLE -->
 
-<section class="lower">
+    <section class="bottom-block">
 
-
-    <!-- VOUCHES -->
-
-    <div class="info-box" id="vouches">
-
-        <button
-            class="info-button"
-            type="button"
-            onclick="toggleBox(this)"
-        >
+        <div class="bottom-inner">
 
             <div>
 
-                <div class="info-name">
-                    Vouches
+                <div class="bottom-title">
+                    Conformitive
                 </div>
 
-                <div class="info-description">
-                    Customer feedback
+                <div class="bottom-copy">
+                    Simple design. Smooth experience.
+                    Built around the things that matter.
                 </div>
 
             </div>
 
-            <div class="arrow">
-                ↓
-            </div>
 
-        </button>
-
-
-        <div class="info-content">
-
-            <div class="info-inner">
-
-                <p>
-                    View customer feedback and previous
-                    transaction vouches through the
-                    official Telegram channel.
-                </p>
+            <div class="bottom-links">
 
                 <a
-                    class="external-link"
                     href="https://t.me/funsrep"
                     target="_blank"
                     rel="noopener noreferrer"
+                    class="bottom-link"
                 >
-                    View Vouches
+                    Vouches
                 </a>
 
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ESCROW -->
-
-    <div class="info-box" id="escrow">
-
-        <button
-            class="info-button"
-            type="button"
-            onclick="toggleBox(this)"
-        >
-
-            <div>
-
-                <div class="info-name">
+                <a
+                    href="#"
+                    class="bottom-link"
+                    onclick="toggleEscrow(event)"
+                >
                     Royal Escrow
-                </div>
-
-                <div class="info-description">
-                    Terms & information
-                </div>
-
-            </div>
-
-            <div class="arrow">
-                ↓
-            </div>
-
-        </button>
-
-
-        <div class="info-content">
-
-            <div class="info-inner">
-
-                <h3>
-                    Royal Escrow
-                </h3>
-
-                <p>
-                    Official <strong>@ThroneEscrow</strong>
-                    Channel.
-                </p>
-
-                <p>
-                    Operated by reputable providers,
-                    our service guarantees secure and
-                    professional transaction handling.
-                </p>
-
-                <p>
-                    Fees are <strong>1.5%</strong> of the
-                    transaction amount, with a
-                    <strong>$2 minimum</strong>.
-                </p>
-
-                <p>
-                    During the initial launch period,
-                    the service will operate at
-                    <strong>0% fee</strong>.
-                </p>
-
-                <h3>
-                    Allowed Transactions
-                </h3>
-
-                <ul>
-                    <li>
-                        Social media usernames and accounts
-                    </li>
-
-                    <li>
-                        Gaming accounts
-                    </li>
-
-                    <li>
-                        Game keys or digital licenses
-                    </li>
-
-                    <li>
-                        Similar digital assets agreed by both parties
-                    </li>
-                </ul>
-
-                <h3>
-                    Prohibited Transactions
-                </h3>
-
-                <ul>
-                    <li>
-                        Real-world or physical items
-                    </li>
-
-                    <li>
-                        Illegal goods or services
-                    </li>
-
-                    <li>
-                        Malicious software, exploits,
-                        stolen assets or fraud-related items
-                    </li>
-
-                    <li>
-                        Anything violating applicable laws
-                        or platform rules
-                    </li>
-                </ul>
-
-                <h3>
-                    Fees
-                </h3>
-
-                <p>
-                    Middleman fees are non-refundable once
-                    a transaction has started.
-                </p>
-
-                <h3>
-                    Transaction Responsibility
-                </h3>
-
-                <p>
-                    Royal Escrow acts only as a neutral
-                    third-party facilitator. Buyers and
-                    sellers remain responsible for verifying
-                    their deal details.
-                </p>
-
-                <h3>
-                    Disputes
-                </h3>
-
-                <p>
-                    If a dispute occurs, Royal Escrow will
-                    review available evidence from both
-                    parties and make a final decision based
-                    on the information provided.
-                </p>
-
-                <h3>
-                    Limitation of Liability
-                </h3>
-
-                <p>
-                    Royal Escrow is not responsible for
-                    issues occurring after a transaction,
-                    including account recovery, bans,
-                    reversals or platform enforcement.
-                </p>
-
-                <h3>
-                    Agreement
-                </h3>
-
-                <p>
-                    By using Royal Escrow services, both
-                    parties confirm that they understand
-                    and agree to these terms.
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- CONTACT -->
-
-    <div class="info-box" id="contact">
-
-        <button
-            class="info-button"
-            type="button"
-            onclick="toggleBox(this)"
-        >
-
-            <div>
-
-                <div class="info-name">
-                    Contact
-                </div>
-
-                <div class="info-description">
-                    Get in touch
-                </div>
-
-            </div>
-
-            <div class="arrow">
-                ↓
-            </div>
-
-        </button>
-
-
-        <div class="info-content">
-
-            <div class="info-inner">
-
-                <p>
-                    Contact us through our official
-                    profile for questions, support or
-                    general enquiries.
-                </p>
+                </a>
 
                 <a
-                    class="external-link"
                     href="https://guns.lol/funn"
                     target="_blank"
                     rel="noopener noreferrer"
+                    class="bottom-link"
                 >
                     Contact
                 </a>
@@ -1133,197 +881,48 @@ footer span {
 
         </div>
 
-    </div>
+    </section>
 
-</section>
+</main>
 
 
 <footer>
-    © 2026 <span>Conformitive</span>. All rights reserved.
+
+    <div class="footer-brand">
+        © 2026
+        <span>Conformitive</span>
+    </div>
+
+    <div>
+        All rights reserved.
+    </div>
+
 </footer>
-
-
-<div
-    class="toast"
-    id="toast"
-></div>
 
 
 <script>
 
-function showToast(message) {
+/* ============================================
+   CART
+============================================ */
 
-    const toast = document.getElementById("toast");
+function openCart(event) {
 
-    toast.textContent = message;
+    event.preventDefault();
 
-    toast.classList.add("show");
-
-    clearTimeout(window.toastTimer);
-
-    window.toastTimer = setTimeout(function() {
-        toast.classList.remove("show");
-    }, 3500);
+    alert("Cart will be connected later.");
 }
 
 
-function validAmount(value) {
+/* ============================================
+   ESCROW
+============================================ */
 
-    const amount = Number(value);
+function toggleEscrow(event) {
 
-    if (!amount || amount <= 0) {
-        return false;
-    }
+    event.preventDefault();
 
-    return true;
-}
-
-
-function orderPayment() {
-
-    const sellAuth =
-        document.getElementById("sellAuth").value.trim();
-
-    const orderId =
-        document.getElementById("orderId").value.trim();
-
-    const amount =
-        document.getElementById("orderAmount").value;
-
-
-    if (!sellAuth) {
-        showToast("Please enter your Sell Auth.");
-        return;
-    }
-
-    if (!orderId) {
-        showToast("Please enter your Order ID.");
-        return;
-    }
-
-    if (!validAmount(amount)) {
-        showToast("Please enter a valid payment amount.");
-        return;
-    }
-
-
-    /*
-        REAL PAYMENT CHECKOUT WILL BE CONNECTED HERE.
-
-        The information can be sent to your backend/payment
-        system once the payment provider is configured.
-    */
-
-    sessionStorage.setItem(
-        "paymentType",
-        "order"
-    );
-
-    sessionStorage.setItem(
-        "sellAuth",
-        sellAuth
-    );
-
-    sessionStorage.setItem(
-        "orderId",
-        orderId
-    );
-
-    sessionStorage.setItem(
-        "paymentAmount",
-        Number(amount).toFixed(2)
-    );
-
-
-    showToast(
-        "Order verified. Opening payment checkout..."
-    );
-
-    setTimeout(function() {
-
-        /*
-            Replace this with your REAL payment page URL
-            when the payment processor is connected.
-
-            Example:
-            window.location.href = "payment.html";
-        */
-
-        showToast(
-            "Payment checkout will be connected next."
-        );
-
-    }, 900);
-}
-
-
-function directPayment() {
-
-    const amount =
-        document.getElementById("directAmount").value;
-
-
-    if (!validAmount(amount)) {
-        showToast("Please enter a valid payment amount.");
-        return;
-    }
-
-
-    sessionStorage.setItem(
-        "paymentType",
-        "direct"
-    );
-
-    sessionStorage.setItem(
-        "paymentAmount",
-        Number(amount).toFixed(2)
-    );
-
-
-    showToast(
-        "Opening payment checkout..."
-    );
-
-    setTimeout(function() {
-
-        /*
-            Replace this with your REAL payment page URL
-            when the payment processor is connected.
-        */
-
-        showToast(
-            "Payment checkout will be connected next."
-        );
-
-    }, 900);
-}
-
-
-function toggleBox(button) {
-
-    const box =
-        button.closest(".info-box");
-
-    const content =
-        box.querySelector(".info-content");
-
-    const isOpen =
-        box.classList.contains("open");
-
-
-    if (isOpen) {
-
-        box.classList.remove("open");
-
-        content.style.maxHeight = "0";
-
-    } else {
-
-        box.classList.add("open");
-
-        content.style.maxHeight =
-            content.scrollHeight + "px";
-    }
+    alert("Royal Escrow section will be added here.");
 }
 
 </script>
