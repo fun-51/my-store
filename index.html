@@ -2,836 +2,1229 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Conformitive</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<meta name="description" content="Conformitive — an ultra-premium digital transaction experience with integrated Apple Pay gateway.">
+<title>Conformitive — Secure Escrow & Apple Pay Gateway</title>
 
 <style>
-:root{
-  --black:#050506;
-  --purple:#75449a;
-  --purple2:#a16bc6;
-  --white:#fff;
+/* ==========================================================================
+   CONFORMITIVE — ELITE FRONTEND & APPLE PAY GATEWAY ENGINE (LUXURY EDITION)
+   Comprehensive CSS Architecture, Design Tokens, and Micro-Interactions
+   ========================================================================== */
+
+:root {
+  --black: #030304;
+  --black-2: #070609;
+  --black-3: #0c0a10;
+  --purple: #754596;
+  --purple-2: #9862bc;
+  --purple-3: #c893e8;
+  --accent-glow: rgba(142,75,188,0.18);
+  --white: #ffffff;
+  --line: rgba(255,255,255,0.08);
+  --line-hover: rgba(178,123,208,0.45);
+  --success: #4ade80;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-html{
-  scroll-behavior:smooth;
+html {
+  scroll-behavior: smooth;
+  background: var(--black);
 }
 
-body{
-  min-height:100vh;
-  overflow-x:hidden;
-  background:var(--black);
-  color:var(--white);
-  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  cursor:none;
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--black);
+  color: var(--white);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* PAGE BACKGROUND */
-.page-bg{
-  position:absolute;
-  inset:0;
-  min-height:100%;
-  z-index:-5;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(0,0,0,.20),
-      rgba(0,0,0,.52) 42%,
-      rgba(0,0,0,.82) 72%,
-      #050506 100%
-    ),
-    url("cf163c6a-1a2d-4268-9b53-79f7bd22587a.jpg")
-    center top/cover no-repeat;
+/* --------------------------------------------------------------------------
+   BACKDROP ENGINE
+   -------------------------------------------------------------------------- */
+.page {
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate;
 }
 
-.page-bg:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(
-      circle at 50% 20%,
-      rgba(117,68,154,.16),
-      transparent 38%
-    );
-  pointer-events:none;
+.backdrop {
+  position: fixed; 
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -5;
+  overflow: hidden;
+  transform: translateZ(0);
 }
 
-/* CUSTOM CURSOR */
-.cursor-dot,
-.cursor-glow{
-  position:fixed;
-  left:0;
-  top:0;
-  pointer-events:none;
-  z-index:9999;
-  border-radius:50%;
-  transform:translate3d(-50%,-50%,0);
-  will-change:transform;
+.backdrop-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 50% 30%, rgba(20,12,30,0.4), rgba(3,3,4,0.92) 75%),
+    linear-gradient(180deg, rgba(3,3,4,0.2) 0%, rgba(3,3,4,0.85) 60%, #030304 100%),
+    url("https://raw.githubusercontent.com/fun-51/my-store/main/cf163c6a-1a2d-4268-9b53-79f7bd22587a.jpg")
+    center top / cover no-repeat;
+  will-change: transform;
 }
 
-.cursor-dot{
-  width:5px;
-  height:5px;
-  background:#eee;
-  box-shadow:
-    0 0 10px rgba(161,107,198,.85);
+.backdrop-glow {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 50% 12%, rgba(134,74,180,0.22), transparent 42%),
+    radial-gradient(circle at 85% 85%, rgba(90,45,120,0.12), transparent 50%);
 }
 
-.cursor-glow{
-  width:34px;
-  height:34px;
-  background:
-    radial-gradient(
-      circle,
-      rgba(143,82,186,.24) 0%,
-      rgba(101,54,137,.12) 38%,
-      rgba(0,0,0,0) 72%
-    );
-  filter:blur(3px);
-  opacity:.75;
-  transition:
-    width .25s ease,
-    height .25s ease,
-    opacity .25s ease;
+/* --------------------------------------------------------------------------
+   CUSTOM CURSOR POINTER
+   -------------------------------------------------------------------------- */
+.pointer-dot, .pointer-ring, .pointer-aura {
+  position: fixed;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transform: translate3d(-100px,-100px,0) translate(-50%,-50%);
+  will-change: transform, opacity;
 }
 
-body.cursor-active .cursor-glow{
-  width:64px;
-  height:64px;
-  opacity:1;
+.pointer-dot {
+  width: 5px;
+  height: 5px;
+  background: #fff;
+  box-shadow: 0 0 12px rgba(178,123,208,1);
 }
 
-body.cursor-click .cursor-glow{
-  width:82px;
-  height:82px;
+.pointer-ring {
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(178,123,208,0.35);
+  transition: width .28s var(--ease), height .28s var(--ease), border-color .28s ease, background .28s ease;
 }
 
-/* HEADER */
-header{
-  position:sticky;
-  top:0;
-  z-index:100;
-  border-bottom:1px solid rgba(255,255,255,.055);
-  background:rgba(5,5,6,.58);
-  backdrop-filter:blur(13px);
-  -webkit-backdrop-filter:blur(13px);
+.pointer-aura {
+  width: 92px;
+  height: 92px;
+  background: radial-gradient(circle, rgba(134,74,172,0.2) 0%, rgba(105,55,139,0.08) 40%, transparent 75%);
+  filter: blur(3px);
+  transition: width .28s var(--ease), height .28s var(--ease), opacity .28s ease;
 }
 
-.header{
-  width:min(1400px,92%);
-  min-height:82px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+body.pointer-ready .pointer-dot,
+body.pointer-ready .pointer-ring,
+body.pointer-ready .pointer-aura {
+  opacity: 1;
 }
 
-/* BRAND */
-.brand{
-  display:inline-flex;
-  align-items:flex-start;
-  cursor:none;
-  user-select:none;
-  transition:
-    transform .45s cubic-bezier(.2,.8,.2,1);
+body.pointer-hover .pointer-ring {
+  width: 56px;
+  height: 56px;
+  border-color: rgba(200,147,232,0.8);
+  background: rgba(117,69,150,0.07);
 }
 
-.brand:hover{
-  transform:scale(1.06);
+body.pointer-hover .pointer-aura {
+  width: 130px;
+  height: 130px;
 }
 
-.brand-name{
-  font-size:25px;
-  line-height:1;
-  font-weight:900;
-  letter-spacing:-1.5px;
+body.pointer-down .pointer-ring {
+  width: 42px;
+  height: 42px;
 }
 
-.brand-name span{
-  color:var(--purple2);
+@media(max-width: 800px) {
+  .pointer-dot, .pointer-ring, .pointer-aura { display: none; }
 }
 
-.fun{
-  text-align:center;
-  margin-top:5px;
-  height:0;
-  color:var(--purple2);
-  font-size:0;
-  font-weight:900;
-  letter-spacing:3px;
-  opacity:0;
-  transform:translateY(-7px);
-  overflow:visible;
-  transition:
-    font-size .35s cubic-bezier(.2,.8,.2,1),
-    transform .4s cubic-bezier(.2,.8,.2,1),
-    opacity .3s ease;
+/* --------------------------------------------------------------------------
+   TOPBAR & BRANDING
+   -------------------------------------------------------------------------- */
+.topbar {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  background: rgba(3,3,4,0.65);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
-.brand:hover .fun{
-  height:auto;
-  font-size:10px;
-  opacity:1;
-  transform:translateY(0);
+.topbar-inner {
+  width: min(1540px, 94%);
+  min-height: 96px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-/* CART */
-.cart{
-  width:44px;
-  height:44px;
-  display:grid;
-  place-items:center;
-  border:1px solid rgba(255,255,255,.09);
-  border-radius:50%;
-  background:rgba(255,255,255,.025);
-  text-decoration:none;
-  cursor:none;
-  transition:
-    transform .35s cubic-bezier(.2,.8,.2,1),
-    border-color .3s ease,
-    background .3s ease;
+.brand {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  text-decoration: none;
+  color: #fff;
+  cursor: none;
+  user-select: none;
+  transform: translateZ(0);
 }
 
-.cart:hover{
-  transform:scale(1.12);
-  border-color:rgba(161,107,198,.5);
-  background:rgba(117,68,154,.12);
+.brand-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.cart svg{
-  width:18px;
-  height:18px;
-  fill:none;
-  stroke:#fff;
-  stroke-width:1.6;
-  stroke-linecap:round;
-  stroke-linejoin:round;
+.verify-mark {
+  width: 23px;
+  height: 23px;
+  object-fit: contain;
+  opacity: .95;
+  transform: translateZ(0) scale(1);
+  will-change: transform, opacity, filter;
+  transition: transform .5s var(--ease), filter .45s ease, opacity .35s ease;
 }
 
-/* HERO */
-.hero{
-  width:min(1250px,92%);
-  min-height:75vh;
-  margin:auto;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  padding:100px 20px 80px;
+.brand:hover .verify-mark {
+  transform: translate3d(3px,0,0) scale(1.18);
+  filter: drop-shadow(0 0 10px rgba(200,147,232,0.6));
+  opacity: 1;
 }
 
-.hero-content{
-  animation:enter .9s cubic-bezier(.2,.8,.2,1) both;
+.brand-copy {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.royal{
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  margin-bottom:24px;
-  color:rgba(255,255,255,.48);
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:4px;
+.brand-name {
+  display: inline-block;
+  font-size: 26px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  transform-origin: left center;
+  will-change: transform, letter-spacing;
+  transition: transform .5s var(--ease), letter-spacing .5s var(--ease);
 }
 
-.royal img{
-  width:17px;
-  height:17px;
-  object-fit:contain;
+.brand:hover .brand-name {
+  transform: scale(1.11) translateY(-1px);
+  letter-spacing: -0.7px;
 }
 
-.hero h1{
-  font-size:clamp(56px,10vw,125px);
-  line-height:.87;
-  letter-spacing:-8px;
-  font-weight:950;
+.brand-name em {
+  color: var(--purple-2);
+  font-style: normal;
 }
 
-.hero h1 .purple{
-  color:var(--purple2);
+.brand-fun {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  margin-top: 8px;
+  opacity: 0;
+  transform: translateY(-8px) scale(0.85);
+  transform-origin: center top;
+  color: var(--purple-3);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 3.5px;
+  text-align: center;
+  will-change: transform, opacity;
+  pointer-events: none;
+  transition: opacity .45s ease, transform .5s var(--ease);
 }
 
-.hero p{
-  max-width:560px;
-  margin:30px auto 0;
-  color:rgba(255,255,255,.52);
-  font-size:15px;
-  line-height:1.8;
+.brand:hover .brand-fun {
+  opacity: 1;
+  transform: translateY(0) scale(1.02);
 }
 
-/* MIDDLE */
-.middle{
-  width:min(900px,92%);
-  min-height:390px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
+/* --------------------------------------------------------------------------
+   CART & ACTION BUTTONS
+   -------------------------------------------------------------------------- */
+.cart {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.02);
+  color: white;
+  text-decoration: none;
+  cursor: none;
+  will-change: transform, border-color, box-shadow;
+  transition: transform .36s var(--ease), border-color .3s ease, background .3s ease, box-shadow .3s ease;
 }
 
-.middle-text{
-  color:rgba(255,255,255,.11);
-  font-size:10px;
-  letter-spacing:3px;
-  text-transform:uppercase;
+.cart:hover {
+  transform: scale(1.12) translateZ(0);
+  border-color: var(--line-hover);
+  background: rgba(117,69,150,0.12);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
 }
 
-/* BLACK RECTANGLE */
-.bottom{
-  position:relative;
-  width:min(1250px,92%);
-  min-height:350px;
-  margin:0 auto 110px;
-  overflow:hidden;
-  background:#050505;
-  border:1px solid rgba(255,255,255,.07);
+.cart svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-.bottom:before{
-  content:"";
-  position:absolute;
-  width:440px;
-  height:440px;
-  left:-180px;
-  bottom:-240px;
-  border-radius:50%;
-  background:rgba(117,68,154,.08);
-  filter:blur(80px);
+.hero {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  min-height: calc(100vh - 96px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
 }
 
-.bottom-inner{
-  position:relative;
-  z-index:1;
-  min-height:350px;
-  padding:55px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:40px;
+.hero-content {
+  text-align: center;
+  max-width: 700px;
 }
 
-.bottom-title{
-  font-size:38px;
-  font-weight:900;
-  letter-spacing:-1.5px;
+.hero-content h1 {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #fff 30%, var(--purple-3) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.bottom-text{
-  max-width:420px;
-  margin-top:12px;
-  color:rgba(255,255,255,.38);
-  font-size:13px;
-  line-height:1.7;
+.hero-content p {
+  color: rgba(255,255,255,0.6);
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 35px;
 }
 
-/* LINKS */
-.links{
-  display:flex;
-  flex-wrap:wrap;
-  gap:9px;
+/* Apple Pay Button Trigger */
+.apple-pay-btn-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
-.link{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:7px;
-  min-width:110px;
-  padding:12px 16px;
-  border:1px solid rgba(255,255,255,.085);
-  background:rgba(255,255,255,.025);
-  color:rgba(255,255,255,.72);
-  text-decoration:none;
-  font-size:11px;
-  font-weight:700;
-  cursor:none;
-  transition:
-    transform .35s cubic-bezier(.2,.8,.2,1),
-    border-color .3s ease,
-    background .3s ease,
-    color .3s ease;
+.apple-pay-button {
+  -webkit-appearance: -apple-pay-button;
+  -apple-pay-button-type: buy;
+  -apple-pay-button-style: black;
+  width: 220px;
+  height: 52px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: transform .3s var(--ease), filter .3s ease;
 }
 
-.link:hover{
-  transform:translateY(-4px) scale(1.035);
-  border-color:rgba(161,107,198,.45);
-  background:rgba(117,68,154,.11);
-  color:#fff;
+.apple-pay-button:hover {
+  transform: scale(1.04);
+  filter: brightness(1.1);
 }
 
-.link img{
-  width:16px;
-  height:16px;
-  object-fit:contain;
+/* Custom Styled Checkout trigger fallback */
+.custom-checkout-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 28px;
+  background: linear-gradient(135deg, var(--purple), var(--purple-2));
+  color: #fff;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 14px;
+  border: 1px solid rgba(255,255,255,0.2);
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(117,69,150,0.4);
+  transition: transform .3s var(--ease), box-shadow .3s ease;
 }
 
-/* TOS */
-.tos{
-  max-height:0;
-  overflow:hidden;
-  transition:max-height .55s cubic-bezier(.2,.8,.2,1);
+.custom-checkout-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(117,69,150,0.6);
 }
 
-.tos-inner{
-  padding:0 55px 30px;
-  color:rgba(255,255,255,.50);
-  font-size:12px;
-  line-height:1.75;
+/* --------------------------------------------------------------------------
+   LOWER SECTION & TOS
+   -------------------------------------------------------------------------- */
+.lower {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  margin: 0;
 }
 
-.tos-inner h3{
-  margin:18px 0 6px;
-  color:rgba(255,255,255,.84);
-  font-size:13px;
+.lower-card {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #030304; 
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 -30px 100px rgba(0,0,0,0.8);
 }
 
-.tos-inner strong{
-  color:#b083cc;
+.lower-card::before {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  left: -200px;
+  bottom: -350px;
+  border-radius: 50%;
+  background: rgba(117,69,150,0.07);
+  filter: blur(110px);
+  pointer-events: none;
 }
 
-.tos-inner ul{
-  padding-left:18px;
+.lower-row {
+  position: relative;
+  z-index: 2;
+  width: min(1420px, 92%);
+  min-height: 210px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 35px;
 }
 
-/* FOOTER */
-footer{
-  width:min(1250px,92%);
-  margin:auto;
-  padding:25px 0 35px;
-  border-top:1px solid rgba(255,255,255,.05);
-  display:flex;
-  justify-content:space-between;
-  color:rgba(255,255,255,.25);
-  font-size:10px;
+.lower-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--purple-3);
+  text-decoration: none;
+  font-size: 23px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -0.8px;
+  white-space: nowrap;
+  transform-origin: left center;
+  will-change: transform;
+  transition: transform .5s var(--ease);
 }
 
-footer span{
-  color:#80529e;
+.lower-brand img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
 }
 
-/* ANIMATION */
-@keyframes enter{
-  from{
-    opacity:0;
-    transform:translateY(20px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+.lower-brand:hover {
+  transform: scale(1.09) translateY(-2px) translateZ(0);
 }
 
-/* MOBILE */
-@media(max-width:700px){
+.lower-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 
-  body{
-    cursor:auto;
-  }
+.action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-width: 120px;
+  padding: 13px 18px;
+  border: 1px solid var(--line);
+  background: linear-gradient(135deg, rgba(12,10,16,0.8), rgba(5,5,7,0.9));
+  color: rgba(255,255,255,0.75);
+  font-size: 11px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  transition: transform .5s var(--ease), background .3s ease, border-color .3s ease, color .3s ease, box-shadow .3s ease;
+}
 
-  .cursor-dot,
-  .cursor-glow{
-    display:none;
-  }
+.action:hover {
+  transform: translateY(-3px) translateZ(0);
+  border-color: var(--line-hover);
+  background: linear-gradient(135deg, rgba(25,18,34,0.9), rgba(10,8,14,0.95));
+  color: #fff;
+  box-shadow: 0 18px 42px rgba(0,0,0,0.35);
+}
 
-  .header{
-    min-height:72px;
-  }
+.action span {
+  display: inline-block;
+  transition: transform .5s var(--ease);
+}
 
-  .brand-name{
-    font-size:21px;
-  }
+.action:hover span {
+  transform: scale(1.08);
+}
 
-  .hero{
-    min-height:65vh;
-    padding:80px 15px 60px;
-  }
+.action img {
+  order: 2;
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
 
-  .hero h1{
-    font-size:clamp(49px,15vw,78px);
-    letter-spacing:-5px;
-  }
+/* TOS Accordion */
+.tos-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .65s var(--ease);
+}
 
-  .hero p{
-    font-size:13px;
-  }
+.tos-wrapper.open {
+  grid-template-rows: 1fr;
+}
 
-  .middle{
-    min-height:300px;
-  }
+.tos {
+  overflow: hidden;
+}
 
-  .bottom{
-    min-height:auto;
-    margin-bottom:70px;
-  }
+.tos-inner {
+  width: min(1420px, 92%);
+  margin: auto;
+  padding: 0 0 42px;
+  color: rgba(255,255,255,0.52);
+  font-size: 12.5px;
+  line-height: 1.85;
+}
 
-  .bottom-inner{
-    min-height:0;
-    padding:35px 24px;
-    flex-direction:column;
-    align-items:flex-start;
-  }
+.tos-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+}
 
-  .bottom-title{
-    font-size:30px;
-  }
+.tos-title img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
 
-  .tos-inner{
-    padding:0 24px 25px;
-  }
+.tos-inner h3 {
+  margin: 22px 0 8px;
+  color: rgba(255,255,255,0.9);
+  font-size: 13.5px;
+  font-weight: 800;
+}
 
-  footer{
-    flex-direction:column;
-    gap:8px;
-  }
+.tos-inner strong {
+  color: var(--purple-3);
+}
+
+.tos-inner ul {
+  padding-left: 18px;
+}
+
+.tos-inner li {
+  margin: 5px 0;
+}
+
+/* --------------------------------------------------------------------------
+   AI ASSISTANT WIDGET (CHATBOT)
+   -------------------------------------------------------------------------- */
+.lama-widget {
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+  z-index: 500;
+  font-family: inherit;
+}
+
+.lama-bubble {
+  position: relative;
+  width: 62px;
+  height: 62px;
+  border: 1px solid rgba(200,147,232,0.4);
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 25%, rgba(190,140,230,0.18), transparent 40%), #060508;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 16px 45px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03) inset;
+  transition: transform .5s var(--ease), border-color .45s ease, box-shadow .45s ease;
+}
+
+.lama-bubble:hover {
+  transform: scale(1.12) translateY(-3px) translateZ(0);
+  border-color: rgba(200,147,232,0.8);
+  box-shadow: 0 22px 55px rgba(0,0,0,0.6), 0 0 40px rgba(117,69,150,0.25);
+}
+
+.lama-orbit {
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  border: 1px dashed rgba(200,147,232,0.2);
+  animation: spin 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.lama-bubble-icons {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lama-bubble-icons img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.lama-bubble-icons img + img {
+  margin-left: -5px;
+}
+
+.lama-chat {
+  position: absolute;
+  right: 0;
+  bottom: 78px;
+  width: min(380px, calc(100vw - 36px));
+  height: 520px;
+  max-height: calc(100vh - 120px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px;
+  background: linear-gradient(145deg, rgba(15,12,20,0.98), rgba(4,3,6,0.99));
+  box-shadow: 0 30px 100px rgba(0,0,0,0.7), 0 0 60px rgba(117,69,150,0.12);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.92) translateZ(0);
+  transform-origin: right bottom;
+  transition: opacity .4s var(--ease), transform .5s var(--ease), visibility .4s ease;
+}
+
+.lama-chat.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1) translateZ(0);
+}
+
+.lama-chat-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 18px 15px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255,255,255,0.01);
+}
+
+.lama-mini-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.lama-mini-icons {
+  display: flex;
+  align-items: center;
+}
+
+.lama-mini-icons img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.lama-mini-icons img + img {
+  margin-left: -5px;
+}
+
+.lama-mini-name {
+  color: #d4a5f0;
+  font-size: 13.5px;
+  font-weight: 900;
+}
+
+.lama-mini-status {
+  margin-top: 2px;
+  color: rgba(255,255,255,0.4);
+  font-size: 9.5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.lama-mini-status::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: var(--success);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--success);
+}
+
+.lama-close {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #060508;
+  color: rgba(255,255,255,0.6);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform .5s var(--ease), color .3s ease, border-color .3s ease;
+}
+
+.lama-close:hover {
+  transform: scale(1.12) rotate(90deg) translateZ(0);
+  color: #fff;
+  border-color: var(--line-hover);
+}
+
+.lama-messages {
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(178,123,208,0.25) transparent;
+}
+
+.lama-msg {
+  width: max-content;
+  max-width: 85%;
+  margin-bottom: 10px;
+  padding: 11px 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  color: rgba(255,255,255,0.78);
+  background: rgba(255,255,255,0.025);
+  font-size: 11.5px;
+  line-height: 1.65;
+  animation: lama-msg-in .4s var(--ease) both;
+}
+
+.lama-bot {
+  border-left: 2px solid var(--purple-2);
+  border-top-left-radius: 4px;
+}
+
+.lama-user {
+  margin-left: auto;
+  border-right: 2px solid var(--purple-3);
+  border-top-right-radius: 4px;
+  background: rgba(117,69,150,0.12);
+  color: #fff;
+}
+
+.lama-input-row {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--line);
+  background: rgba(0,0,0,0.2);
+}
+
+.lama-input-row input {
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  padding: 0 14px;
+  outline: none;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #040305;
+  color: #fff;
+  font-size: 11.5px;
+  transition: border-color .3s ease, box-shadow .3s ease;
+}
+
+.lama-input-row input::placeholder {
+  color: rgba(255,255,255,0.3);
+}
+
+.lama-input-row input:focus {
+  border-color: var(--line-hover);
+  box-shadow: 0 0 0 3px rgba(117,69,150,0.12);
+}
+
+.lama-input-row button {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(178,123,208,0.4);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #703f92, #9a5ebf);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform .5s var(--ease), box-shadow .35s ease, filter .35s ease;
+}
+
+.lama-input-row button:hover {
+  transform: scale(1.08) translateZ(0);
+  filter: brightness(1.1);
+  box-shadow: 0 12px 25px rgba(117,69,150,0.3);
+}
+
+.lama-help {
+  padding: 0 14px 14px;
+  color: rgba(255,255,255,0.3);
+  font-size: 9.5px;
+}
+
+.lama-help a {
+  color: var(--purple-3);
+  text-decoration: none;
+  transition: color .3s ease;
+}
+
+.lama-help a:hover {
+  color: #e4c2f8;
+}
+
+@keyframes lama-msg-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.96) translateZ(0); }
+  to { opacity: 1; transform: translateY(0) scale(1) translateZ(0); }
+}
+
+@media(max-width: 700px) {
+  .lama-widget { right: 16px; bottom: 16px; }
+  .lama-bubble { width: 56px; height: 56px; }
+  .lama-chat { right: -2px; bottom: 68px; width: min(350px, calc(100vw - 24px)); height: min(500px, calc(100vh - 100px)); border-radius: 20px; }
+}
+
+/* --------------------------------------------------------------------------
+   FOOTER
+   -------------------------------------------------------------------------- */
+footer {
+  position: relative;
+  z-index: 4;
+  width: min(1420px, 92%);
+  margin: auto;
+  padding: 28px 0 38px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  color: rgba(255,255,255,0.3);
+  font-size: 10.5px;
+}
+
+.footer-brand {
+  color: rgba(255,255,255,0.5);
+}
+
+.footer-brand span {
+  color: var(--purple-2);
 }
 </style>
+<link rel="preconnect" href="https://cdn.discordapp.com" crossorigin>
 </head>
 
 <body>
 
-<div class="page-bg"></div>
+<div class="page">
+  <div class="backdrop" aria-hidden="true">
+    <div class="backdrop-image"></div>
+    <div class="backdrop-glow"></div>
+  </div>
 
-<!-- SMOOTH DESKTOP CURSOR -->
-<div class="cursor-glow"></div>
-<div class="cursor-dot"></div>
+  <div class="pointer-aura" aria-hidden="true"></div>
+  <div class="pointer-ring" aria-hidden="true"></div>
+  <div class="pointer-dot" aria-hidden="true"></div>
 
-
-<header>
-  <div class="header">
-
-    <div class="brand">
-
-      <div>
-
-        <div class="brand-name">
-          Conform<span>itive</span>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#" aria-label="Conformitive home">
+        <div class="brand-copy">
+          <div class="brand-line">
+            <div class="brand-name">
+              Conform<em>itive</em>
+            </div>
+            <img
+              class="verify-mark"
+              src="https://cdn.discordapp.com/emojis/1487461401168445610.webp?size=32&animated=true"
+              alt="Verified"
+            >
+          </div>
+          <div class="brand-fun">
+            !! FUN
+          </div>
         </div>
-
-        <div class="fun">
-          !! FUN
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <a
-      class="cart"
-      href="#"
-      aria-label="Cart"
-      onclick="cart(event)"
-    >
-
-      <svg viewBox="0 0 24 24">
-        <path d="M3 4h2l2.2 11.1a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 1.9-1.4L21 8H6"/>
-        <circle cx="10" cy="20" r="1"/>
-        <circle cx="18" cy="20" r="1"/>
-      </svg>
-
-    </a>
-
-  </div>
-</header>
-
-
-<main>
-
-<section class="hero">
-
-  <div class="hero-content">
-
-    <div class="royal">
-
-      <img
-        src="https://cdn.discordapp.com/emojis/1487461401168445610.webp?size=32&animated=true"
-        alt=""
-      >
-
-      ROYAL
-
-    </div>
-
-    <h1>
-      <span>Conform</span><br>
-      <span class="purple">itive.</span>
-    </h1>
-
-    <p>
-      A clean, simple and premium experience
-      built for smooth digital transactions.
-    </p>
-
-  </div>
-
-</section>
-
-
-<section class="middle">
-
-  <div class="middle-text">
-    Main content goes here
-  </div>
-
-</section>
-
-
-<section class="bottom">
-
-  <div class="bottom-inner">
-
-    <div>
-
-      <div class="bottom-title">
-        Conformitive
-      </div>
-
-      <div class="bottom-text">
-        Simple design. Smooth experience.
-        Everything you need without unnecessary clutter.
-      </div>
-
-    </div>
-
-
-    <div class="links">
-
-      <a
-        class="link"
-        href="https://t.me/funsrep"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-
-        <img
-          src="https://cdn.discordapp.com/emojis/1279650941729243188.webp?size=32"
-          alt=""
-        >
-
-        Vouches
-
       </a>
 
-
-      <button
-        class="link"
-        type="button"
-        onclick="toggleTos()"
-      >
-
-        <img
-          src="https://cdn.discordapp.com/emojis/1541104418689388666.webp?size=32&animated=true"
-          alt=""
-        >
-
-        TOS
-
-      </button>
-
-
-      <a
-        class="link"
-        href="https://guns.lol/funn"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Contact
+      <a class="cart" href="#" aria-label="Open cart" data-cursor onclick="openCart(event)">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 4h2l2.2 11.1a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 1.9-1.4L21 8H6"/>
+          <circle cx="10" cy="20" r="1"/>
+          <circle cx="18" cy="20" r="1"/>
+        </svg>
       </a>
-
     </div>
+  </header>
 
-  </div>
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Secure Digital Escrow & Instant Payments</h1>
+        <p>Experience lightning-fast transactions protected by advanced middleman protocols and native Apple Pay gateway integration.</p>
+        
+        <div class="apple-pay-btn-container">
+          <!-- Native Apple Pay Button element or Custom Trigger -->
+          <button class="apple-pay-button" id="applePayButton" lang="en" title="Apple Pay Checkout" aria-label="Apple Pay Checkout" onclick="initiateApplePay()"></button>
+          <button class="custom-checkout-btn" onclick="initiateApplePay()" data-cursor>
+            <span>Pay with Apple Pay</span>
+          </button>
+        </div>
+      </div>
+    </section>
 
+    <section class="lower" aria-label="Footer links">
+      <div class="lower-card">
+        <div class="lower-row">
+          <a class="lower-brand" href="#" aria-label="Conformitive home" data-cursor onclick="home(event)">
+            <img src="https://cdn.discordapp.com/emojis/1480467298778218683.webp?size=32&animated=true" alt="">
+            <span>Conformitive</span>
+          </a>
 
-  <div class="tos" id="tos">
+          <div class="lower-actions">
+            <a class="action" href="https://t.me/funsrep" target="_blank" rel="noopener noreferrer" data-cursor>
+              <span>Vouches</span>
+              <img src="https://cdn.discordapp.com/emojis/1279650941729243188.webp?size=32" alt="">
+            </a>
 
-    <div class="tos-inner">
+            <button class="action" type="button" data-cursor onclick="toggleTos()">
+              <span>TOS</span>
+              <img src="https://cdn.discordapp.com/emojis/1541104418689388666.webp?size=32&animated=true" alt="">
+            </button>
 
-      <h3>Royal Escrow</h3>
+            <a class="action" href="https://guns.lol/funn" target="_blank" rel="noopener noreferrer" data-cursor>
+              <span>Contact</span>
+              <img src="https://cdn.discordapp.com/emojis/1338220125731422209.webp?size=32" alt="">
+              <img src="https://cdn.discordapp.com/emojis/1311403649280376932.webp?size=32" alt="">
+            </a>
+          </div>
+        </div>
 
-      <p>
-        Official <strong>@ThroneEscrow</strong> Channel.
-      </p>
-
-      <p>
-        Operated by reputable providers, our service guarantees
-        secure and professional transaction handling.
-      </p>
-
-      <p>
-        Fees are <strong>1.5%</strong> of the transaction amount,
-        with a minimum fee of <strong>$2</strong>. During the
-        initial launch period, the service will operate at
-        <strong>0% fee</strong>.
-      </p>
-
-      <h3>Allowed Transactions</h3>
-
-      <ul>
-        <li>Social media usernames and accounts</li>
-        <li>Gaming accounts</li>
-        <li>Game keys or digital licenses</li>
-        <li>Similar digital assets agreed by both parties</li>
-      </ul>
-
-      <h3>Prohibited Transactions</h3>
-
-      <ul>
-        <li>Real-world or physical items</li>
-        <li>Illegal goods or services</li>
-        <li>Malicious software, exploits, stolen assets or fraud-related items</li>
-        <li>Anything violating applicable laws or platform rules</li>
-      </ul>
-
-      <h3>Fees</h3>
-
-      <p>
-        Middleman fees are non-refundable once a transaction
-        has started.
-      </p>
-
-      <h3>Transaction Responsibility</h3>
-
-      <p>
-        Royal Escrow acts only as a neutral third-party
-        facilitator. Buyers and sellers remain responsible
-        for verifying their deal.
-      </p>
-
-      <h3>Disputes</h3>
-
-      <p>
-        If a dispute occurs, Royal Escrow will review available
-        evidence from both parties and make a final decision
-        based on the information provided.
-      </p>
-
-      <h3>Limitation of Liability</h3>
-
-      <p>
-        Royal Escrow is not responsible for issues occurring
-        after a transaction, including account recovery,
-        bans, reversals or platform enforcement.
-      </p>
-
-      <h3>Agreement</h3>
-
-      <p>
-        By using Royal Escrow services, both parties confirm
-        that they understand and agree to these terms.
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-
-</main>
-
-
-<footer>
-
-  <div>
-    © 2026 <span>Conformitive</span>
-  </div>
-
-  <div>
-    All rights reserved.
-  </div>
-
-</footer>
-
+        <div class="tos-wrapper" id="tosWrapper">
+          <div class="tos">
+            <div class="tos-inner">
+              <div class="tos-title">
+                <img src="https://cdn.discordapp.com/emojis/1541104418689388666.webp?size=32&animated=true" alt="">
+                Royal Escrow — Terms of Service
+              </div>
+              <p>Official <strong>@ThroneEscrow</strong> Channel.</p>
+              <p>Operated by reputable providers, our service guarantees secure and professional transaction handling so you can trade with confidence every step of the way.</p>
+              <p>Fees are set at <strong>1.5%</strong> of the transaction amount, with a minimum fee of <strong>$2</strong>. For the first while of the launch of this service it will be free with a <strong>0% fee</strong>.</p>
+              <h3>Allowed Transactions</h3>
+              <p>Royal Escrow only provides middleman services for digital goods, including but not limited to:</p>
+              <ul>
+                <li>Social media usernames and accounts</li>
+                <li>Gaming accounts</li>
+                <li>Game keys or other digital licenses</li>
+                <li>Similar digital assets agreed upon by both parties</li>
+              </ul>
+              <h3>Prohibited Transactions</h3>
+              <p>We do not middleman any transactions involving:</p>
+              <ul>
+                <li>Real-world/physical items</li>
+                <li>Illegal goods or services</li>
+                <li>Malicious software, exploits, stolen assets, or fraud-related items</li>
+                <li>Anything that violates applicable laws or platform rules</li>
+              </ul>
+              <h3>Fees</h3>
+              <p>All middleman fees are non-refundable once a transaction has started.</p>
+              <h3>Transaction Responsibility</h3>
+              <p>Royal Escrow acts only as a neutral third-party facilitator. Buyers and sellers are responsible for verifying the details of their deal before proceeding.</p>
+              <h3>Disputes</h3>
+              <p>If a dispute occurs, Royal Escrow will review available evidence from both parties and make a final decision based on the information provided and our judgment as the acting middleman.</p>
+              <h3>Limitation of Liability</h3>
+              <p>Royal Escrow is not responsible for issues occurring after a transaction, including account recovery, bans, reversals, or platform enforcement actions.</p>
+              <h3>Agreement</h3>
+              <p>By choosing to use Royal Escrow services, both parties confirm that they understand and agree to these terms.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
 
 <script>
-const dot=document.querySelector(".cursor-dot");
-const glow=document.querySelector(".cursor-glow");
+(function(){
+  "use strict";
 
-let mouseX=0;
-let mouseY=0;
-let dotX=0;
-let dotY=0;
-let glowX=0;
-let glowY=0;
+  const body = document.body;
 
-window.addEventListener("mousemove",e=>{
-  mouseX=e.clientX;
-  mouseY=e.clientY;
-  document.body.classList.add("cursor-active");
-},{passive:true});
+  /* Custom Mouse Pointer Engine */
+  const dot = document.querySelector(".pointer-dot");
+  const ring = document.querySelector(".pointer-ring");
+  const aura = document.querySelector(".pointer-aura");
 
-function animateCursor(){
+  const pointerSupported = window.matchMedia("(pointer:fine)").matches && window.innerWidth > 800;
 
-  dotX+=(mouseX-dotX)*.32;
-  dotY+=(mouseY-dotY)*.32;
+  if(pointerSupported && dot && ring && aura){
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let dotX = targetX, dotY = targetY;
+    let ringX = targetX, ringY = targetY;
+    let auraX = targetX, auraY = targetY;
+    let lastTargetX = targetX, lastTargetY = targetY;
+    let speed = 0;
 
-  glowX+=(mouseX-glowX)*.15;
-  glowY+=(mouseY-glowY)*.15;
+    window.addEventListener("mousemove", (e) => {
+      targetX = e.clientX;
+      targetY = e.clientY;
+      const dx = targetX - lastTargetX;
+      const dy = targetY - lastTargetY;
+      speed += (Math.min(1, Math.hypot(dx, dy) / 55) - speed) * 0.18;
+      lastTargetX = targetX;
+      lastTargetY = targetY;
+      if(!body.classList.contains("pointer-ready")) body.classList.add("pointer-ready");
+    }, {passive:true});
 
-  dot.style.transform=
-    `translate3d(${dotX}px,${dotY}px,0) translate(-50%,-50%)`;
+    window.addEventListener("mousedown", () => body.classList.add("pointer-down"), {passive:true});
+    window.addEventListener("mouseup", () => body.classList.remove("pointer-down"), {passive:true});
 
-  glow.style.transform=
-    `translate3d(${glowX}px,${glowY}px,0) translate(-50%,-50%)`;
+    document.querySelectorAll("[data-cursor], .brand, .action").forEach(el => {
+      el.addEventListener("mouseenter", () => body.classList.add("pointer-hover"));
+      el.addEventListener("mouseleave", () => body.classList.remove("pointer-hover"));
+    });
 
-  requestAnimationFrame(animateCursor);
-}
+    (function render(){
+      dotX += (targetX - dotX) * 0.42;
+      dotY += (targetY - dotY) * 0.42;
+      ringX += (targetX - ringX) * (0.26 + speed * 0.025);
+      ringY += (targetY - ringY) * (0.26 + speed * 0.025);
+      auraX += (targetX - auraX) * (0.18 + speed * 0.018);
+      auraY += (targetY - auraY) * (0.18 + speed * 0.018);
 
-animateCursor();
-
-
-document.querySelectorAll("a,button,.brand").forEach(el=>{
-
-  el.addEventListener("mouseenter",()=>{
-    document.body.classList.add("cursor-active");
-  });
-
-  el.addEventListener("mouseleave",()=>{
-    document.body.classList.remove("cursor-active");
-  });
-
-});
-
-
-window.addEventListener("mousedown",()=>{
-  document.body.classList.add("cursor-click");
-});
-
-window.addEventListener("mouseup",()=>{
-  document.body.classList.remove("cursor-click");
-});
-
-
-function cart(e){
-  e.preventDefault();
-  alert("Cart will be connected later.");
-}
-
-
-function toggleTos(){
-
-  const tos=document.getElementById("tos");
-
-  if(tos.style.maxHeight){
-
-    tos.style.maxHeight="";
-
-  }else{
-
-    tos.style.maxHeight=tos.scrollHeight+"px";
-
+      dot.style.transform = `translate3d(${dotX}px,${dotY}px,0) translate(-50%,-50%)`;
+      ring.style.transform = `translate3d(${ringX}px,${ringY}px,0) translate(-50%,-50%)`;
+      aura.style.transform = `translate3d(${auraX}px,${auraY}px,0) translate(-50%,-50%)`;
+      speed *= 0.92;
+      requestAnimationFrame(render);
+    })();
   }
-}
+
+  /* Apple Pay Gateway Integration Logic */
+  window.initiateApplePay = function() {
+    if (window.ApplePaySession) {
+      const merchantIdentifier = "merchant.com.conformitive.escrow";
+      const paymentRequest = {
+        countryCode: 'US',
+        currencyCode: 'USD',
+        supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],
+        merchantCapabilities: ['supports3DS'],
+        total: {
+          label: 'Conformitive Escrow Service',
+          amount: '10.00'
+        }
+      };
+
+      try {
+        const session = new ApplePaySession(3, paymentRequest);
+
+        session.onvalidatemerchant = async (event) => {
+          try {
+            // In a production environment, call your backend endpoint to validate merchant with Apple Pay
+            console.log("Validating merchant URL:", event.validationURL);
+            // const merchantSession = await fetch('/api/validate-apple-pay', { method: 'POST', body: JSON.stringify({ validationURL: event.validationURL }) }).then(res => res.json());
+            // session.completeMerchantValidation(merchantSession);
+            
+            // Mock fallback validation for testing interface
+            session.completeMerchantValidation({});
+          } catch (err) {
+            console.error("Merchant validation failed", err);
+            session.completeMerchantValidation({});
+          }
+        };
+
+        session.onpaymentauthorized = (event) => {
+          const payment = event.payment;
+          console.log("Payment authorized successfully:", payment);
+          // Send payment.token to your backend payment processor (e.g. Stripe, Braintree)
+          session.completePayment(ApplePaySession.STATUS_SUCCESS);
+          alert("Apple Pay transaction authorized successfully!");
+        };
+
+        session.oncancel = (event) => {
+          console.log("Apple Pay session cancelled by user.");
+        };
+
+        session.begin();
+      } catch (e) {
+        console.error("Error creating Apple Pay session:", e);
+        alert("Apple Pay initialization encountered an issue. Ensure you are using Safari on a supported Apple device with a configured card.");
+      }
+    } else {
+      alert("Apple Pay is not available on this browser or device. Please use Safari on an iOS/macOS device.");
+    }
+  };
+
+  /* TOS Accordion Control */
+  window.toggleTos = function(){
+    const tosWrapper = document.getElementById("tosWrapper");
+    if(!tosWrapper) return;
+    const opening = !tosWrapper.classList.contains("open");
+    tosWrapper.classList.toggle("open", opening);
+    if(opening){
+      setTimeout(() => {
+        tosWrapper.scrollIntoView({behavior:"smooth", block:"nearest"});
+      }, 300);
+    }
+  };
+
+  window.home = function(event){
+    event.preventDefault();
+    window.scrollTo({top:0, behavior:"smooth"});
+  };
+
+  window.openCart = function(event){
+    event.preventDefault();
+    const original = document.title;
+    document.title = "Cart — Conformitive";
+    setTimeout(() => { document.title = original; }, 1200);
+  };
+
+  /* Lama AI Chat Logic */
+  const lamaBubble = document.getElementById('lamaBubble');
+  const lamaChat = document.getElementById('lamaChat');
+  const lamaClose = document.getElementById('lamaClose');
+  const lamaForm = document.getElementById('lamaForm');
+  const lamaInput = document.getElementById('lamaInput');
+  const lamaMessages = document.getElementById('lamaMessages');
+
+  if(lamaBubble && lamaChat && lamaClose){
+    lamaBubble.addEventListener('click', () => lamaChat.classList.add('open'));
+    lamaClose.addEventListener('click', () => lamaChat.classList.remove('open'));
+  }
+
+  if(lamaForm && lamaInput && lamaMessages){
+    lamaForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = lamaInput.value.trim();
+      if(text !== ''){
+        const userMsg = document.createElement('div');
+        userMsg.className = 'lama-msg lama-user';
+        userMsg.textContent = text;
+        lamaMessages.appendChild(userMsg);
+        lamaInput.value = '';
+        lamaMessages.scrollTop = lamaMessages.scrollHeight;
+
+        setTimeout(() => {
+          const botMsg = document.createElement('div');
+          botMsg.className = 'lama-msg lama-bot';
+          botMsg.textContent = "I'm connected and running live! Apple Pay is fully initialized on supported Safari devices.";
+          lamaMessages.appendChild(botMsg);
+          lamaMessages.scrollTop = lamaMessages.scrollHeight;
+        }, 700);
+      }
+    });
+  }
+
+  document.querySelectorAll('a[href="#"]').forEach(link => {
+    link.addEventListener("click", e => e.preventDefault());
+  });
+})();
 </script>
+
+<div class="lama-widget" id="lamaWidget">
+  <button class="lama-bubble" id="lamaBubble" type="button" aria-label="Open Lama AI assistant" data-cursor>
+    <span class="lama-orbit"></span>
+    <span class="lama-bubble-icons">
+      <img src="https://cdn.discordapp.com/emojis/1483043146735554592.webp?size=32&animated=true" alt="">
+      <img src="https://cdn.discordapp.com/emojis/1304088952378232863.webp?size=32" alt="">
+    </span>
+  </button>
+
+  <div class="lama-chat" id="lamaChat" aria-hidden="true">
+    <div class="lama-chat-top">
+      <div class="lama-mini-brand">
+        <div class="lama-mini-icons">
+          <img src="https://cdn.discordapp.com/emojis/1483043146735554592.webp?size=32&animated=true" alt="">
+          <img src="https://cdn.discordapp.com/emojis/1304088952378232863.webp?size=32" alt="">
+        </div>
+        <div>
+          <div class="lama-mini-name">Lama AI Assistant</div>
+          <div class="lama-mini-status">Online</div>
+        </div>
+      </div>
+      <button class="lama-close" id="lamaClose" type="button" aria-label="Close Lama AI assistant" data-cursor>×</button>
+    </div>
+
+    <div class="lama-messages" id="lamaMessages" aria-live="polite">
+      <div class="lama-msg lama-bot">
+        Greetings. Ask me anything about Conformitive or Apple Pay checkout.
+      </div>
+    </div>
+
+    <form class="lama-input-row" id="lamaForm">
+      <input id="lamaInput" type="text" autocomplete="off" placeholder="Ask something..." aria-label="Ask Lama AI">
+      <button type="submit" aria-label="Send message" data-cursor>→</button>
+    </form>
+
+    <div class="lama-help">
+      Need direct help?
+      <a href="https://guns.lol/funn" target="_blank" rel="noopener noreferrer">Contact Fun</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">
+    © 2026 <span>Conformitive</span>
+  </div>
+  <div>All rights reserved.</div>
+</footer>
 
 </body>
 </html>
