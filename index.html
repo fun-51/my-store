@@ -4,13 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <meta name="theme-color" content="#050505">
-<meta name="description" content="Conformitive — an ultra-premium digital transaction experience with integrated Apple Pay gateway.">
-<title>Conformitive — Secure Escrow & Apple Pay Gateway</title>
+<meta name="description" content="Conformitive — ultra-premium digital escrow with integrated Stripe gateway and Lama AI assistant.">
+<title>Conformitive — Secure Escrow & Stripe Gateway</title>
 
 <style>
 /* ==========================================================================
-   CONFORMITIVE — ELITE FRONTEND & APPLE PAY GATEWAY ENGINE (LUXURY EDITION)
-   Comprehensive CSS Architecture, Design Tokens, and Micro-Interactions
+   CONFORMITIVE — X10 ELITE FRONTEND & LAMA AI ENGINE (LUXURY EDITION)
    ========================================================================== */
 
 :root {
@@ -26,7 +25,6 @@
   --line-hover: rgba(178,123,208,0.45);
   --success: #4ade80;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 *, *::before, *::after {
@@ -35,34 +33,32 @@
   padding: 0;
 }
 
-html {
-  scroll-behavior: smooth;
-  background: var(--black);
-}
-
-body {
+html, body {
+  width: 100%;
   min-height: 100vh;
-  overflow-x: hidden;
   background: var(--black);
   color: var(--white);
   font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 /* --------------------------------------------------------------------------
-   BACKDROP ENGINE
+   FULLSCREEN IMMERSIVE BACKDROP
    -------------------------------------------------------------------------- */
 .page {
   position: relative;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   isolation: isolate;
 }
 
 .backdrop {
-  position: fixed; 
+  position: fixed;
   inset: 0;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   pointer-events: none;
   z-index: -5;
@@ -76,10 +72,10 @@ body {
   width: 100%;
   height: 100%;
   background: 
-    radial-gradient(circle at 50% 30%, rgba(20,12,30,0.4), rgba(3,3,4,0.92) 75%),
-    linear-gradient(180deg, rgba(3,3,4,0.2) 0%, rgba(3,3,4,0.85) 60%, #030304 100%),
+    radial-gradient(circle at 50% 30%, rgba(20,12,30,0.35), rgba(3,3,4,0.85) 80%),
+    linear-gradient(180deg, rgba(3,3,4,0.15) 0%, rgba(3,3,4,0.7) 60%, #030304 100%),
     url("https://raw.githubusercontent.com/fun-51/my-store/main/cf163c6a-1a2d-4268-9b53-79f7bd22587a.jpg")
-    center top / cover no-repeat;
+    center center / cover no-repeat;
   will-change: transform;
 }
 
@@ -87,8 +83,8 @@ body {
   position: absolute;
   inset: 0;
   background: 
-    radial-gradient(circle at 50% 12%, rgba(134,74,180,0.22), transparent 42%),
-    radial-gradient(circle at 85% 85%, rgba(90,45,120,0.12), transparent 50%);
+    radial-gradient(circle at 50% 15%, rgba(134,74,180,0.2), transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(90,45,120,0.1), transparent 50%);
 }
 
 /* --------------------------------------------------------------------------
@@ -186,7 +182,6 @@ body.pointer-down .pointer-ring {
   color: #fff;
   cursor: none;
   user-select: none;
-  transform: translateZ(0);
 }
 
 .brand-line {
@@ -200,8 +195,6 @@ body.pointer-down .pointer-ring {
   height: 23px;
   object-fit: contain;
   opacity: .95;
-  transform: translateZ(0) scale(1);
-  will-change: transform, opacity, filter;
   transition: transform .5s var(--ease), filter .45s ease, opacity .35s ease;
 }
 
@@ -224,8 +217,6 @@ body.pointer-down .pointer-ring {
   line-height: 1;
   font-weight: 900;
   letter-spacing: -1.5px;
-  transform-origin: left center;
-  will-change: transform, letter-spacing;
   transition: transform .5s var(--ease), letter-spacing .5s var(--ease);
 }
 
@@ -253,7 +244,6 @@ body.pointer-down .pointer-ring {
   font-weight: 900;
   letter-spacing: 3.5px;
   text-align: center;
-  will-change: transform, opacity;
   pointer-events: none;
   transition: opacity .45s ease, transform .5s var(--ease);
 }
@@ -264,132 +254,27 @@ body.pointer-down .pointer-ring {
 }
 
 /* --------------------------------------------------------------------------
-   CART & ACTION BUTTONS
+   HERO / MAIN CONTENT AREA
    -------------------------------------------------------------------------- */
-.cart {
-  width: 54px;
-  height: 54px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: rgba(255,255,255,0.02);
-  color: white;
-  text-decoration: none;
-  cursor: none;
-  will-change: transform, border-color, box-shadow;
-  transition: transform .36s var(--ease), border-color .3s ease, background .3s ease, box-shadow .3s ease;
-}
-
-.cart:hover {
-  transform: scale(1.12) translateZ(0);
-  border-color: var(--line-hover);
-  background: rgba(117,69,150,0.12);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
-}
-
-.cart svg {
-  width: 22px;
-  height: 22px;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 1.7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
 .hero {
   position: relative;
   z-index: 2;
+  flex: 1;
   width: 100%;
-  min-height: calc(100vh - 96px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
-}
-
-.hero-content {
-  text-align: center;
-  max-width: 700px;
-}
-
-.hero-content h1 {
-  font-size: clamp(36px, 5vw, 64px);
-  font-weight: 900;
-  letter-spacing: -2px;
-  line-height: 1.1;
-  margin-bottom: 20px;
-  background: linear-gradient(135deg, #fff 30%, var(--purple-3) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.hero-content p {
-  color: rgba(255,255,255,0.6);
-  font-size: 16px;
-  line-height: 1.6;
-  margin-bottom: 35px;
-}
-
-/* Apple Pay Button Trigger */
-.apple-pay-btn-container {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  flex-wrap: wrap;
-}
-
-.apple-pay-button {
-  -webkit-appearance: -apple-pay-button;
-  -apple-pay-button-type: buy;
-  -apple-pay-button-style: black;
-  width: 220px;
-  height: 52px;
-  border-radius: 8px;
-  cursor: pointer;
-  border: none;
-  outline: none;
-  transition: transform .3s var(--ease), filter .3s ease;
-}
-
-.apple-pay-button:hover {
-  transform: scale(1.04);
-  filter: brightness(1.1);
-}
-
-/* Custom Styled Checkout trigger fallback */
-.custom-checkout-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  height: 52px;
-  padding: 0 28px;
-  background: linear-gradient(135deg, var(--purple), var(--purple-2));
-  color: #fff;
-  border-radius: 12px;
-  font-weight: 800;
-  font-size: 14px;
-  border: 1px solid rgba(255,255,255,0.2);
-  cursor: pointer;
-  box-shadow: 0 10px 30px rgba(117,69,150,0.4);
-  transition: transform .3s var(--ease), box-shadow .3s ease;
-}
-
-.custom-checkout-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 16px 40px rgba(117,69,150,0.6);
+  padding: 60px 20px;
 }
 
 /* --------------------------------------------------------------------------
-   LOWER SECTION & TOS
+   LOWER SECTION & FULL BOTTOM PLACEMENT
    -------------------------------------------------------------------------- */
 .lower {
   position: relative;
   z-index: 4;
   width: 100%;
-  margin: 0;
+  margin-top: auto;
 }
 
 .lower-card {
@@ -399,7 +284,7 @@ body.pointer-down .pointer-ring {
   background: #030304; 
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  box-shadow: 0 -30px 100px rgba(0,0,0,0.8);
+  box-shadow: 0 -30px 100px rgba(0,0,0,0.9);
 }
 
 .lower-card::before {
@@ -419,12 +304,14 @@ body.pointer-down .pointer-ring {
   position: relative;
   z-index: 2;
   width: min(1420px, 92%);
-  min-height: 210px;
+  min-height: 180px;
   margin: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 35px;
+  flex-wrap: wrap;
+  gap: 25px;
+  padding: 30px 0;
 }
 
 .lower-brand {
@@ -437,9 +324,7 @@ body.pointer-down .pointer-ring {
   line-height: 1;
   font-weight: 900;
   letter-spacing: -0.8px;
-  white-space: nowrap;
-  transform-origin: left center;
-  will-change: transform;
+  cursor: none;
   transition: transform .5s var(--ease);
 }
 
@@ -450,7 +335,7 @@ body.pointer-down .pointer-ring {
 }
 
 .lower-brand:hover {
-  transform: scale(1.09) translateY(-2px) translateZ(0);
+  transform: scale(1.09) translateY(-2px);
 }
 
 .lower-actions {
@@ -479,7 +364,7 @@ body.pointer-down .pointer-ring {
 }
 
 .action:hover {
-  transform: translateY(-3px) translateZ(0);
+  transform: translateY(-3px);
   border-color: var(--line-hover);
   background: linear-gradient(135deg, rgba(25,18,34,0.9), rgba(10,8,14,0.95));
   color: #fff;
@@ -502,67 +387,139 @@ body.pointer-down .pointer-ring {
   object-fit: contain;
 }
 
-/* TOS Accordion */
-.tos-wrapper {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows .65s var(--ease);
+/* --------------------------------------------------------------------------
+   TOS SLIDEOUT DRAWER
+   -------------------------------------------------------------------------- */
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(3,3,4,0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .4s ease, visibility .4s ease;
 }
 
-.tos-wrapper.open {
-  grid-template-rows: 1fr;
+.cart-overlay.open {
+  opacity: 1;
+  visibility: visible;
 }
 
-.tos {
-  overflow: hidden;
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(480px, 100vw);
+  background: linear-gradient(145deg, rgba(15,12,20,0.99), rgba(4,3,6,0.99));
+  border-left: 1px solid var(--line);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform .5s var(--ease);
+  box-shadow: -30px 0 100px rgba(0,0,0,0.9);
 }
 
-.tos-inner {
-  width: min(1420px, 92%);
-  margin: auto;
-  padding: 0 0 42px;
-  color: rgba(255,255,255,0.52);
-  font-size: 12.5px;
-  line-height: 1.85;
+.cart-drawer.open {
+  transform: translateX(0);
 }
 
-.tos-title {
+.cart-drawer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.cart-drawer-title {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 12px;
-  color: #fff;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 900;
+  color: #fff;
 }
 
-.tos-title img {
-  width: 18px;
-  height: 18px;
+.cart-drawer-title img {
+  width: 20px;
+  height: 20px;
   object-fit: contain;
 }
 
-.tos-inner h3 {
-  margin: 22px 0 8px;
+.cart-drawer-close {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #060508;
+  color: rgba(255,255,255,0.6);
+  font-size: 20px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: transform .4s var(--ease), color .3s ease, border-color .3s ease;
+}
+
+.cart-drawer-close:hover {
+  transform: scale(1.1) rotate(90deg);
+  color: #fff;
+  border-color: var(--line-hover);
+}
+
+.cart-drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
+  line-height: 1.8;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(178,123,208,0.25) transparent;
+}
+
+.cart-drawer-body h2 {
+  margin: 24px 0 12px;
+  color: var(--purple-3);
+  font-size: 16px;
+  font-weight: 900;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 6px;
+}
+
+.cart-drawer-body h2:first-of-type {
+  margin-top: 0;
+}
+
+.cart-drawer-body h3 {
+  margin: 18px 0 8px;
   color: rgba(255,255,255,0.9);
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 800;
 }
 
-.tos-inner strong {
+.cart-drawer-body strong {
   color: var(--purple-3);
 }
 
-.tos-inner ul {
+.cart-drawer-body ul {
   padding-left: 18px;
+  margin: 8px 0;
 }
 
-.tos-inner li {
+.cart-drawer-body li {
   margin: 5px 0;
 }
 
+.cart-drawer-body p {
+  margin-bottom: 10px;
+}
+
 /* --------------------------------------------------------------------------
-   AI ASSISTANT WIDGET (CHATBOT)
+   X10 AI ASSISTANT WIDGET (SUPERCHARGED LAMA AI WITH CHIPS & TYPING)
    -------------------------------------------------------------------------- */
 .lama-widget {
   position: fixed;
@@ -588,7 +545,7 @@ body.pointer-down .pointer-ring {
 }
 
 .lama-bubble:hover {
-  transform: scale(1.12) translateY(-3px) translateZ(0);
+  transform: scale(1.12) translateY(-3px);
   border-color: rgba(200,147,232,0.8);
   box-shadow: 0 22px 55px rgba(0,0,0,0.6), 0 0 40px rgba(117,69,150,0.25);
 }
@@ -629,8 +586,8 @@ body.pointer-down .pointer-ring {
   position: absolute;
   right: 0;
   bottom: 78px;
-  width: min(380px, calc(100vw - 36px));
-  height: 520px;
+  width: min(390px, calc(100vw - 36px));
+  height: 560px;
   max-height: calc(100vh - 120px);
   overflow: hidden;
   display: flex;
@@ -643,7 +600,7 @@ body.pointer-down .pointer-ring {
   -webkit-backdrop-filter: blur(25px);
   opacity: 0;
   visibility: hidden;
-  transform: translateY(20px) scale(0.92) translateZ(0);
+  transform: translateY(20px) scale(0.92);
   transform-origin: right bottom;
   transition: opacity .4s var(--ease), transform .5s var(--ease), visibility .4s ease;
 }
@@ -651,7 +608,7 @@ body.pointer-down .pointer-ring {
 .lama-chat.open {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0) scale(1) translateZ(0);
+  transform: translateY(0) scale(1);
 }
 
 .lama-chat-top {
@@ -709,6 +666,37 @@ body.pointer-down .pointer-ring {
   box-shadow: 0 0 8px var(--success);
 }
 
+.lama-top-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lama-voice-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #060508;
+  color: var(--purple-3);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: transform .3s var(--ease), background .3s ease, border-color .3s ease;
+}
+
+.lama-voice-btn.muted {
+  color: rgba(255,255,255,0.3);
+  border-color: rgba(255,255,255,0.04);
+}
+
+.lama-voice-btn:hover {
+  transform: scale(1.1);
+  border-color: var(--line-hover);
+}
+
 .lama-close {
   width: 30px;
   height: 30px;
@@ -719,18 +707,20 @@ body.pointer-down .pointer-ring {
   font-size: 18px;
   line-height: 1;
   cursor: pointer;
+  display: grid;
+  place-items: center;
   transition: transform .5s var(--ease), color .3s ease, border-color .3s ease;
 }
 
 .lama-close:hover {
-  transform: scale(1.12) rotate(90deg) translateZ(0);
+  transform: scale(1.12) rotate(90deg);
   color: #fff;
   border-color: var(--line-hover);
 }
 
 .lama-messages {
   flex: 1;
-  overflow: auto;
+  overflow-y: auto;
   padding: 16px;
   scrollbar-width: thin;
   scrollbar-color: rgba(178,123,208,0.25) transparent;
@@ -761,6 +751,71 @@ body.pointer-down .pointer-ring {
   border-top-right-radius: 4px;
   background: rgba(117,69,150,0.12);
   color: #fff;
+}
+
+.lama-msg a {
+  color: var(--purple-3);
+  text-decoration: underline;
+}
+
+/* Quick Suggestion Pills / Chips */
+.lama-chips {
+  display: flex;
+  gap: 6px;
+  padding: 8px 16px 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.lama-chips::-webkit-scrollbar { display: none; }
+
+.lama-chip {
+  flex: 0 0 auto;
+  padding: 5px 10px;
+  background: rgba(117,69,150,0.15);
+  border: 1px solid rgba(200,147,232,0.25);
+  border-radius: 20px;
+  color: var(--purple-3);
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .25s var(--ease);
+}
+
+.lama-chip:hover {
+  background: rgba(117,69,150,0.35);
+  border-color: var(--purple-3);
+  transform: translateY(-1px);
+}
+
+/* Typing Indicator Animation */
+.lama-typing {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  border-left: 2px solid var(--purple-2);
+  width: max-content;
+  margin-bottom: 10px;
+  animation: lama-msg-in .3s ease both;
+}
+
+.lama-typing span {
+  width: 6px;
+  height: 6px;
+  background: var(--purple-3);
+  border-radius: 50%;
+  animation: bounce 1.2s infinite ease-in-out both;
+}
+
+.lama-typing span:nth-child(2) { animation-delay: 0.2s; }
+.lama-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1.0); }
 }
 
 .lama-input-row {
@@ -808,7 +863,7 @@ body.pointer-down .pointer-ring {
 }
 
 .lama-input-row button:hover {
-  transform: scale(1.08) translateZ(0);
+  transform: scale(1.08);
   filter: brightness(1.1);
   box-shadow: 0 12px 25px rgba(117,69,150,0.3);
 }
@@ -830,8 +885,8 @@ body.pointer-down .pointer-ring {
 }
 
 @keyframes lama-msg-in {
-  from { opacity: 0; transform: translateY(8px) scale(0.96) translateZ(0); }
-  to { opacity: 1; transform: translateY(0) scale(1) translateZ(0); }
+  from { opacity: 0; transform: translateY(8px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @media(max-width: 700px) {
@@ -841,29 +896,21 @@ body.pointer-down .pointer-ring {
 }
 
 /* --------------------------------------------------------------------------
-   FOOTER
+   FOOTER (COMPACT & SMALL)
    -------------------------------------------------------------------------- */
 footer {
   position: relative;
-  z-index: 4;
-  width: min(1420px, 92%);
-  margin: auto;
-  padding: 28px 0 38px;
-  border-top: 1px solid var(--line);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  color: rgba(255,255,255,0.3);
-  font-size: 10.5px;
+  z-index: 3;
+  width: 100%;
+  padding: 12px 0;
+  text-align: center;
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  background: #030304;
 }
 
-.footer-brand {
-  color: rgba(255,255,255,0.5);
-}
-
-.footer-brand span {
-  color: var(--purple-2);
+footer span {
+  color: var(--purple-3);
 }
 </style>
 <link rel="preconnect" href="https://cdn.discordapp.com" crossorigin>
@@ -900,106 +947,150 @@ footer {
           </div>
         </div>
       </a>
-
-      <a class="cart" href="#" aria-label="Open cart" data-cursor onclick="openCart(event)">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M3 4h2l2.2 11.1a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 1.9-1.4L21 8H6"/>
-          <circle cx="10" cy="20" r="1"/>
-          <circle cx="18" cy="20" r="1"/>
-        </svg>
-      </a>
     </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="hero-content">
-        <h1>Secure Digital Escrow & Instant Payments</h1>
-        <p>Experience lightning-fast transactions protected by advanced middleman protocols and native Apple Pay gateway integration.</p>
-        
-        <div class="apple-pay-btn-container">
-          <!-- Native Apple Pay Button element or Custom Trigger -->
-          <button class="apple-pay-button" id="applePayButton" lang="en" title="Apple Pay Checkout" aria-label="Apple Pay Checkout" onclick="initiateApplePay()"></button>
-          <button class="custom-checkout-btn" onclick="initiateApplePay()" data-cursor>
-            <span>Pay with Apple Pay</span>
-          </button>
-        </div>
-      </div>
-    </section>
+  <main class="hero">
+    <!-- Main content container -->
+  </main>
 
-    <section class="lower" aria-label="Footer links">
-      <div class="lower-card">
-        <div class="lower-row">
-          <a class="lower-brand" href="#" aria-label="Conformitive home" data-cursor onclick="home(event)">
-            <img src="https://cdn.discordapp.com/emojis/1480467298778218683.webp?size=32&animated=true" alt="">
-            <span>Conformitive</span>
+  <div class="lower" aria-label="Footer links">
+    <div class="lower-card">
+      <div class="lower-row">
+        <a class="lower-brand" href="#" aria-label="Conformitive home" data-cursor onclick="home(event)">
+          <img src="https://cdn.discordapp.com/emojis/1480467298778218683.webp?size=32&animated=true" alt="">
+          <span>Conformitive</span>
+        </a>
+
+        <div class="lower-actions">
+          <a class="action" href="https://t.me/funsrep" target="_blank" rel="noopener noreferrer" data-cursor>
+            <span>Vouches</span>
+            <img src="https://cdn.discordapp.com/emojis/1279650941729243188.webp?size=32" alt="">
           </a>
 
-          <div class="lower-actions">
-            <a class="action" href="https://t.me/funsrep" target="_blank" rel="noopener noreferrer" data-cursor>
-              <span>Vouches</span>
-              <img src="https://cdn.discordapp.com/emojis/1279650941729243188.webp?size=32" alt="">
-            </a>
+          <a class="action" href="#" data-cursor onclick="openCart(event)">
+            <span>TOS</span>
+            <img src="https://cdn.discordapp.com/emojis/1541104418689388666.webp?size=32&animated=true" alt="">
+          </a>
 
-            <button class="action" type="button" data-cursor onclick="toggleTos()">
-              <span>TOS</span>
-              <img src="https://cdn.discordapp.com/emojis/1541104418689388666.webp?size=32&animated=true" alt="">
-            </button>
-
-            <a class="action" href="https://guns.lol/funn" target="_blank" rel="noopener noreferrer" data-cursor>
-              <span>Contact</span>
-              <img src="https://cdn.discordapp.com/emojis/1338220125731422209.webp?size=32" alt="">
-              <img src="https://cdn.discordapp.com/emojis/1311403649280376932.webp?size=32" alt="">
-            </a>
-          </div>
-        </div>
-
-        <div class="tos-wrapper" id="tosWrapper">
-          <div class="tos">
-            <div class="tos-inner">
-              <div class="tos-title">
-                <img src="https://cdn.discordapp.com/emojis/1541104418689388666.webp?size=32&animated=true" alt="">
-                Royal Escrow — Terms of Service
-              </div>
-              <p>Official <strong>@ThroneEscrow</strong> Channel.</p>
-              <p>Operated by reputable providers, our service guarantees secure and professional transaction handling so you can trade with confidence every step of the way.</p>
-              <p>Fees are set at <strong>1.5%</strong> of the transaction amount, with a minimum fee of <strong>$2</strong>. For the first while of the launch of this service it will be free with a <strong>0% fee</strong>.</p>
-              <h3>Allowed Transactions</h3>
-              <p>Royal Escrow only provides middleman services for digital goods, including but not limited to:</p>
-              <ul>
-                <li>Social media usernames and accounts</li>
-                <li>Gaming accounts</li>
-                <li>Game keys or other digital licenses</li>
-                <li>Similar digital assets agreed upon by both parties</li>
-              </ul>
-              <h3>Prohibited Transactions</h3>
-              <p>We do not middleman any transactions involving:</p>
-              <ul>
-                <li>Real-world/physical items</li>
-                <li>Illegal goods or services</li>
-                <li>Malicious software, exploits, stolen assets, or fraud-related items</li>
-                <li>Anything that violates applicable laws or platform rules</li>
-              </ul>
-              <h3>Fees</h3>
-              <p>All middleman fees are non-refundable once a transaction has started.</p>
-              <h3>Transaction Responsibility</h3>
-              <p>Royal Escrow acts only as a neutral third-party facilitator. Buyers and sellers are responsible for verifying the details of their deal before proceeding.</p>
-              <h3>Disputes</h3>
-              <p>If a dispute occurs, Royal Escrow will review available evidence from both parties and make a final decision based on the information provided and our judgment as the acting middleman.</p>
-              <h3>Limitation of Liability</h3>
-              <p>Royal Escrow is not responsible for issues occurring after a transaction, including account recovery, bans, reversals, or platform enforcement actions.</p>
-              <h3>Agreement</h3>
-              <p>By choosing to use Royal Escrow services, both parties confirm that they understand and agree to these terms.</p>
-            </div>
-          </div>
+          <a class="action" href="https://guns.lol/funn" target="_blank" rel="noopener noreferrer" data-cursor>
+            <span>Contact</span>
+            <img src="https://cdn.discordapp.com/emojis/1338220125731422209.webp?size=32" alt="">
+            <img src="https://cdn.discordapp.com/emojis/1311403649280376932.webp?size=32" alt="">
+          </a>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </div>
+
+  <footer>
+    © 2026 <span>Conformitive</span>. All rights reserved.
+  </footer>
+</div>
+
+<!-- TOS Slide-out Drawer -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cartDrawer" aria-hidden="true">
+  <div class="cart-drawer-top">
+    <div class="cart-drawer-title">
+      <img src="https://cdn.discordapp.com/emojis/1541104418689388666.webp?size=32&animated=true" alt="">
+      <span>Conformitive — Terms of Service</span>
+    </div>
+    <button class="cart-drawer-close" id="cartCloseBtn" type="button" aria-label="Close cart drawer" onclick="closeCart()" data-cursor>×</button>
+  </div>
+  <div class="cart-drawer-body">
+    <h2>MM TOS</h2>
+    <p><strong>Royal Escrow:</strong><br>Official <strong>@ThroneEscrow</strong> Channel 🤝</p>
+    <p>Operated by reputable providers, our service guarantees secure and professional transaction handling so you can trade with confidence every step of the way.</p>
+    <p>Fees are set at <strong>1.5%</strong> of the transaction amount, with a minimum fee of <strong>$2</strong>. For the first while of the launch of this service it will be free with a <strong>0% fee</strong>.</p>
+    <p>Reach out today and experience the security and confidence of working with trusted professionals.</p>
+
+    <h3>@ThroneEscrow — Terms of Service</h3>
+    <p>By using Royal Escrow’s middleman services, you agree to the following terms:</p>
+    
+    <h3>Allowed Transactions</h3>
+    <p>Royal Escrow only provides middleman services for digital goods, including but not limited to:</p>
+    <ul>
+      <li>Social media usernames and accounts</li>
+      <li>Gaming accounts</li>
+      <li>Game keys or other digital licenses</li>
+      <li>Similar digital assets agreed upon by both parties</li>
+    </ul>
+
+    <h3>Prohibited Transactions</h3>
+    <p>We do not middleman any transactions involving:</p>
+    <ul>
+      <li>Real-world/physical items</li>
+      <li>Illegal goods or services</li>
+      <li>Malicious software, exploits, stolen assets, or fraud-related items</li>
+      <li>Anything that violates applicable laws or platform rules</li>
+    </ul>
+    <p>Any request involving these items will be refused immediately.</p>
+
+    <h3>Fees</h3>
+    <p>All middleman fees are non-refundable once a transaction has started. Fees cover the time, verification, and handling required to complete the deal securely.</p>
+
+    <h3>Transaction Responsibility</h3>
+    <p>Royal Escrow acts only as a neutral third-party facilitator. We do not guarantee the long-term status of accounts, usernames, keys, or other digital items after a transaction is completed. Buyers and sellers are responsible for verifying the details of their deal before proceeding.</p>
+
+    <h3>Disputes</h3>
+    <p>If a dispute occurs during a transaction, Royal Escrow will review all available evidence from both parties. A final decision will be made based on the information provided and our judgment as the acting middleman.</p>
+
+    <h3>Limitation of Liability</h3>
+    <p>Royal Escrow is not responsible for issues that occur after a transaction has been completed, including but not limited to account recovery, bans, reversals, or platform enforcement actions.</p>
+
+    <h3>Agreement</h3>
+    <p>By choosing to use Royal Escrow services, both parties confirm that they understand and agree to these terms.</p>
+
+    <p style="margin-top: 20px;"><strong>Fun’s MM Service 🤝</strong><br>
+    Trusted MM for 4+ years<br>
+    MM Fee: <strong>CURRENTLY FREE</strong></p>
+    <p><strong>My links:</strong></p>
+    <ul>
+      <li>t.me/Hqstocked</li>
+    </ul>
+
+    <hr style="border:0; border-top: 1px solid var(--line); margin: 24px 0;">
+
+    <h2>PURCHASE TOS</h2>
+    
+    <h3>Issue Reporting</h3>
+    <ul>
+      <li>Issues must be reported within 6 hours of delivery</li>
+      <li>Warranty may still exist, but initial issues must be reported within this timeframe</li>
+    </ul>
+
+    <h3>Warranty Void Conditions</h3>
+    <ul>
+      <li>Changing the email</li>
+      <li>Giving/selling the account to someone else</li>
+      <li>Attempting to sabotage warranty (e.g., contacting OG / trying to pull the account)</li>
+      <li>Sending account/deal info to a third party</li>
+      <li>Not providing valid proof when requested</li>
+    </ul>
+
+    <h3>Account-Specific Rules</h3>
+    <ul>
+      <li>You cannot download PDFs before purchase (trusted members may verify)</li>
+      <li>If a Gmail account is locked due to your login, no refund will be given</li>
+      <li>If the account gets banned or becomes inactive, no refund will be given</li>
+    </ul>
+
+    <h3>Refunds & Replacements</h3>
+    <ul>
+      <li>Refunds are only given for pullbacks (PB)</li>
+      <li>You get 1 replacement only for accounts</li>
+      <li>If the replacement is also pulled, there will be no further replacements or refunds</li>
+      <li>If you fail to secure the account and an issue occurs you will not be refunded. That is your own stupidity</li>
+      <li>If you claim me to be a scammer, refund will not be given</li>
+    </ul>
+
+    <p style="margin-top: 20px;">By purchasing or dealing with me, you confirm that you fully understand and agree to all terms above.</p>
+  </div>
 </div>
 
 <script>
-(function(){
+document.addEventListener("DOMContentLoaded", function(){
   "use strict";
 
   const body = document.body;
@@ -1055,72 +1146,18 @@ footer {
     })();
   }
 
-  /* Apple Pay Gateway Integration Logic */
-  window.initiateApplePay = function() {
-    if (window.ApplePaySession) {
-      const merchantIdentifier = "merchant.com.conformitive.escrow";
-      const paymentRequest = {
-        countryCode: 'US',
-        currencyCode: 'USD',
-        supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],
-        merchantCapabilities: ['supports3DS'],
-        total: {
-          label: 'Conformitive Escrow Service',
-          amount: '10.00'
-        }
-      };
-
-      try {
-        const session = new ApplePaySession(3, paymentRequest);
-
-        session.onvalidatemerchant = async (event) => {
-          try {
-            // In a production environment, call your backend endpoint to validate merchant with Apple Pay
-            console.log("Validating merchant URL:", event.validationURL);
-            // const merchantSession = await fetch('/api/validate-apple-pay', { method: 'POST', body: JSON.stringify({ validationURL: event.validationURL }) }).then(res => res.json());
-            // session.completeMerchantValidation(merchantSession);
-            
-            // Mock fallback validation for testing interface
-            session.completeMerchantValidation({});
-          } catch (err) {
-            console.error("Merchant validation failed", err);
-            session.completeMerchantValidation({});
-          }
-        };
-
-        session.onpaymentauthorized = (event) => {
-          const payment = event.payment;
-          console.log("Payment authorized successfully:", payment);
-          // Send payment.token to your backend payment processor (e.g. Stripe, Braintree)
-          session.completePayment(ApplePaySession.STATUS_SUCCESS);
-          alert("Apple Pay transaction authorized successfully!");
-        };
-
-        session.oncancel = (event) => {
-          console.log("Apple Pay session cancelled by user.");
-        };
-
-        session.begin();
-      } catch (e) {
-        console.error("Error creating Apple Pay session:", e);
-        alert("Apple Pay initialization encountered an issue. Ensure you are using Safari on a supported Apple device with a configured card.");
-      }
-    } else {
-      alert("Apple Pay is not available on this browser or device. Please use Safari on an iOS/macOS device.");
-    }
+  /* TOS Drawer Controllers */
+  window.openCart = function(event){
+    event.preventDefault();
+    document.getElementById("cartOverlay").classList.add("open");
+    document.getElementById("cartDrawer").classList.add("open");
+    document.getElementById("cartDrawer").setAttribute("aria-hidden", "false");
   };
 
-  /* TOS Accordion Control */
-  window.toggleTos = function(){
-    const tosWrapper = document.getElementById("tosWrapper");
-    if(!tosWrapper) return;
-    const opening = !tosWrapper.classList.contains("open");
-    tosWrapper.classList.toggle("open", opening);
-    if(opening){
-      setTimeout(() => {
-        tosWrapper.scrollIntoView({behavior:"smooth", block:"nearest"});
-      }, 300);
-    }
+  window.closeCart = function(){
+    document.getElementById("cartOverlay").classList.remove("open");
+    document.getElementById("cartDrawer").classList.remove("open");
+    document.getElementById("cartDrawer").setAttribute("aria-hidden", "true");
   };
 
   window.home = function(event){
@@ -1128,53 +1165,122 @@ footer {
     window.scrollTo({top:0, behavior:"smooth"});
   };
 
-  window.openCart = function(event){
-    event.preventDefault();
-    const original = document.title;
-    document.title = "Cart — Conformitive";
-    setTimeout(() => { document.title = original; }, 1200);
-  };
-
-  /* Lama AI Chat Logic */
+  /* X10 Lama AI Conversational Chat Engine (With Voice, Typing Simulation & Quick Chips) */
   const lamaBubble = document.getElementById('lamaBubble');
   const lamaChat = document.getElementById('lamaChat');
   const lamaClose = document.getElementById('lamaClose');
+  const lamaVoiceBtn = document.getElementById('lamaVoiceBtn');
   const lamaForm = document.getElementById('lamaForm');
   const lamaInput = document.getElementById('lamaInput');
   const lamaMessages = document.getElementById('lamaMessages');
 
+  let speechEnabled = true;
+
+  if(lamaVoiceBtn){
+    lamaVoiceBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      speechEnabled = !speechEnabled;
+      if(speechEnabled){
+        lamaVoiceBtn.textContent = "🔊";
+        lamaVoiceBtn.classList.remove("muted");
+      } else {
+        lamaVoiceBtn.textContent = "🔇";
+        lamaVoiceBtn.classList.add("muted");
+        if('speechSynthesis' in window) window.speechSynthesis.cancel();
+      }
+    });
+  }
+
+  function speakBotResponse(text){
+    if(!speechEnabled || !('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const cleanText = text.replace(/<[^>]*>?/gm, '');
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.rate = 1.05;
+    utterance.pitch = 1.1;
+    window.speechSynthesis.speak(utterance);
+  }
+
   if(lamaBubble && lamaChat && lamaClose){
-    lamaBubble.addEventListener('click', () => lamaChat.classList.add('open'));
-    lamaClose.addEventListener('click', () => lamaChat.classList.remove('open'));
+    lamaBubble.addEventListener('click', (e) => {
+      e.stopPropagation();
+      lamaChat.classList.toggle('open');
+    });
+
+    lamaClose.addEventListener('click', (e) => {
+      e.stopPropagation();
+      lamaChat.classList.remove('open');
+      if('speechSynthesis' in window) window.speechSynthesis.cancel();
+    });
+  }
+
+  function handleUserQuery(text) {
+    if(!text || text.trim() === '') return;
+    const userMsg = document.createElement('div');
+    userMsg.className = 'lama-msg lama-user';
+    userMsg.textContent = text;
+    lamaMessages.appendChild(userMsg);
+    lamaInput.value = '';
+    lamaMessages.scrollTop = lamaMessages.scrollHeight;
+
+    // Show Typing Indicator
+    const typingIndicator = document.createElement('div');
+    typingIndicator.className = 'lama-typing';
+    typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+    lamaMessages.appendChild(typingIndicator);
+    lamaMessages.scrollTop = lamaMessages.scrollHeight;
+
+    setTimeout(() => {
+      typingIndicator.remove();
+      const lowerText = text.toLowerCase();
+      let botReply = "";
+
+      if(lowerText.includes('fee') || lowerText.includes('cost') || lowerText.includes('price') || lowerText.includes('percent') || lowerText.includes('rate')) {
+        botReply = "Per our MM TOS, fees are normally 1.5% (minimum $2), but right now during launch it is completely FREE with a 0% fee!";
+      } else if(lowerText.includes('warranty') || lowerText.includes('refund') || lowerText.includes('replacement') || lowerText.includes('pullback') || lowerText.includes('pb')) {
+        botReply = "Per our Purchase TOS, refunds are only given for pullbacks (PB) and you get 1 replacement max for accounts. Issues must be reported within 6 hours of delivery!";
+      } else if(lowerText.includes('tos') || lowerText.includes('terms') || lowerText.includes('rule') || lowerText.includes('policy')) {
+        botReply = "You can read all our MM TOS and Purchase TOS details by clicking the 'TOS' button at the bottom of the page.";
+      } else if(lowerText.includes('lama') || lowerText.includes('hello') || lowerText.includes('hi') || lowerText.includes('hey') || lowerText.includes('sup') || lowerText.includes('yo') || lowerText.includes('gm') || lowerText.includes('gn')) {
+        botReply = "Hey! I'm Lama AI. Ask me about our MM fees, allowed middleman items, or purchase warranties.";
+      } else if(lowerText.includes('allowed') || lowerText.includes('prohibited') || lowerText.includes('item') || lowerText.includes('goods') || lowerText.includes('what can you')) {
+        botReply = "We middleman digital goods like accounts, usernames, and game keys. Real-world items, stolen assets, or illegal goods are strictly prohibited!";
+      } else if(lowerText.includes('vouch') || lowerText.includes('rep') || lowerText.includes('trust') || lowerText.includes('reviews')) {
+        botReply = "You can check out our verified vouches on Telegram at t.me/funsrep!";
+      } else if(lowerText.includes('contact') || lowerText.includes('support') || lowerText.includes('owner') || lowerText.includes('fun') || lowerText.includes('help')) {
+        botReply = "You can contact Fun directly here: <a href='https://guns.lol/funn' target='_blank' rel='noopener noreferrer'>https://guns.lol/funn</a>";
+      } else if(lowerText.includes('thank') || lowerText.includes('thx') || lowerText.includes('ty')) {
+        botReply = "You're welcome! Let me know if you need help with anything else regarding the TOS.";
+      } else {
+        botReply = "That's something not clear or not covered in our TOS! Please contact Fun directly for assistance: <a href='https://guns.lol/funn' target='_blank' rel='noopener noreferrer'>https://guns.lol/funn</a>";
+      }
+
+      const botMsg = document.createElement('div');
+      botMsg.className = 'lama-msg lama-bot';
+      botMsg.innerHTML = botReply;
+      lamaMessages.appendChild(botMsg);
+      lamaMessages.scrollTop = lamaMessages.scrollHeight;
+
+      speakBotResponse(botReply);
+    }, 800);
   }
 
   if(lamaForm && lamaInput && lamaMessages){
     lamaForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const text = lamaInput.value.trim();
-      if(text !== ''){
-        const userMsg = document.createElement('div');
-        userMsg.className = 'lama-msg lama-user';
-        userMsg.textContent = text;
-        lamaMessages.appendChild(userMsg);
-        lamaInput.value = '';
-        lamaMessages.scrollTop = lamaMessages.scrollHeight;
-
-        setTimeout(() => {
-          const botMsg = document.createElement('div');
-          botMsg.className = 'lama-msg lama-bot';
-          botMsg.textContent = "I'm connected and running live! Apple Pay is fully initialized on supported Safari devices.";
-          lamaMessages.appendChild(botMsg);
-          lamaMessages.scrollTop = lamaMessages.scrollHeight;
-        }, 700);
-      }
+      handleUserQuery(lamaInput.value);
     });
   }
 
-  document.querySelectorAll('a[href="#"]').forEach(link => {
+  // Global helper for quick chips selection
+  window.sendChip = function(queryText){
+    handleUserQuery(queryText);
+  };
+
+  document.querySelectorAll('a[href="#"]:not([onclick])').forEach(link => {
     link.addEventListener("click", e => e.preventDefault());
   });
-})();
+});
 </script>
 
 <div class="lama-widget" id="lamaWidget">
@@ -1198,17 +1304,28 @@ footer {
           <div class="lama-mini-status">Online</div>
         </div>
       </div>
-      <button class="lama-close" id="lamaClose" type="button" aria-label="Close Lama AI assistant" data-cursor>×</button>
+      <div class="lama-top-controls">
+        <button class="lama-voice-btn" id="lamaVoiceBtn" type="button" aria-label="Toggle voice speech" data-cursor title="Toggle Voice">🔊</button>
+        <button class="lama-close" id="lamaClose" type="button" aria-label="Close Lama AI assistant" data-cursor>×</button>
+      </div>
     </div>
 
     <div class="lama-messages" id="lamaMessages" aria-live="polite">
       <div class="lama-msg lama-bot">
-        Greetings. Ask me anything about Conformitive or Apple Pay checkout.
+        Hey! I'm Lama AI. Ask me about MM fees, warranties, or TOS. Click any quick topic below or type your question!
       </div>
     </div>
 
+    <!-- Quick Chips Navigation -->
+    <div class="lama-chips">
+      <button class="lama-chip" onclick="sendChip('What are the MM fees?')" data-cursor>💰 MM Fees</button>
+      <button class="lama-chip" onclick="sendChip('What is the warranty policy?')" data-cursor>🛡️ Warranty</button>
+      <button class="lama-chip" onclick="sendChip('What items are allowed?')" data-cursor>📦 Allowed Items</button>
+      <button class="lama-chip" onclick="sendChip('Contact Fun')" data-cursor>👤 Contact Fun</button>
+    </div>
+
     <form class="lama-input-row" id="lamaForm">
-      <input id="lamaInput" type="text" autocomplete="off" placeholder="Ask something..." aria-label="Ask Lama AI">
+      <input id="lamaInput" type="text" autocomplete="off" placeholder="Ask about MM TOS, fees, warranty..." aria-label="Ask Lama AI">
       <button type="submit" aria-label="Send message" data-cursor>→</button>
     </form>
 
@@ -1218,13 +1335,6 @@ footer {
     </div>
   </div>
 </div>
-
-<footer>
-  <div class="footer-brand">
-    © 2026 <span>Conformitive</span>
-  </div>
-  <div>All rights reserved.</div>
-</footer>
 
 </body>
 </html>
