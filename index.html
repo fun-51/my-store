@@ -2,929 +2,588 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Conformitive</title>
 
 <style>
-:root {
-    --black: #050505;
-    --purple: #7d4aa8;
-    --purple-light: #a16bc9;
-    --text-soft: rgba(255,255,255,.64);
-    --border: rgba(255,255,255,.09);
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+  background:#050505;
+  color:#fff;
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* BACKGROUND */
+.bg{
+  position:absolute;
+  inset:0;
+  min-height:100%;
+  z-index:-2;
+  background:
+    linear-gradient(180deg,
+      rgba(0,0,0,.20),
+      rgba(0,0,0,.55) 45%,
+      rgba(0,0,0,.88) 75%,
+      #050505 100%),
+    url("cf163c6a-1a2d-4268-9b53-79f7bd22587a.jpg")
+    center top/cover no-repeat;
+}
+.bg:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 50% 18%,rgba(126,72,168,.18),transparent 38%);
+  pointer-events:none
 }
 
-html {
-    scroll-behavior: smooth;
+/* HEADER */
+header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(5,5,5,.62);
+  border-bottom:1px solid rgba(255,255,255,.055);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px)
+}
+.header{
+  width:min(1400px,92%);
+  min-height:80px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between
 }
 
-body {
-    min-height: 100vh;
-    background: var(--black);
-    color: white;
-
-    font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
-
-    overflow-x: hidden;
-
-    /* Keeps scrolling clean on touch devices */
-    -webkit-overflow-scrolling: touch;
+/* BRAND */
+.brand{
+  display:inline-flex;
+  align-items:flex-start;
+  gap:9px;
+  cursor:pointer;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1)
+}
+.brand:hover{transform:scale(1.045)}
+.brand-emoji{
+  width:25px;
+  height:25px;
+  object-fit:contain;
+  margin-top:1px;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1)
+}
+.brand:hover .brand-emoji{transform:scale(1.08)}
+.brand-name{
+  font-size:25px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:-1.3px
+}
+.brand-name span{color:#a169c7}
+.fun{
+  margin-top:6px;
+  color:#9b6bb9;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:2px;
+  opacity:.7;
+  transition:.35s ease
+}
+.brand:hover .fun{
+  opacity:1;
+  transform:translateY(3px)
 }
 
-/* ==================================================
-   PAGE BACKGROUND
-   IMPORTANT:
-   NOT fixed.
-   NOT animated.
-   NOT zooming.
-   It scrolls naturally with the page.
-================================================== */
-
-.page-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    min-height: 100%;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(0,0,0,.22) 0%,
-            rgba(0,0,0,.52) 35%,
-            rgba(0,0,0,.82) 68%,
-            #050505 100%
-        ),
-        url("cf163c6a-1a2d-4268-9b53-79f7bd22587a.jpg")
-        center top / cover no-repeat;
-
-    z-index: -2;
+/* CART */
+.cart{
+  width:43px;
+  height:43px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:50%;
+  background:rgba(255,255,255,.025);
+  display:grid;
+  place-items:center;
+  text-decoration:none;
+  transition:.35s cubic-bezier(.2,.8,.2,1)
+}
+.cart:hover{
+  transform:scale(1.1);
+  border-color:rgba(161,105,199,.5);
+  background:rgba(126,72,168,.11)
+}
+.cart img{
+  width:20px;
+  height:20px;
+  object-fit:contain
+}
+.cart svg{
+  width:18px;
+  height:18px;
+  stroke:#fff;
+  fill:none;
+  stroke-width:1.6;
+  stroke-linecap:round;
+  stroke-linejoin:round
 }
 
-.page-background::after {
-    content: "";
-
-    position: absolute;
-    inset: 0;
-
-    background:
-        radial-gradient(
-            circle at 50% 22%,
-            rgba(116,57,160,.15),
-            transparent 38%
-        );
-
-    pointer-events: none;
+/* HERO */
+.hero{
+  min-height:73vh;
+  width:min(1200px,92%);
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:100px 20px 80px
+}
+.hero-in{
+  animation:enter .85s cubic-bezier(.2,.8,.2,1) both
+}
+.royal{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin-bottom:24px;
+  color:rgba(255,255,255,.52);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:4px
+}
+.royal img{
+  width:17px;
+  height:17px;
+  object-fit:contain
+}
+h1{
+  font-size:clamp(58px,10vw,125px);
+  line-height:.88;
+  letter-spacing:-8px;
+  font-weight:950
+}
+h1 .purple{
+  color:#a169c7
+}
+.hero p{
+  max-width:540px;
+  margin:30px auto 0;
+  color:rgba(255,255,255,.55);
+  font-size:15px;
+  line-height:1.8
 }
 
-/* ==================================================
-   HEADER
-================================================== */
-
-header {
-    position: sticky;
-    top: 0;
-
-    z-index: 100;
-
-    width: 100%;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(5,5,5,.82),
-            rgba(5,5,5,.48)
-        );
-
-    border-bottom: 1px solid rgba(255,255,255,.045);
-
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+/* MIDDLE PLACE */
+.middle{
+  width:min(900px,92%);
+  min-height:380px;
+  margin:0 auto 100px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center
+}
+.middle span{
+  color:rgba(255,255,255,.13);
+  font-size:10px;
+  letter-spacing:3px;
+  text-transform:uppercase
 }
 
-.header-inner {
-    width: min(1400px, 92%);
-
-    min-height: 82px;
-
-    margin: auto;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+/* BLACK RECTANGLE */
+.bottom{
+  width:min(1250px,92%);
+  min-height:330px;
+  margin:0 auto 100px;
+  background:#050505;
+  border:1px solid rgba(255,255,255,.07);
+  position:relative;
+  overflow:hidden;
+}
+.bottom:before{
+  content:"";
+  position:absolute;
+  width:400px;
+  height:400px;
+  left:-160px;
+  bottom:-220px;
+  border-radius:50%;
+  background:rgba(118,62,153,.08);
+  filter:blur(85px)
+}
+.bottom-in{
+  min-height:330px;
+  padding:55px;
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:35px
+}
+.bottom-title{
+  font-size:38px;
+  letter-spacing:-1.5px;
+  font-weight:900
+}
+.bottom-text{
+  max-width:420px;
+  margin-top:12px;
+  color:rgba(255,255,255,.4);
+  font-size:13px;
+  line-height:1.7
 }
 
-/* ==================================================
-   LOGO
-================================================== */
-
-.brand {
-    display: inline-flex;
-    flex-direction: column;
-
-    cursor: pointer;
-
-    user-select: none;
-
-    transition:
-        transform .35s cubic-bezier(.2,.75,.2,1);
+/* LINKS */
+.links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px
+}
+.link{
+  min-width:110px;
+  padding:12px 15px;
+  border:1px solid rgba(255,255,255,.085);
+  background:rgba(255,255,255,.025);
+  color:rgba(255,255,255,.72);
+  text-decoration:none;
+  font-size:11px;
+  font-weight:700;
+  transition:.32s cubic-bezier(.2,.8,.2,1);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  cursor:pointer
+}
+.link:hover{
+  transform:translateY(-3px) scale(1.025);
+  border-color:rgba(161,105,199,.4);
+  background:rgba(126,72,168,.1);
+  color:#fff
+}
+.link img{
+  width:16px;
+  height:16px;
+  object-fit:contain
 }
 
-.brand:hover {
-    transform: scale(1.04);
+/* TOS */
+.tos{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .5s cubic-bezier(.2,.8,.2,1)
+}
+.tos-in{
+  padding:0 55px 30px;
+  color:rgba(255,255,255,.5);
+  font-size:12px;
+  line-height:1.75
+}
+.tos-in h3{
+  margin:18px 0 6px;
+  color:rgba(255,255,255,.82);
+  font-size:13px
+}
+.tos-in strong{color:#ae7dcc}
+.tos-in ul{padding-left:18px}
+
+/* FOOTER */
+footer{
+  width:min(1250px,92%);
+  margin:auto;
+  padding:25px 0 35px;
+  border-top:1px solid rgba(255,255,255,.05);
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  color:rgba(255,255,255,.28);
+  font-size:10px
+}
+footer span{color:#80549d}
+
+/* ANIMATION */
+@keyframes enter{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
-.brand-name {
-    font-size: 24px;
-    line-height: 1;
-
-    font-weight: 900;
-
-    letter-spacing: -1.2px;
-}
-
-.brand-name span {
-    color: var(--purple-light);
-}
-
-.fun-name {
-    margin-top: 6px;
-
-    color: rgba(255,255,255,.55);
-
-    font-size: 10px;
-    line-height: 1;
-
-    font-weight: 800;
-    letter-spacing: 2px;
-
-    opacity: .72;
-
-    transform:
-        translateY(0);
-
-    transition:
-        color .3s ease,
-        transform .35s cubic-bezier(.2,.75,.2,1),
-        opacity .3s ease;
-}
-
-.brand:hover .fun-name {
-    color: var(--purple-light);
-
-    transform:
-        translateY(3px);
-
-    opacity: 1;
-}
-
-/* ==================================================
-   CART
-================================================== */
-
-.cart {
-    position: relative;
-
-    width: 43px;
-    height: 43px;
-
-    display: grid;
-    place-items: center;
-
-    border: 1px solid var(--border);
-    border-radius: 50%;
-
-    background: rgba(255,255,255,.025);
-
-    color: white;
-
-    text-decoration: none;
-
-    transition:
-        transform .35s cubic-bezier(.2,.75,.2,1),
-        border-color .3s ease,
-        background .3s ease;
-}
-
-.cart:hover {
-    transform: scale(1.1);
-
-    border-color:
-        rgba(161,107,201,.55);
-
-    background:
-        rgba(125,74,168,.12);
-}
-
-.cart svg {
-    width: 18px;
-    height: 18px;
-
-    stroke: currentColor;
-
-    fill: none;
-
-    stroke-width: 1.6;
-
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-/* ==================================================
-   MAIN HERO
-================================================== */
-
-main {
-    position: relative;
-    z-index: 1;
-}
-
-.hero {
-    width: min(1250px, 92%);
-
-    min-height: 78vh;
-
-    margin: auto;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-
-    padding:
-        110px 20px
-        90px;
-}
-
-.hero-content {
-    width: min(900px, 100%);
-
-    animation:
-        enter .9s cubic-bezier(.2,.75,.2,1) both;
-}
-
-.royal-label {
-    display: inline-block;
-
-    margin-bottom: 24px;
-
-    color: rgba(255,255,255,.55);
-
-    font-size: 10px;
-    font-weight: 800;
-
-    letter-spacing: 4px;
-    text-transform: uppercase;
-}
-
-.hero-title {
-    font-size:
-        clamp(
-            58px,
-            10vw,
-            125px
-        );
-
-    line-height: .88;
-
-    letter-spacing: -8px;
-
-    font-weight: 950;
-}
-
-.hero-title .purple {
-    color: var(--purple-light);
-}
-
-.hero-description {
-    width: min(540px, 100%);
-
-    margin:
-        30px auto
-        0;
-
-    color: var(--text-soft);
-
-    font-size: 15px;
-
-    line-height: 1.8;
-}
-
-/* ==================================================
-   ROYAL AREA
-================================================== */
-
-.royal-section {
-    width: min(1200px, 92%);
-
-    margin: auto;
-
-    padding:
-        30px 0
-        130px;
-}
-
-.royal-heading {
-    width: min(700px, 100%);
-
-    margin: auto;
-
-    text-align: center;
-}
-
-.royal-heading h2 {
-    font-size:
-        clamp(30px, 5vw, 52px);
-
-    line-height: 1;
-
-    letter-spacing: -2px;
-
-    font-weight: 900;
-}
-
-.royal-heading p {
-    margin-top: 16px;
-
-    color: rgba(255,255,255,.48);
-
-    font-size: 13px;
-
-    line-height: 1.7;
-}
-
-/* ==================================================
-   CONTENT PLACEHOLDER
-   This is intentionally spacious because you said
-   you will tell me what goes in the middle.
-================================================== */
-
-.middle-space {
-    width: min(900px, 92%);
-
-    min-height: 440px;
-
-    margin:
-        50px auto
-        0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-}
-
-.middle-text {
-    color: rgba(255,255,255,.16);
-
-    font-size: 11px;
-
-    letter-spacing: 3px;
-    text-transform: uppercase;
-}
-
-/* ==================================================
-   BOTTOM BLACK RECTANGLE
-   Similar simple visual block to your reference.
-================================================== */
-
-.bottom-block {
-    width: min(1250px, 92%);
-
-    min-height: 360px;
-
-    margin:
-        0 auto
-        120px;
-
-    border-radius: 0;
-
-    background:
-        linear-gradient(
-            135deg,
-            #050505,
-            #09070b
-        );
-
-    border:
-        1px solid
-        rgba(255,255,255,.07);
-
-    position: relative;
-
-    overflow: hidden;
-}
-
-.bottom-block::before {
-    content: "";
-
-    position: absolute;
-
-    left: -150px;
-    bottom: -180px;
-
-    width: 500px;
-    height: 500px;
-
-    border-radius: 50%;
-
-    background:
-        rgba(110,57,150,.08);
-
-    filter: blur(90px);
-}
-
-.bottom-inner {
-    position: relative;
-    z-index: 1;
-
-    min-height: 360px;
-
-    padding: 60px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 40px;
-}
-
-.bottom-title {
-    font-size: 38px;
-
-    letter-spacing: -1.5px;
-
-    font-weight: 900;
-}
-
-.bottom-copy {
-    margin-top: 12px;
-
-    color: rgba(255,255,255,.42);
-
-    font-size: 13px;
-
-    line-height: 1.7;
-
-    max-width: 420px;
-}
-
-/* ==================================================
-   SIMPLE BOTTOM LINKS
-================================================== */
-
-.bottom-links {
-    display: flex;
-
-    flex-wrap: wrap;
-
-    gap: 10px;
-}
-
-.bottom-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    min-width: 105px;
-
-    padding:
-        12px 17px;
-
-    border:
-        1px solid
-        rgba(255,255,255,.09);
-
-    color: rgba(255,255,255,.72);
-
-    text-decoration: none;
-
-    font-size: 11px;
-    font-weight: 700;
-
-    background: rgba(255,255,255,.025);
-
-    transition:
-        transform .3s cubic-bezier(.2,.75,.2,1),
-        border-color .3s ease,
-        background .3s ease,
-        color .3s ease;
-}
-
-.bottom-link:hover {
-    transform: translateY(-3px) scale(1.02);
-
-    border-color:
-        rgba(161,107,201,.42);
-
-    background:
-        rgba(125,74,168,.10);
-
-    color: white;
-}
-
-/* ==================================================
-   FOOTER
-================================================== */
-
-footer {
-    width: min(1250px, 92%);
-
-    margin: auto;
-
-    padding:
-        28px 0
-        35px;
-
-    border-top:
-        1px solid
-        rgba(255,255,255,.06);
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 20px;
-
-    color:
-        rgba(255,255,255,.30);
-
-    font-size: 10px;
-}
-
-.footer-brand {
-    color: rgba(255,255,255,.50);
-}
-
-.footer-brand span {
-    color: var(--purple-light);
-}
-
-/* ==================================================
-   ANIMATION
-================================================== */
-
-@keyframes enter {
-    from {
-        opacity: 0;
-
-        transform:
-            translateY(18px);
-    }
-
-    to {
-        opacity: 1;
-
-        transform:
-            translateY(0);
-    }
-}
-
-/* ==================================================
-   MOBILE
-================================================== */
-
-@media (max-width: 700px) {
-
-    .header-inner {
-        min-height: 72px;
-    }
-
-    .brand-name {
-        font-size: 21px;
-    }
-
-    .hero {
-        min-height: 70vh;
-
-        padding:
-            80px 15px
-            70px;
-    }
-
-    .hero-title {
-        font-size:
-            clamp(
-                51px,
-                15vw,
-                78px
-            );
-
-        letter-spacing: -5px;
-    }
-
-    .hero-description {
-        font-size: 13px;
-    }
-
-    .royal-section {
-        padding-bottom: 80px;
-    }
-
-    .middle-space {
-        min-height: 320px;
-    }
-
-    .bottom-block {
-        min-height: auto;
-
-        margin-bottom: 75px;
-    }
-
-    .bottom-inner {
-        min-height: 0;
-
-        padding: 35px 24px;
-
-        flex-direction: column;
-
-        align-items: flex-start;
-    }
-
-    .bottom-title {
-        font-size: 30px;
-    }
-
-    footer {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-}
-
-@media (max-width: 420px) {
-
-    .hero-title {
-        font-size: 47px;
-
-        letter-spacing: -4px;
-    }
-
-    .cart {
-        width: 40px;
-        height: 40px;
-    }
-
-    .bottom-links {
-        width: 100%;
-    }
-
-    .bottom-link {
-        flex: 1;
-    }
-}
-
-/* ==================================================
-   REDUCED MOTION
-================================================== */
-
-@media (prefers-reduced-motion: reduce) {
-
-    html {
-        scroll-behavior: auto;
-    }
-
-    *,
-    *::before,
-    *::after {
-        animation: none !important;
-        transition: none !important;
-    }
+/* MOBILE */
+@media(max-width:700px){
+  .header{min-height:72px}
+  .brand-name{font-size:21px}
+  .brand-emoji{width:21px;height:21px}
+  .hero{min-height:65vh;padding:75px 15px 60px}
+  h1{font-size:clamp(48px,15vw,78px);letter-spacing:-5px}
+  .hero p{font-size:13px}
+  .middle{min-height:280px}
+  .bottom{min-height:auto;margin-bottom:70px}
+  .bottom-in{
+    min-height:0;
+    padding:35px 24px;
+    flex-direction:column;
+    align-items:flex-start
+  }
+  .bottom-title{font-size:30px}
+  .tos-in{padding:0 24px 25px}
+  footer{flex-direction:column;align-items:flex-start}
 }
 </style>
 </head>
 
 <body>
 
-<!-- BACKGROUND -->
-<div class="page-background"></div>
+<div class="bg"></div>
 
-
-<!-- HEADER -->
 <header>
+  <div class="header">
 
-    <div class="header-inner">
+    <div class="brand">
 
-        <!-- LEFT -->
-        <div class="brand">
+      <img
+        class="brand-emoji"
+        src="https://cdn.discordapp.com/emojis/1487461131579556054.webp?size=32"
+        alt=""
+      >
 
-            <div class="brand-name">
-                Conform<span>itive</span>
-            </div>
-
-            <div class="fun-name">
-                !! FUN
-            </div>
-
+      <div>
+        <div class="brand-name">
+          Conform<span>itive</span>
         </div>
 
-
-        <!-- RIGHT -->
-        <a
-            class="cart"
-            href="#"
-            aria-label="Cart"
-            onclick="openCart(event)"
-        >
-
-            <svg
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-            >
-                <path
-                    d="M3 4h2l2.2 11.1a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 1.9-1.4L21 8H6"
-                />
-
-                <circle
-                    cx="10"
-                    cy="20"
-                    r="1"
-                />
-
-                <circle
-                    cx="18"
-                    cy="20"
-                    r="1"
-                />
-            </svg>
-
-        </a>
+        <div class="fun">
+          !! FUN
+        </div>
+      </div>
 
     </div>
 
+    <a class="cart" href="#" onclick="cart(event)">
+      <img
+        src="https://cdn.discordapp.com/emojis/1487460935806222497.webp?size=32"
+        alt=""
+      >
+    </a>
+
+  </div>
 </header>
 
 
 <main>
 
-    <!-- HERO -->
+<section class="hero">
+  <div class="hero-in">
 
-    <section class="hero">
+    <div class="royal">
+      <img
+        src="https://cdn.discordapp.com/emojis/1487461401168445610.webp?size=32&animated=true"
+        alt=""
+      >
+      ROYAL
+    </div>
 
-        <div class="hero-content">
+    <h1>
+      <span>Conform</span><br>
+      <span class="purple">itive.</span>
+    </h1>
 
-            <div class="royal-label">
-                ROYAL
-            </div>
+    <p>
+      A clean, simple and premium experience
+      built for smooth digital transactions.
+    </p>
 
-            <h1 class="hero-title">
-                <span>Conform</span><br>
-                <span class="purple">itive.</span>
-            </h1>
-
-            <p class="hero-description">
-                A clean, simple and premium experience
-                built for smooth digital transactions.
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <!-- ROYAL -->
-
-    <section class="royal-section">
-
-        <div class="royal-heading">
-
-            <h2>
-                Royal
-            </h2>
-
-            <p>
-                Everything stays simple.
-                Everything stays in one place.
-            </p>
-
-        </div>
+  </div>
+</section>
 
 
-        <!-- EMPTY MIDDLE FOR YOUR NEXT IDEA -->
-
-        <div class="middle-space">
-
-            <div class="middle-text">
-                Main content goes here
-            </div>
-
-        </div>
-
-    </section>
+<section class="middle">
+  <span>
+    Main content goes here
+  </span>
+</section>
 
 
-    <!-- BLACK RECTANGLE -->
+<section class="bottom">
 
-    <section class="bottom-block">
+  <div class="bottom-in">
 
-        <div class="bottom-inner">
+    <div>
+      <div class="bottom-title">
+        Conformitive
+      </div>
 
-            <div>
-
-                <div class="bottom-title">
-                    Conformitive
-                </div>
-
-                <div class="bottom-copy">
-                    Simple design. Smooth experience.
-                    Built around the things that matter.
-                </div>
-
-            </div>
+      <div class="bottom-text">
+        Simple design. Smooth experience.
+        Everything you need, without the clutter.
+      </div>
+    </div>
 
 
-            <div class="bottom-links">
+    <div class="links">
 
-                <a
-                    href="https://t.me/funsrep"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="bottom-link"
-                >
-                    Vouches
-                </a>
+      <!-- VOUCHES -->
+      <a
+        class="link"
+        href="https://t.me/funsrep"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src="https://cdn.discordapp.com/emojis/1279650941729243188.webp?size=32"
+          alt=""
+        >
+        Vouches
+      </a>
 
-                <a
-                    href="#"
-                    class="bottom-link"
-                    onclick="toggleEscrow(event)"
-                >
-                    Royal Escrow
-                </a>
 
-                <a
-                    href="https://guns.lol/funn"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="bottom-link"
-                >
-                    Contact
-                </a>
+      <!-- TOS -->
+      <button
+        class="link"
+        type="button"
+        onclick="toggleTos()"
+      >
+        <img
+          src="https://cdn.discordapp.com/emojis/1541104418689388666.webp?size=32&animated=true"
+          alt=""
+        >
+        TOS
+      </button>
 
-            </div>
 
-        </div>
+      <!-- CONTACT -->
+      <a
+        class="link"
+        href="https://guns.lol/funn"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Contact
+      </a>
 
-    </section>
+    </div>
+
+  </div>
+
+
+  <!-- TERMS -->
+  <div class="tos" id="tos">
+
+    <div class="tos-in">
+
+      <h3>Royal Escrow</h3>
+
+      <p>
+        Official <strong>@ThroneEscrow</strong> Channel.
+      </p>
+
+      <p>
+        Operated by reputable providers, our service
+        guarantees secure and professional transaction
+        handling so you can trade with confidence.
+      </p>
+
+      <p>
+        Fees are set at <strong>1.5%</strong> of the
+        transaction amount, with a minimum fee of
+        <strong>$2</strong>. During the initial launch
+        period, the service will operate at
+        <strong>0% fee</strong>.
+      </p>
+
+      <h3>Allowed Transactions</h3>
+
+      <ul>
+        <li>Social media usernames and accounts</li>
+        <li>Gaming accounts</li>
+        <li>Game keys or digital licenses</li>
+        <li>Similar digital assets agreed by both parties</li>
+      </ul>
+
+      <h3>Prohibited Transactions</h3>
+
+      <ul>
+        <li>Real-world or physical items</li>
+        <li>Illegal goods or services</li>
+        <li>Malicious software, exploits, stolen assets or fraud-related items</li>
+        <li>Anything violating applicable laws or platform rules</li>
+      </ul>
+
+      <p>
+        Any request involving prohibited items will
+        be refused immediately.
+      </p>
+
+      <h3>Fees</h3>
+
+      <p>
+        Middleman fees are non-refundable once a
+        transaction has started.
+      </p>
+
+      <h3>Transaction Responsibility</h3>
+
+      <p>
+        Royal Escrow acts only as a neutral third-party
+        facilitator. Buyers and sellers remain responsible
+        for verifying the details of their deal.
+      </p>
+
+      <h3>Disputes</h3>
+
+      <p>
+        If a dispute occurs, Royal Escrow will review
+        available evidence from both parties and make
+        a final decision based on the information provided.
+      </p>
+
+      <h3>Limitation of Liability</h3>
+
+      <p>
+        Royal Escrow is not responsible for issues occurring
+        after a transaction, including account recovery,
+        bans, reversals or platform enforcement.
+      </p>
+
+      <h3>Agreement</h3>
+
+      <p>
+        By using Royal Escrow services, both parties confirm
+        that they understand and agree to these terms.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
 
 </main>
 
 
 <footer>
+  <div>
+    © 2026 <span>Conformitive</span>
+  </div>
 
-    <div class="footer-brand">
-        © 2026
-        <span>Conformitive</span>
-    </div>
-
-    <div>
-        All rights reserved.
-    </div>
-
+  <div>
+    All rights reserved.
+  </div>
 </footer>
 
 
 <script>
-
-/* ============================================
-   CART
-============================================ */
-
-function openCart(event) {
-
-    event.preventDefault();
-
-    alert("Cart will be connected later.");
+function cart(e){
+  e.preventDefault();
+  alert("Cart will be connected later.");
 }
 
+function toggleTos(){
+  const box=document.getElementById("tos");
+  const open=box.style.maxHeight;
 
-/* ============================================
-   ESCROW
-============================================ */
-
-function toggleEscrow(event) {
-
-    event.preventDefault();
-
-    alert("Royal Escrow section will be added here.");
+  box.style.maxHeight=open?"0px":box.scrollHeight+"px";
 }
-
 </script>
 
 </body>
