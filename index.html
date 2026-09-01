@@ -18,109 +18,145 @@ html {
 }
 
 body {
-    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
-                 Roboto, Arial, sans-serif;
-    background: #030205;
-    color: #fff;
     min-height: 100vh;
     overflow-x: hidden;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Roboto, Arial, sans-serif;
+    color: #fff;
+    background: #030204;
 }
 
 /* =========================
-   BACKGROUND
+   MOVING BACKGROUND
 ========================= */
 
-.bg {
+.background {
     position: fixed;
-    inset: 0;
+    inset: -8%;
     z-index: -10;
+
     background:
         linear-gradient(
             180deg,
-            rgba(3,2,5,.25) 0%,
-            rgba(3,2,5,.65) 45%,
-            rgba(3,2,5,.96) 100%
+            rgba(3,2,5,.35),
+            rgba(3,2,5,.78) 58%,
+            #030204 100%
         ),
         url("cf163c6a-1a2d-4268-9b53-79f7bd22587a.jpg")
-        center top / cover no-repeat;
+        center / cover no-repeat;
+
+    animation: backgroundMove 22s ease-in-out infinite alternate;
+    transform-origin: center;
 }
 
-.bg::before {
+.background::after {
     content: "";
     position: absolute;
     inset: 0;
+
     background:
         radial-gradient(
-            circle at 50% 15%,
-            rgba(139,92,246,.30),
-            transparent 35%
+            circle at 50% 30%,
+            rgba(110,55,180,.20),
+            transparent 38%
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,.38),
+            transparent 50%,
+            rgba(0,0,0,.38)
         );
 }
 
-.bg::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-        linear-gradient(
-            90deg,
-            rgba(0,0,0,.35),
-            transparent 50%,
-            rgba(0,0,0,.35)
-        );
+@keyframes backgroundMove {
+    0% {
+        transform: scale(1.04) translate3d(-1%, -1%, 0);
+    }
+
+    50% {
+        transform: scale(1.09) translate3d(1%, .5%, 0);
+    }
+
+    100% {
+        transform: scale(1.05) translate3d(-.5%, 1%, 0);
+    }
 }
 
 /* =========================
-   NAVIGATION
+   HEADER
 ========================= */
 
 header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: 1px solid rgba(255,255,255,.08);
-    background: rgba(3,2,5,.60);
-    backdrop-filter: blur(22px);
-    -webkit-backdrop-filter: blur(22px);
+    width: 100%;
+    padding: 28px 7%;
+    position: relative;
+    z-index: 10;
 }
 
-.nav {
-    width: min(1250px, 92%);
-    margin: auto;
-    min-height: 76px;
-
-    display: flex;
+.logo-wrap {
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
+    cursor: default;
 }
 
 .logo {
-    color: #fff;
-    font-size: 24px;
+    position: relative;
+
+    font-size: 25px;
     font-weight: 900;
-    letter-spacing: -1.2px;
+    letter-spacing: -1.3px;
+
+    color: #fff;
+
+    transition:
+        transform .45s cubic-bezier(.2,.8,.2,1),
+        letter-spacing .45s ease;
 }
 
-.logo span {
-    color: #a855f7;
+.logo-main {
+    position: relative;
+    z-index: 2;
 }
 
-.nav-links {
-    display: flex;
-    align-items: center;
-    gap: 28px;
+.logo-main span {
+    color: #9255d6;
 }
 
-.nav-links a {
-    color: #aaa3b4;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 600;
-    transition: .25s ease;
+.fun-name {
+    position: absolute;
+    left: 100%;
+    top: 50%;
+
+    white-space: nowrap;
+
+    color: #a66be5;
+    font-size: 0;
+    font-weight: 900;
+
+    opacity: 0;
+    transform:
+        translate(0, -50%)
+        scale(.5);
+
+    transform-origin: left center;
+
+    transition:
+        opacity .45s ease,
+        transform .55s cubic-bezier(.2,.8,.2,1),
+        font-size .45s ease;
 }
 
-.nav-links a:hover {
-    color: #c084fc;
+.logo-wrap:hover .logo {
+    transform: scale(1.08);
+    letter-spacing: -.5px;
+}
+
+.logo-wrap:hover .fun-name {
+    opacity: 1;
+    font-size: 17px;
+    transform:
+        translate(12px, -50%)
+        scale(1);
 }
 
 /* =========================
@@ -128,438 +164,391 @@ header {
 ========================= */
 
 .hero {
-    min-height: 75vh;
+    min-height: 63vh;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     text-align: center;
-    padding: 100px 20px 70px;
+
+    padding: 80px 20px 60px;
 }
 
 .hero-content {
-    width: min(900px, 100%);
-    animation: heroIn 1s cubic-bezier(.2,.8,.2,1);
-}
+    width: min(800px, 100%);
 
-.status {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-
-    padding: 9px 15px;
-
-    border: 1px solid rgba(168,85,247,.25);
-    border-radius: 999px;
-
-    background: rgba(10,7,15,.62);
-
-    color: #c7b4db;
-    font-size: 12px;
-    font-weight: 600;
-
-    backdrop-filter: blur(15px);
-    margin-bottom: 27px;
-}
-
-.status-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-
-    background: #a855f7;
-    box-shadow: 0 0 18px rgba(168,85,247,.9);
+    animation:
+        heroEnter 1s cubic-bezier(.2,.8,.2,1) both;
 }
 
 .hero h1 {
-    font-size: clamp(55px, 9vw, 110px);
-    line-height: .92;
+    font-size: clamp(54px, 9vw, 105px);
+    line-height: .9;
     letter-spacing: -7px;
     font-weight: 950;
+
+    text-shadow:
+        0 15px 70px rgba(0,0,0,.55);
 }
 
 .hero h1 span {
     background:
         linear-gradient(
             120deg,
-            #7c3aed,
-            #c084fc,
-            #9333ea
+            #7740ad,
+            #b477e7,
+            #8650bd
         );
 
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-.hero-description {
-    width: min(620px, 100%);
-    margin: 30px auto 0;
+.hero p {
+    width: min(560px, 100%);
 
-    color: #a29ba9;
-    font-size: 16px;
+    margin: 28px auto 0;
+
+    color: #aaa1b1;
+
+    font-size: 15px;
     line-height: 1.8;
 }
 
 /* =========================
-   MAIN
+   PAYMENT AREA
 ========================= */
 
-.main {
-    width: min(850px, 92%);
+.payment-area {
+    width: min(820px, 92%);
     margin: auto;
-    padding-bottom: 100px;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
 }
 
-/* =========================
-   BALANCE
-========================= */
-
-.balance {
+.payment-box {
     position: relative;
     overflow: hidden;
 
-    padding: 38px;
+    padding: 27px;
 
-    border: 1px solid rgba(168,85,247,.25);
-    border-radius: 27px;
+    border: 1px solid rgba(255,255,255,.075);
+    border-radius: 20px;
 
     background:
         linear-gradient(
             145deg,
-            rgba(17,11,24,.91),
-            rgba(5,4,8,.94)
+            rgba(17,12,23,.86),
+            rgba(5,4,8,.90)
         );
-
-    box-shadow:
-        0 30px 100px rgba(0,0,0,.55),
-        0 0 90px rgba(124,58,237,.08);
-
-    backdrop-filter: blur(25px);
-}
-
-.balance::after {
-    content: "";
-    position: absolute;
-
-    width: 300px;
-    height: 300px;
-
-    top: -180px;
-    right: -100px;
-
-    border-radius: 50%;
-
-    background: #7c3aed;
-    opacity: .13;
-    filter: blur(90px);
-
-    pointer-events: none;
-}
-
-.balance-top {
-    position: relative;
-    z-index: 1;
-}
-
-.eyebrow {
-    color: #817889;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 1.6px;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-}
-
-.balance h2 {
-    font-size: 32px;
-    letter-spacing: -.8px;
-}
-
-.balance-text {
-    color: #746d7c;
-    font-size: 14px;
-    margin-top: 8px;
-    margin-bottom: 28px;
-}
-
-.input-row {
-    position: relative;
-    z-index: 1;
-
-    display: flex;
-    gap: 10px;
-}
-
-.amount {
-    flex: 1;
-    min-width: 0;
-
-    height: 58px;
-
-    padding: 0 18px;
-
-    border: 1px solid #2c2237;
-    border-radius: 13px;
-
-    background: #08060b;
-
-    color: #fff;
-    font-size: 18px;
-
-    outline: none;
-
-    transition:
-        border-color .25s ease,
-        box-shadow .25s ease;
-}
-
-.amount::placeholder {
-    color: #504958;
-}
-
-.amount:focus {
-    border-color: #8b5cf6;
-    box-shadow:
-        0 0 0 4px rgba(139,92,246,.08),
-        0 0 35px rgba(139,92,246,.08);
-}
-
-.add {
-    height: 58px;
-
-    padding: 0 27px;
-
-    border: 0;
-    border-radius: 13px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #6d28d9,
-            #9333ea
-        );
-
-    color: #fff;
-
-    font-size: 14px;
-    font-weight: 800;
-
-    cursor: pointer;
-
-    transition:
-        transform .25s ease,
-        box-shadow .25s ease,
-        filter .25s ease;
-}
-
-.add:hover {
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 14px 35px rgba(124,58,237,.32);
-
-    filter: brightness(1.08);
-}
-
-.add:active {
-    transform: translateY(0);
-}
-
-.limits {
-    position: relative;
-    z-index: 1;
-
-    display: flex;
-    justify-content: space-between;
-
-    margin-top: 12px;
-
-    color: #554e5e;
-    font-size: 11px;
-}
-
-/* =========================
-   QUICK AMOUNTS
-========================= */
-
-.quick {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-
-    margin-top: 17px;
-}
-
-.quick button {
-    padding: 8px 13px;
-
-    border: 1px solid #281d32;
-    border-radius: 9px;
-
-    background: rgba(8,6,11,.7);
-
-    color: #8e8698;
-
-    cursor: pointer;
-
-    font-size: 12px;
-    font-weight: 600;
-
-    transition: .2s ease;
-}
-
-.quick button:hover {
-    color: #d5c2e9;
-    border-color: #6336a0;
-    background: rgba(124,58,237,.10);
-}
-
-/* =========================
-   EXPANDABLE BOXES
-========================= */
-
-.info-box {
-    margin-top: 14px;
-
-    border: 1px solid rgba(255,255,255,.075);
-    border-radius: 19px;
-
-    background: rgba(8,6,11,.80);
-
-    overflow: hidden;
 
     backdrop-filter: blur(20px);
 
     transition:
-        border-color .3s ease,
-        box-shadow .3s ease;
+        transform .4s cubic-bezier(.2,.8,.2,1),
+        border-color .4s ease,
+        box-shadow .4s ease;
+}
+
+.payment-box::before {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    right: -100px;
+    top: -100px;
+
+    border-radius: 50%;
+
+    background: #7b3db0;
+    opacity: .10;
+
+    filter: blur(50px);
+
+    transition: .5s ease;
+}
+
+.payment-box:hover {
+    transform: translateY(-5px) scale(1.015);
+
+    border-color: rgba(153,91,211,.38);
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.38),
+        0 0 45px rgba(117,61,166,.08);
+}
+
+.payment-box:hover::before {
+    transform: scale(1.5);
+    opacity: .16;
+}
+
+.payment-number {
+    color: #79509d;
+
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+
+    margin-bottom: 12px;
+}
+
+.payment-box h2 {
+    font-size: 20px;
+    letter-spacing: -.4px;
+}
+
+.payment-box p {
+    margin-top: 8px;
+
+    color: #77707f;
+
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.payment-form {
+    position: relative;
+    z-index: 2;
+
+    margin-top: 21px;
+}
+
+.field {
+    width: 100%;
+    height: 45px;
+
+    margin-bottom: 9px;
+    padding: 0 13px;
+
+    border: 1px solid #2a2230;
+    border-radius: 10px;
+
+    background: rgba(3,2,5,.65);
+
+    color: #fff;
+
+    outline: none;
+
+    font-size: 12px;
+
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease,
+        transform .25s ease;
+}
+
+.field::placeholder {
+    color: #5c5562;
+}
+
+.field:focus {
+    border-color: #8050a9;
+
+    box-shadow:
+        0 0 0 3px rgba(128,80,169,.08);
+
+    transform: scale(1.01);
+}
+
+.pay-button {
+    width: 100%;
+    height: 45px;
+
+    margin-top: 3px;
+
+    border: 0;
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #663b88,
+            #8d4fc1
+        );
+
+    color: #fff;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        transform .3s cubic-bezier(.2,.8,.2,1),
+        box-shadow .3s ease,
+        filter .3s ease;
+}
+
+.pay-button:hover {
+    transform: scale(1.025);
+
+    filter: brightness(1.08);
+
+    box-shadow:
+        0 12px 30px rgba(109,57,148,.25);
+}
+
+.pay-button:active {
+    transform: scale(.99);
+}
+
+/* =========================
+   LOWER BOXES
+========================= */
+
+.lower {
+    width: min(820px, 92%);
+    margin: 14px auto 90px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.info-box {
+    position: relative;
+
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: 16px;
+
+    background: rgba(8,6,11,.78);
+
+    backdrop-filter: blur(18px);
+
+    overflow: hidden;
+
+    transition:
+        transform .4s cubic-bezier(.2,.8,.2,1),
+        border-color .35s ease,
+        box-shadow .35s ease;
 }
 
 .info-box:hover {
-    border-color: rgba(139,92,246,.25);
+    transform: translateY(-5px) scale(1.025);
+
+    border-color: rgba(151,91,202,.32);
+
+    box-shadow:
+        0 18px 45px rgba(0,0,0,.32);
 }
 
 .info-button {
     width: 100%;
+
+    min-height: 78px;
+
+    padding: 17px;
 
     border: 0;
     background: transparent;
 
     color: #fff;
 
-    padding: 22px 24px;
+    cursor: pointer;
+
+    text-align: left;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    text-align: left;
-    cursor: pointer;
 }
 
-.info-left {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-.icon {
-    width: 42px;
-    height: 42px;
-
-    display: grid;
-    place-items: center;
-
-    border-radius: 12px;
-
-    background: rgba(124,58,237,.12);
-    border: 1px solid rgba(139,92,246,.18);
-
-    font-size: 18px;
-}
-
-.info-title {
-    font-size: 15px;
+.info-name {
+    font-size: 13px;
     font-weight: 800;
 }
 
-.info-sub {
-    color: #696271;
-    font-size: 11px;
+.info-description {
     margin-top: 4px;
+
+    color: #615967;
+
+    font-size: 10px;
 }
 
-.chevron {
-    color: #9560dc;
-    font-size: 18px;
+.arrow {
+    color: #8051a9;
+
+    font-size: 16px;
 
     transition: transform .35s ease;
 }
 
-.info-box.open .chevron {
+.info-box.open .arrow {
     transform: rotate(180deg);
 }
 
-.content {
+.info-content {
     max-height: 0;
     overflow: hidden;
 
     transition:
-        max-height .55s cubic-bezier(.2,.8,.2,1);
+        max-height .5s cubic-bezier(.2,.8,.2,1);
 }
 
-.content-inner {
-    padding: 0 24px 28px;
+.info-inner {
+    padding: 0 17px 20px;
 
-    color: #9c95a4;
+    color: #8e8794;
 
-    font-size: 13px;
-    line-height: 1.75;
+    font-size: 11px;
+    line-height: 1.7;
 }
 
-.content-inner h3 {
-    color: #eee9f2;
-    font-size: 14px;
-    margin: 22px 0 7px;
-}
+.info-inner h3 {
+    margin: 16px 0 6px;
 
-.content-inner strong {
-    color: #c39aff;
-}
-
-.content-inner ul {
-    padding-left: 20px;
-}
-
-.content-inner li {
-    margin: 5px 0;
-}
-
-.telegram {
-    display: inline-flex;
-
-    margin-top: 15px;
-
-    padding: 10px 15px;
-
-    border-radius: 10px;
-
-    color: #fff;
-    text-decoration: none;
-
-    background: rgba(124,58,237,.15);
-    border: 1px solid rgba(139,92,246,.23);
+    color: #ddd5e5;
 
     font-size: 12px;
+}
+
+.info-inner strong {
+    color: #b382d3;
+}
+
+.info-inner ul {
+    padding-left: 16px;
+}
+
+.info-inner li {
+    margin: 4px 0;
+}
+
+.external-link {
+    display: inline-block;
+
+    margin-top: 11px;
+
+    padding: 8px 12px;
+
+    border-radius: 8px;
+
+    border: 1px solid rgba(139,92,246,.18);
+
+    background: rgba(124,58,237,.09);
+
+    color: #b58bd1;
+
+    text-decoration: none;
+
+    font-size: 10px;
     font-weight: 700;
 
     transition: .25s ease;
 }
 
-.telegram:hover {
-    background: rgba(124,58,237,.28);
+.external-link:hover {
     transform: translateY(-1px);
+    background: rgba(124,58,237,.17);
 }
 
 /* =========================
@@ -567,19 +556,19 @@ header {
 ========================= */
 
 footer {
-    border-top: 1px solid rgba(255,255,255,.06);
+    border-top: 1px solid rgba(255,255,255,.055);
+
+    padding: 30px 20px;
 
     text-align: center;
 
-    padding: 38px 20px;
+    color: #48414e;
 
-    color: #4f4857;
-
-    font-size: 12px;
+    font-size: 10px;
 }
 
-footer strong {
-    color: #8250c6;
+footer span {
+    color: #704596;
 }
 
 /* =========================
@@ -590,52 +579,53 @@ footer strong {
     position: fixed;
 
     left: 50%;
-    bottom: 25px;
+    bottom: 24px;
 
-    transform:
-        translate(-50%, 30px);
+    width: min(390px, 88%);
+
+    padding: 13px 17px;
+
+    border: 1px solid rgba(139,92,246,.22);
+    border-radius: 11px;
+
+    background: rgba(11,8,15,.95);
+
+    color: #d0c6d8;
+
+    text-align: center;
+
+    font-size: 11px;
+
+    backdrop-filter: blur(20px);
 
     opacity: 0;
     pointer-events: none;
 
-    z-index: 200;
-
-    width: min(420px, 90%);
-
-    padding: 15px 18px;
-
-    border: 1px solid rgba(168,85,247,.25);
-    border-radius: 13px;
-
-    background: rgba(12,8,17,.94);
-
-    color: #ddd5e5;
-
-    text-align: center;
-
-    font-size: 13px;
-
-    backdrop-filter: blur(18px);
+    transform:
+        translate(-50%, 20px);
 
     transition:
         opacity .3s ease,
         transform .3s ease;
+
+    z-index: 999;
 }
 
 .toast.show {
     opacity: 1;
+
     transform:
         translate(-50%, 0);
 }
 
 /* =========================
-   ANIMATIONS
+   HERO ANIMATION
 ========================= */
 
-@keyframes heroIn {
+@keyframes heroEnter {
     from {
         opacity: 0;
-        transform: translateY(28px);
+        transform: translateY(24px);
     }
 
     to {
@@ -645,69 +635,71 @@ footer strong {
 }
 
 /* =========================
-   MOBILE
+   RESPONSIVE
 ========================= */
 
-@media (max-width: 650px) {
+@media (max-width: 700px) {
 
-    .nav {
-        min-height: 66px;
-    }
-
-    .logo {
-        font-size: 20px;
-    }
-
-    .nav-links {
-        gap: 13px;
-    }
-
-    .nav-links a {
-        font-size: 11px;
+    header {
+        padding: 23px 20px;
     }
 
     .hero {
-        min-height: 68vh;
-        padding: 80px 18px 60px;
+        min-height: 58vh;
+        padding: 70px 18px 50px;
     }
 
     .hero h1 {
-        font-size: clamp(48px, 15vw, 76px);
+        font-size: clamp(49px, 15vw, 75px);
         letter-spacing: -4px;
     }
 
-    .hero-description {
-        font-size: 14px;
+    .hero p {
+        font-size: 13px;
     }
 
-    .balance {
-        padding: 25px 19px;
-        border-radius: 21px;
+    .payment-area {
+        grid-template-columns: 1fr;
     }
 
-    .balance h2 {
-        font-size: 27px;
-    }
-
-    .input-row {
-        flex-direction: column;
-    }
-
-    .amount,
-    .add {
-        width: 100%;
-    }
-
-    .limits {
-        font-size: 10px;
+    .lower {
+        grid-template-columns: 1fr;
     }
 
     .info-button {
-        padding: 19px;
+        min-height: 70px;
     }
 
-    .content-inner {
-        padding: 0 19px 24px;
+    .logo-wrap:hover .fun-name {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 420px) {
+
+    .hero h1 {
+        font-size: 48px;
+    }
+
+    .payment-box {
+        padding: 22px;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
+}
+
+/* Respect reduced-motion settings */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
     }
 }
 </style>
@@ -715,22 +707,27 @@ footer strong {
 
 <body>
 
-<div class="bg"></div>
+<div class="background"></div>
+
 
 <header>
-    <div class="nav">
+
+    <div class="logo-wrap">
 
         <div class="logo">
-            Conform<span>itive</span>
+
+            <span class="logo-main">
+                Conform<span>itive</span>
+            </span>
+
+            <span class="fun-name">
+                !! Fun
+            </span>
+
         </div>
 
-        <nav class="nav-links">
-            <a href="#balance">Balance</a>
-            <a href="#vouches">Vouches</a>
-            <a href="#escrow">Escrow</a>
-        </nav>
-
     </div>
+
 </header>
 
 
@@ -738,19 +735,14 @@ footer strong {
 
     <div class="hero-content">
 
-        <div class="status">
-            <span class="status-dot"></span>
-            Conformitive is online
-        </div>
-
         <h1>
-            Add Balance.<br>
-            <span>Stay Powerful.</span>
+            Simple.<br>
+            <span>Powerful.</span>
         </h1>
 
-        <p class="hero-description">
-            A clean and secure way to add balance.
-            Choose your amount and continue when you're ready.
+        <p>
+            Secure payments, simple transactions and a
+            clean experience built around you.
         </p>
 
     </div>
@@ -758,246 +750,235 @@ footer strong {
 </section>
 
 
-<main class="main">
+<!-- PAYMENT OPTIONS -->
 
-    <!-- BALANCE -->
+<section class="payment-area">
 
-    <section class="balance" id="balance">
+    <!-- ORDER PAYMENT -->
 
-        <div class="balance-top">
+    <div class="payment-box">
 
-            <div class="eyebrow">
-                Conformitive Balance
-            </div>
-
-            <h2>
-                Add Balance
-            </h2>
-
-            <p class="balance-text">
-                Enter an amount between $1 and $5,000.
-            </p>
-
+        <div class="payment-number">
+            01 / ORDER
         </div>
 
+        <h2>
+            Order Payment
+        </h2>
 
-        <div class="input-row">
+        <p>
+            Enter your sale information to continue
+            to secure checkout.
+        </p>
+
+        <div class="payment-form">
 
             <input
-                id="amount"
-                class="amount"
+                id="sellAuth"
+                class="field"
+                type="text"
+                placeholder="Sell Auth"
+                autocomplete="off"
+            >
+
+            <input
+                id="orderId"
+                class="field"
+                type="text"
+                placeholder="Order ID"
+                autocomplete="off"
+            >
+
+            <input
+                id="orderAmount"
+                class="field"
                 type="number"
                 min="1"
-                max="5000"
-                step="1"
-                placeholder="Enter amount"
+                step="0.01"
+                placeholder="Amount ($)"
                 inputmode="decimal"
             >
 
             <button
-                class="add"
+                class="pay-button"
                 type="button"
-                onclick="addBalance()"
+                onclick="orderPayment()"
             >
-                Add Balance
+                Continue to Payment
             </button>
 
         </div>
 
+    </div>
 
-        <div class="limits">
-            <span>Minimum $1</span>
-            <span>Maximum $5,000</span>
+
+    <!-- DIRECT PAYMENT -->
+
+    <div class="payment-box">
+
+        <div class="payment-number">
+            02 / DIRECT
         </div>
 
+        <h2>
+            Direct Payment
+        </h2>
 
-        <div class="quick">
+        <p>
+            No order information required.
+            Simply choose how much you want to pay.
+        </p>
 
-            <button onclick="setAmount(5)">
-                $5
-            </button>
+        <div class="payment-form">
 
-            <button onclick="setAmount(10)">
-                $10
-            </button>
+            <input
+                id="directAmount"
+                class="field"
+                type="number"
+                min="1"
+                step="0.01"
+                placeholder="Amount ($)"
+                inputmode="decimal"
+            >
 
-            <button onclick="setAmount(25)">
-                $25
-            </button>
-
-            <button onclick="setAmount(50)">
-                $50
-            </button>
-
-            <button onclick="setAmount(100)">
-                $100
-            </button>
-
-            <button onclick="setAmount(250)">
-                $250
-            </button>
-
-            <button onclick="setAmount(500)">
-                $500
-            </button>
-
-            <button onclick="setAmount(1000)">
-                $1,000
+            <button
+                class="pay-button"
+                type="button"
+                onclick="directPayment()"
+            >
+                Continue to Payment
             </button>
 
         </div>
 
-    </section>
+    </div>
+
+</section>
+
+
+<!-- THREE SMALL BOXES -->
+
+<section class="lower">
 
 
     <!-- VOUCHES -->
 
-    <section class="info-box" id="vouches">
+    <div class="info-box" id="vouches">
 
         <button
             class="info-button"
-            onclick="toggleBox(this)"
             type="button"
+            onclick="toggleBox(this)"
         >
 
-            <div class="info-left">
+            <div>
 
-                <div class="icon">
-                    💬
+                <div class="info-name">
+                    Vouches
                 </div>
 
-                <div>
-
-                    <div class="info-title">
-                        Vouches
-                    </div>
-
-                    <div class="info-sub">
-                        Customer feedback & transaction history
-                    </div>
-
+                <div class="info-description">
+                    Customer feedback
                 </div>
 
             </div>
 
-            <div class="chevron">
+            <div class="arrow">
                 ↓
             </div>
 
         </button>
 
 
-        <div class="content">
+        <div class="info-content">
 
-            <div class="content-inner">
+            <div class="info-inner">
 
                 <p>
                     View customer feedback and previous
-                    transaction vouches through the official
-                    Telegram channel.
+                    transaction vouches through the
+                    official Telegram channel.
                 </p>
 
                 <a
-                    class="telegram"
+                    class="external-link"
                     href="https://t.me/funsrep"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    Open Vouches →
+                    View Vouches
                 </a>
 
             </div>
 
         </div>
 
-    </section>
+    </div>
 
 
-    <!-- ROYAL ESCROW -->
+    <!-- ESCROW -->
 
-    <section class="info-box" id="escrow">
+    <div class="info-box" id="escrow">
 
         <button
             class="info-button"
-            onclick="toggleBox(this)"
             type="button"
+            onclick="toggleBox(this)"
         >
 
-            <div class="info-left">
+            <div>
 
-                <div class="icon">
-                    🤝
+                <div class="info-name">
+                    Royal Escrow
                 </div>
 
-                <div>
-
-                    <div class="info-title">
-                        Royal Escrow
-                    </div>
-
-                    <div class="info-sub">
-                        Secure digital transaction handling
-                    </div>
-
+                <div class="info-description">
+                    Terms & information
                 </div>
 
             </div>
 
-            <div class="chevron">
+            <div class="arrow">
                 ↓
             </div>
 
         </button>
 
 
-        <div class="content">
+        <div class="info-content">
 
-            <div class="content-inner">
-
-                <h3>Royal Escrow</h3>
-
-                <p>
-                    Official <strong>@ThroneEscrow</strong> Channel 🤝
-                </p>
-
-                <p>
-                    Operated by reputable providers, our service
-                    guarantees secure and professional transaction
-                    handling so you can trade with confidence every
-                    step of the way.
-                </p>
-
-                <p>
-                    Fees are set at <strong>1.5%</strong> of the
-                    transaction amount, with a minimum fee of
-                    <strong>$2</strong>.
-                </p>
-
-                <p>
-                    For the first while of the launch of this
-                    service it will be free with a
-                    <strong>0% fee</strong>.
-                </p>
-
+            <div class="info-inner">
 
                 <h3>
-                    Terms of Service
+                    Royal Escrow
                 </h3>
 
                 <p>
-                    By using Royal Escrow's middleman services,
-                    you agree to the following terms:
+                    Official <strong>@ThroneEscrow</strong>
+                    Channel.
                 </p>
 
+                <p>
+                    Operated by reputable providers,
+                    our service guarantees secure and
+                    professional transaction handling.
+                </p>
+
+                <p>
+                    Fees are <strong>1.5%</strong> of the
+                    transaction amount, with a
+                    <strong>$2 minimum</strong>.
+                </p>
+
+                <p>
+                    During the initial launch period,
+                    the service will operate at
+                    <strong>0% fee</strong>.
+                </p>
 
                 <h3>
                     Allowed Transactions
                 </h3>
-
-                <p>
-                    Royal Escrow only provides middleman services
-                    for digital goods, including but not limited to:
-                </p>
 
                 <ul>
                     <li>
@@ -1009,26 +990,21 @@ footer strong {
                     </li>
 
                     <li>
-                        Game keys or other digital licenses
+                        Game keys or digital licenses
                     </li>
 
                     <li>
-                        Similar digital assets agreed upon by both parties
+                        Similar digital assets agreed by both parties
                     </li>
                 </ul>
-
 
                 <h3>
                     Prohibited Transactions
                 </h3>
 
-                <p>
-                    We do not middleman any transactions involving:
-                </p>
-
                 <ul>
                     <li>
-                        Real-world/physical items
+                        Real-world or physical items
                     </li>
 
                     <li>
@@ -1036,94 +1012,134 @@ footer strong {
                     </li>
 
                     <li>
-                        Malicious software, exploits, stolen assets,
-                        or fraud-related items
+                        Malicious software, exploits,
+                        stolen assets or fraud-related items
                     </li>
 
                     <li>
-                        Anything that violates applicable laws
+                        Anything violating applicable laws
                         or platform rules
                     </li>
                 </ul>
-
-                <p>
-                    Any request involving these items will be
-                    refused immediately.
-                </p>
-
 
                 <h3>
                     Fees
                 </h3>
 
                 <p>
-                    All middleman fees are non-refundable once a
-                    transaction has started. Fees cover the time,
-                    verification, and handling required to complete
-                    the deal securely.
+                    Middleman fees are non-refundable once
+                    a transaction has started.
                 </p>
-
 
                 <h3>
                     Transaction Responsibility
                 </h3>
 
                 <p>
-                    Royal Escrow acts only as a neutral third-party
-                    facilitator. We do not guarantee the long-term
-                    status of accounts, usernames, keys, or other
-                    digital items after a transaction is completed.
-                    Buyers and sellers are responsible for verifying
-                    the details of their deal before proceeding.
+                    Royal Escrow acts only as a neutral
+                    third-party facilitator. Buyers and
+                    sellers remain responsible for verifying
+                    their deal details.
                 </p>
-
 
                 <h3>
                     Disputes
                 </h3>
 
                 <p>
-                    If a dispute occurs during a transaction,
-                    Royal Escrow will review all available evidence
-                    from both parties. A final decision will be made
-                    based on the information provided and our judgment
-                    as the acting middleman.
+                    If a dispute occurs, Royal Escrow will
+                    review available evidence from both
+                    parties and make a final decision based
+                    on the information provided.
                 </p>
-
 
                 <h3>
                     Limitation of Liability
                 </h3>
 
                 <p>
-                    Royal Escrow is not responsible for issues that
-                    occur after a transaction has been completed,
-                    including but not limited to account recovery,
-                    bans, reversals, or platform enforcement actions.
+                    Royal Escrow is not responsible for
+                    issues occurring after a transaction,
+                    including account recovery, bans,
+                    reversals or platform enforcement.
                 </p>
-
 
                 <h3>
                     Agreement
                 </h3>
 
                 <p>
-                    By choosing to use Royal Escrow services,
-                    both parties confirm that they understand and
-                    agree to these terms.
+                    By using Royal Escrow services, both
+                    parties confirm that they understand
+                    and agree to these terms.
                 </p>
 
             </div>
 
         </div>
 
-    </section>
+    </div>
 
-</main>
+
+    <!-- CONTACT -->
+
+    <div class="info-box" id="contact">
+
+        <button
+            class="info-button"
+            type="button"
+            onclick="toggleBox(this)"
+        >
+
+            <div>
+
+                <div class="info-name">
+                    Contact
+                </div>
+
+                <div class="info-description">
+                    Get in touch
+                </div>
+
+            </div>
+
+            <div class="arrow">
+                ↓
+            </div>
+
+        </button>
+
+
+        <div class="info-content">
+
+            <div class="info-inner">
+
+                <p>
+                    Contact us through our official
+                    profile for questions, support or
+                    general enquiries.
+                </p>
+
+                <a
+                    class="external-link"
+                    href="https://guns.lol/funn"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Contact
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 
 <footer>
-    © 2026 <strong>Conformitive</strong>. All rights reserved.
+    © 2026 <span>Conformitive</span>. All rights reserved.
 </footer>
 
 
@@ -1135,11 +1151,6 @@ footer strong {
 
 <script>
 
-function setAmount(value) {
-    document.getElementById("amount").value = value;
-}
-
-
 function showToast(message) {
 
     const toast = document.getElementById("toast");
@@ -1148,69 +1159,170 @@ function showToast(message) {
 
     toast.classList.add("show");
 
-    setTimeout(function() {
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer = setTimeout(function() {
         toast.classList.remove("show");
     }, 3500);
 }
 
 
-function addBalance() {
+function validAmount(value) {
 
-    const input = document.getElementById("amount");
+    const amount = Number(value);
 
-    const amount = Number(input.value);
+    if (!amount || amount <= 0) {
+        return false;
+    }
 
-    if (!amount) {
-        showToast("Please enter an amount.");
-        input.focus();
+    return true;
+}
+
+
+function orderPayment() {
+
+    const sellAuth =
+        document.getElementById("sellAuth").value.trim();
+
+    const orderId =
+        document.getElementById("orderId").value.trim();
+
+    const amount =
+        document.getElementById("orderAmount").value;
+
+
+    if (!sellAuth) {
+        showToast("Please enter your Sell Auth.");
         return;
     }
 
-    if (amount < 1) {
-        showToast("Minimum balance amount is $1.");
-        input.focus();
+    if (!orderId) {
+        showToast("Please enter your Order ID.");
         return;
     }
 
-    if (amount > 5000) {
-        showToast("Maximum balance amount is $5,000.");
-        input.focus();
+    if (!validAmount(amount)) {
+        showToast("Please enter a valid payment amount.");
         return;
     }
+
 
     /*
-        REAL PAYMENT CHECKOUT GOES HERE.
+        REAL PAYMENT CHECKOUT WILL BE CONNECTED HERE.
 
-        Do not pretend to process payment on the website.
-        The real payment provider will be connected here later.
+        The information can be sent to your backend/payment
+        system once the payment provider is configured.
     */
 
-    showToast(
-        "Checkout ready for $" +
-        amount.toFixed(2) +
-        ". Payment integration comes next."
+    sessionStorage.setItem(
+        "paymentType",
+        "order"
     );
+
+    sessionStorage.setItem(
+        "sellAuth",
+        sellAuth
+    );
+
+    sessionStorage.setItem(
+        "orderId",
+        orderId
+    );
+
+    sessionStorage.setItem(
+        "paymentAmount",
+        Number(amount).toFixed(2)
+    );
+
+
+    showToast(
+        "Order verified. Opening payment checkout..."
+    );
+
+    setTimeout(function() {
+
+        /*
+            Replace this with your REAL payment page URL
+            when the payment processor is connected.
+
+            Example:
+            window.location.href = "payment.html";
+        */
+
+        showToast(
+            "Payment checkout will be connected next."
+        );
+
+    }, 900);
+}
+
+
+function directPayment() {
+
+    const amount =
+        document.getElementById("directAmount").value;
+
+
+    if (!validAmount(amount)) {
+        showToast("Please enter a valid payment amount.");
+        return;
+    }
+
+
+    sessionStorage.setItem(
+        "paymentType",
+        "direct"
+    );
+
+    sessionStorage.setItem(
+        "paymentAmount",
+        Number(amount).toFixed(2)
+    );
+
+
+    showToast(
+        "Opening payment checkout..."
+    );
+
+    setTimeout(function() {
+
+        /*
+            Replace this with your REAL payment page URL
+            when the payment processor is connected.
+        */
+
+        showToast(
+            "Payment checkout will be connected next."
+        );
+
+    }, 900);
 }
 
 
 function toggleBox(button) {
 
-    const box = button.closest(".info-box");
-    const content = box.querySelector(".content");
+    const box =
+        button.closest(".info-box");
 
-    const isOpen = box.classList.contains("open");
+    const content =
+        box.querySelector(".info-content");
+
+    const isOpen =
+        box.classList.contains("open");
+
 
     if (isOpen) {
 
         box.classList.remove("open");
+
         content.style.maxHeight = "0";
 
     } else {
 
         box.classList.add("open");
+
         content.style.maxHeight =
             content.scrollHeight + "px";
-
     }
 }
 
