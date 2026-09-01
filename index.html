@@ -6,288 +6,401 @@
 <title>Conformitive</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+:root{
+  --black:#050506;
+  --purple:#75449a;
+  --purple2:#a16bc6;
+  --white:#fff;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
 body{
   min-height:100vh;
   overflow-x:hidden;
-  background:#050505;
-  color:#fff;
-  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif
+  background:var(--black);
+  color:var(--white);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  cursor:none;
 }
 
-/* BACKGROUND */
-.bg{
+/* PAGE BACKGROUND */
+.page-bg{
   position:absolute;
   inset:0;
   min-height:100%;
-  z-index:-2;
+  z-index:-5;
   background:
-    linear-gradient(180deg,
+    linear-gradient(
+      180deg,
       rgba(0,0,0,.20),
-      rgba(0,0,0,.55) 45%,
-      rgba(0,0,0,.88) 75%,
-      #050505 100%),
+      rgba(0,0,0,.52) 42%,
+      rgba(0,0,0,.82) 72%,
+      #050506 100%
+    ),
     url("cf163c6a-1a2d-4268-9b53-79f7bd22587a.jpg")
     center top/cover no-repeat;
 }
-.bg:after{
+
+.page-bg:after{
   content:"";
   position:absolute;
   inset:0;
-  background:radial-gradient(circle at 50% 18%,rgba(126,72,168,.18),transparent 38%);
-  pointer-events:none
+  background:
+    radial-gradient(
+      circle at 50% 20%,
+      rgba(117,68,154,.16),
+      transparent 38%
+    );
+  pointer-events:none;
+}
+
+/* CUSTOM CURSOR */
+.cursor-dot,
+.cursor-glow{
+  position:fixed;
+  left:0;
+  top:0;
+  pointer-events:none;
+  z-index:9999;
+  border-radius:50%;
+  transform:translate3d(-50%,-50%,0);
+  will-change:transform;
+}
+
+.cursor-dot{
+  width:5px;
+  height:5px;
+  background:#eee;
+  box-shadow:
+    0 0 10px rgba(161,107,198,.85);
+}
+
+.cursor-glow{
+  width:34px;
+  height:34px;
+  background:
+    radial-gradient(
+      circle,
+      rgba(143,82,186,.24) 0%,
+      rgba(101,54,137,.12) 38%,
+      rgba(0,0,0,0) 72%
+    );
+  filter:blur(3px);
+  opacity:.75;
+  transition:
+    width .25s ease,
+    height .25s ease,
+    opacity .25s ease;
+}
+
+body.cursor-active .cursor-glow{
+  width:64px;
+  height:64px;
+  opacity:1;
+}
+
+body.cursor-click .cursor-glow{
+  width:82px;
+  height:82px;
 }
 
 /* HEADER */
 header{
   position:sticky;
   top:0;
-  z-index:50;
-  background:rgba(5,5,5,.62);
+  z-index:100;
   border-bottom:1px solid rgba(255,255,255,.055);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px)
+  background:rgba(5,5,6,.58);
+  backdrop-filter:blur(13px);
+  -webkit-backdrop-filter:blur(13px);
 }
+
 .header{
   width:min(1400px,92%);
-  min-height:80px;
+  min-height:82px;
   margin:auto;
   display:flex;
   align-items:center;
-  justify-content:space-between
+  justify-content:space-between;
 }
 
 /* BRAND */
 .brand{
   display:inline-flex;
   align-items:flex-start;
-  gap:9px;
-  cursor:pointer;
-  transition:transform .35s cubic-bezier(.2,.8,.2,1)
+  cursor:none;
+  user-select:none;
+  transition:
+    transform .45s cubic-bezier(.2,.8,.2,1);
 }
-.brand:hover{transform:scale(1.045)}
-.brand-emoji{
-  width:25px;
-  height:25px;
-  object-fit:contain;
-  margin-top:1px;
-  transition:transform .35s cubic-bezier(.2,.8,.2,1)
+
+.brand:hover{
+  transform:scale(1.06);
 }
-.brand:hover .brand-emoji{transform:scale(1.08)}
+
 .brand-name{
   font-size:25px;
   line-height:1;
   font-weight:900;
-  letter-spacing:-1.3px
+  letter-spacing:-1.5px;
 }
-.brand-name span{color:#a169c7}
+
+.brand-name span{
+  color:var(--purple2);
+}
+
 .fun{
-  margin-top:6px;
-  color:#9b6bb9;
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:2px;
-  opacity:.7;
-  transition:.35s ease
+  text-align:center;
+  margin-top:5px;
+  height:0;
+  color:var(--purple2);
+  font-size:0;
+  font-weight:900;
+  letter-spacing:3px;
+  opacity:0;
+  transform:translateY(-7px);
+  overflow:visible;
+  transition:
+    font-size .35s cubic-bezier(.2,.8,.2,1),
+    transform .4s cubic-bezier(.2,.8,.2,1),
+    opacity .3s ease;
 }
+
 .brand:hover .fun{
+  height:auto;
+  font-size:10px;
   opacity:1;
-  transform:translateY(3px)
+  transform:translateY(0);
 }
 
 /* CART */
 .cart{
-  width:43px;
-  height:43px;
+  width:44px;
+  height:44px;
+  display:grid;
+  place-items:center;
   border:1px solid rgba(255,255,255,.09);
   border-radius:50%;
   background:rgba(255,255,255,.025);
-  display:grid;
-  place-items:center;
   text-decoration:none;
-  transition:.35s cubic-bezier(.2,.8,.2,1)
+  cursor:none;
+  transition:
+    transform .35s cubic-bezier(.2,.8,.2,1),
+    border-color .3s ease,
+    background .3s ease;
 }
+
 .cart:hover{
-  transform:scale(1.1);
-  border-color:rgba(161,105,199,.5);
-  background:rgba(126,72,168,.11)
+  transform:scale(1.12);
+  border-color:rgba(161,107,198,.5);
+  background:rgba(117,68,154,.12);
 }
-.cart img{
-  width:20px;
-  height:20px;
-  object-fit:contain
-}
+
 .cart svg{
   width:18px;
   height:18px;
-  stroke:#fff;
   fill:none;
+  stroke:#fff;
   stroke-width:1.6;
   stroke-linecap:round;
-  stroke-linejoin:round
+  stroke-linejoin:round;
 }
 
 /* HERO */
 .hero{
-  min-height:73vh;
-  width:min(1200px,92%);
+  width:min(1250px,92%);
+  min-height:75vh;
   margin:auto;
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   text-align:center;
-  padding:100px 20px 80px
+  padding:100px 20px 80px;
 }
-.hero-in{
-  animation:enter .85s cubic-bezier(.2,.8,.2,1) both
+
+.hero-content{
+  animation:enter .9s cubic-bezier(.2,.8,.2,1) both;
 }
+
 .royal{
   display:inline-flex;
   align-items:center;
   gap:7px;
   margin-bottom:24px;
-  color:rgba(255,255,255,.52);
+  color:rgba(255,255,255,.48);
   font-size:10px;
   font-weight:800;
-  letter-spacing:4px
+  letter-spacing:4px;
 }
+
 .royal img{
   width:17px;
   height:17px;
-  object-fit:contain
-}
-h1{
-  font-size:clamp(58px,10vw,125px);
-  line-height:.88;
-  letter-spacing:-8px;
-  font-weight:950
-}
-h1 .purple{
-  color:#a169c7
-}
-.hero p{
-  max-width:540px;
-  margin:30px auto 0;
-  color:rgba(255,255,255,.55);
-  font-size:15px;
-  line-height:1.8
+  object-fit:contain;
 }
 
-/* MIDDLE PLACE */
+.hero h1{
+  font-size:clamp(56px,10vw,125px);
+  line-height:.87;
+  letter-spacing:-8px;
+  font-weight:950;
+}
+
+.hero h1 .purple{
+  color:var(--purple2);
+}
+
+.hero p{
+  max-width:560px;
+  margin:30px auto 0;
+  color:rgba(255,255,255,.52);
+  font-size:15px;
+  line-height:1.8;
+}
+
+/* MIDDLE */
 .middle{
   width:min(900px,92%);
-  min-height:380px;
-  margin:0 auto 100px;
+  min-height:390px;
+  margin:auto;
   display:flex;
   align-items:center;
   justify-content:center;
-  text-align:center
+  text-align:center;
 }
-.middle span{
-  color:rgba(255,255,255,.13);
+
+.middle-text{
+  color:rgba(255,255,255,.11);
   font-size:10px;
   letter-spacing:3px;
-  text-transform:uppercase
+  text-transform:uppercase;
 }
 
 /* BLACK RECTANGLE */
 .bottom{
+  position:relative;
   width:min(1250px,92%);
-  min-height:330px;
-  margin:0 auto 100px;
+  min-height:350px;
+  margin:0 auto 110px;
+  overflow:hidden;
   background:#050505;
   border:1px solid rgba(255,255,255,.07);
-  position:relative;
-  overflow:hidden;
 }
+
 .bottom:before{
   content:"";
   position:absolute;
-  width:400px;
-  height:400px;
-  left:-160px;
-  bottom:-220px;
+  width:440px;
+  height:440px;
+  left:-180px;
+  bottom:-240px;
   border-radius:50%;
-  background:rgba(118,62,153,.08);
-  filter:blur(85px)
+  background:rgba(117,68,154,.08);
+  filter:blur(80px);
 }
-.bottom-in{
-  min-height:330px;
-  padding:55px;
+
+.bottom-inner{
   position:relative;
   z-index:1;
+  min-height:350px;
+  padding:55px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:35px
+  gap:40px;
 }
+
 .bottom-title{
   font-size:38px;
+  font-weight:900;
   letter-spacing:-1.5px;
-  font-weight:900
 }
+
 .bottom-text{
   max-width:420px;
   margin-top:12px;
-  color:rgba(255,255,255,.4);
+  color:rgba(255,255,255,.38);
   font-size:13px;
-  line-height:1.7
+  line-height:1.7;
 }
 
 /* LINKS */
 .links{
   display:flex;
   flex-wrap:wrap;
-  gap:9px
+  gap:9px;
 }
+
 .link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
   min-width:110px;
-  padding:12px 15px;
+  padding:12px 16px;
   border:1px solid rgba(255,255,255,.085);
   background:rgba(255,255,255,.025);
   color:rgba(255,255,255,.72);
   text-decoration:none;
   font-size:11px;
   font-weight:700;
-  transition:.32s cubic-bezier(.2,.8,.2,1);
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:7px;
-  cursor:pointer
+  cursor:none;
+  transition:
+    transform .35s cubic-bezier(.2,.8,.2,1),
+    border-color .3s ease,
+    background .3s ease,
+    color .3s ease;
 }
+
 .link:hover{
-  transform:translateY(-3px) scale(1.025);
-  border-color:rgba(161,105,199,.4);
-  background:rgba(126,72,168,.1);
-  color:#fff
+  transform:translateY(-4px) scale(1.035);
+  border-color:rgba(161,107,198,.45);
+  background:rgba(117,68,154,.11);
+  color:#fff;
 }
+
 .link img{
   width:16px;
   height:16px;
-  object-fit:contain
+  object-fit:contain;
 }
 
 /* TOS */
 .tos{
   max-height:0;
   overflow:hidden;
-  transition:max-height .5s cubic-bezier(.2,.8,.2,1)
+  transition:max-height .55s cubic-bezier(.2,.8,.2,1);
 }
-.tos-in{
+
+.tos-inner{
   padding:0 55px 30px;
-  color:rgba(255,255,255,.5);
+  color:rgba(255,255,255,.50);
   font-size:12px;
-  line-height:1.75
+  line-height:1.75;
 }
-.tos-in h3{
+
+.tos-inner h3{
   margin:18px 0 6px;
-  color:rgba(255,255,255,.82);
-  font-size:13px
+  color:rgba(255,255,255,.84);
+  font-size:13px;
 }
-.tos-in strong{color:#ae7dcc}
-.tos-in ul{padding-left:18px}
+
+.tos-inner strong{
+  color:#b083cc;
+}
+
+.tos-inner ul{
+  padding-left:18px;
+}
 
 /* FOOTER */
 footer{
@@ -297,57 +410,108 @@ footer{
   border-top:1px solid rgba(255,255,255,.05);
   display:flex;
   justify-content:space-between;
-  gap:20px;
-  color:rgba(255,255,255,.28);
-  font-size:10px
+  color:rgba(255,255,255,.25);
+  font-size:10px;
 }
-footer span{color:#80549d}
+
+footer span{
+  color:#80529e;
+}
 
 /* ANIMATION */
 @keyframes enter{
-  from{opacity:0;transform:translateY(18px)}
-  to{opacity:1;transform:translateY(0)}
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 }
 
 /* MOBILE */
 @media(max-width:700px){
-  .header{min-height:72px}
-  .brand-name{font-size:21px}
-  .brand-emoji{width:21px;height:21px}
-  .hero{min-height:65vh;padding:75px 15px 60px}
-  h1{font-size:clamp(48px,15vw,78px);letter-spacing:-5px}
-  .hero p{font-size:13px}
-  .middle{min-height:280px}
-  .bottom{min-height:auto;margin-bottom:70px}
-  .bottom-in{
+
+  body{
+    cursor:auto;
+  }
+
+  .cursor-dot,
+  .cursor-glow{
+    display:none;
+  }
+
+  .header{
+    min-height:72px;
+  }
+
+  .brand-name{
+    font-size:21px;
+  }
+
+  .hero{
+    min-height:65vh;
+    padding:80px 15px 60px;
+  }
+
+  .hero h1{
+    font-size:clamp(49px,15vw,78px);
+    letter-spacing:-5px;
+  }
+
+  .hero p{
+    font-size:13px;
+  }
+
+  .middle{
+    min-height:300px;
+  }
+
+  .bottom{
+    min-height:auto;
+    margin-bottom:70px;
+  }
+
+  .bottom-inner{
     min-height:0;
     padding:35px 24px;
     flex-direction:column;
-    align-items:flex-start
+    align-items:flex-start;
   }
-  .bottom-title{font-size:30px}
-  .tos-in{padding:0 24px 25px}
-  footer{flex-direction:column;align-items:flex-start}
+
+  .bottom-title{
+    font-size:30px;
+  }
+
+  .tos-inner{
+    padding:0 24px 25px;
+  }
+
+  footer{
+    flex-direction:column;
+    gap:8px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="bg"></div>
+<div class="page-bg"></div>
+
+<!-- SMOOTH DESKTOP CURSOR -->
+<div class="cursor-glow"></div>
+<div class="cursor-dot"></div>
+
 
 <header>
   <div class="header">
 
     <div class="brand">
 
-      <img
-        class="brand-emoji"
-        src="https://cdn.discordapp.com/emojis/1487461131579556054.webp?size=32"
-        alt=""
-      >
-
       <div>
+
         <div class="brand-name">
           Conform<span>itive</span>
         </div>
@@ -355,15 +519,25 @@ footer span{color:#80549d}
         <div class="fun">
           !! FUN
         </div>
+
       </div>
 
     </div>
 
-    <a class="cart" href="#" onclick="cart(event)">
-      <img
-        src="https://cdn.discordapp.com/emojis/1487460935806222497.webp?size=32"
-        alt=""
-      >
+
+    <a
+      class="cart"
+      href="#"
+      aria-label="Cart"
+      onclick="cart(event)"
+    >
+
+      <svg viewBox="0 0 24 24">
+        <path d="M3 4h2l2.2 11.1a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 1.9-1.4L21 8H6"/>
+        <circle cx="10" cy="20" r="1"/>
+        <circle cx="18" cy="20" r="1"/>
+      </svg>
+
     </a>
 
   </div>
@@ -373,14 +547,18 @@ footer span{color:#80549d}
 <main>
 
 <section class="hero">
-  <div class="hero-in">
+
+  <div class="hero-content">
 
     <div class="royal">
+
       <img
         src="https://cdn.discordapp.com/emojis/1487461401168445610.webp?size=32&animated=true"
         alt=""
       >
+
       ROYAL
+
     </div>
 
     <h1>
@@ -394,64 +572,72 @@ footer span{color:#80549d}
     </p>
 
   </div>
+
 </section>
 
 
 <section class="middle">
-  <span>
+
+  <div class="middle-text">
     Main content goes here
-  </span>
+  </div>
+
 </section>
 
 
 <section class="bottom">
 
-  <div class="bottom-in">
+  <div class="bottom-inner">
 
     <div>
+
       <div class="bottom-title">
         Conformitive
       </div>
 
       <div class="bottom-text">
         Simple design. Smooth experience.
-        Everything you need, without the clutter.
+        Everything you need without unnecessary clutter.
       </div>
+
     </div>
 
 
     <div class="links">
 
-      <!-- VOUCHES -->
       <a
         class="link"
         href="https://t.me/funsrep"
         target="_blank"
         rel="noopener noreferrer"
       >
+
         <img
           src="https://cdn.discordapp.com/emojis/1279650941729243188.webp?size=32"
           alt=""
         >
+
         Vouches
+
       </a>
 
 
-      <!-- TOS -->
       <button
         class="link"
         type="button"
         onclick="toggleTos()"
       >
+
         <img
           src="https://cdn.discordapp.com/emojis/1541104418689388666.webp?size=32&animated=true"
           alt=""
         >
+
         TOS
+
       </button>
 
 
-      <!-- CONTACT -->
       <a
         class="link"
         href="https://guns.lol/funn"
@@ -466,10 +652,9 @@ footer span{color:#80549d}
   </div>
 
 
-  <!-- TERMS -->
   <div class="tos" id="tos">
 
-    <div class="tos-in">
+    <div class="tos-inner">
 
       <h3>Royal Escrow</h3>
 
@@ -478,16 +663,14 @@ footer span{color:#80549d}
       </p>
 
       <p>
-        Operated by reputable providers, our service
-        guarantees secure and professional transaction
-        handling so you can trade with confidence.
+        Operated by reputable providers, our service guarantees
+        secure and professional transaction handling.
       </p>
 
       <p>
-        Fees are set at <strong>1.5%</strong> of the
-        transaction amount, with a minimum fee of
-        <strong>$2</strong>. During the initial launch
-        period, the service will operate at
+        Fees are <strong>1.5%</strong> of the transaction amount,
+        with a minimum fee of <strong>$2</strong>. During the
+        initial launch period, the service will operate at
         <strong>0% fee</strong>.
       </p>
 
@@ -509,16 +692,11 @@ footer span{color:#80549d}
         <li>Anything violating applicable laws or platform rules</li>
       </ul>
 
-      <p>
-        Any request involving prohibited items will
-        be refused immediately.
-      </p>
-
       <h3>Fees</h3>
 
       <p>
-        Middleman fees are non-refundable once a
-        transaction has started.
+        Middleman fees are non-refundable once a transaction
+        has started.
       </p>
 
       <h3>Transaction Responsibility</h3>
@@ -526,15 +704,15 @@ footer span{color:#80549d}
       <p>
         Royal Escrow acts only as a neutral third-party
         facilitator. Buyers and sellers remain responsible
-        for verifying the details of their deal.
+        for verifying their deal.
       </p>
 
       <h3>Disputes</h3>
 
       <p>
-        If a dispute occurs, Royal Escrow will review
-        available evidence from both parties and make
-        a final decision based on the information provided.
+        If a dispute occurs, Royal Escrow will review available
+        evidence from both parties and make a final decision
+        based on the information provided.
       </p>
 
       <h3>Limitation of Liability</h3>
@@ -562,6 +740,7 @@ footer span{color:#80549d}
 
 
 <footer>
+
   <div>
     © 2026 <span>Conformitive</span>
   </div>
@@ -569,20 +748,88 @@ footer span{color:#80549d}
   <div>
     All rights reserved.
   </div>
+
 </footer>
 
 
 <script>
+const dot=document.querySelector(".cursor-dot");
+const glow=document.querySelector(".cursor-glow");
+
+let mouseX=0;
+let mouseY=0;
+let dotX=0;
+let dotY=0;
+let glowX=0;
+let glowY=0;
+
+window.addEventListener("mousemove",e=>{
+  mouseX=e.clientX;
+  mouseY=e.clientY;
+  document.body.classList.add("cursor-active");
+},{passive:true});
+
+function animateCursor(){
+
+  dotX+=(mouseX-dotX)*.32;
+  dotY+=(mouseY-dotY)*.32;
+
+  glowX+=(mouseX-glowX)*.15;
+  glowY+=(mouseY-glowY)*.15;
+
+  dot.style.transform=
+    `translate3d(${dotX}px,${dotY}px,0) translate(-50%,-50%)`;
+
+  glow.style.transform=
+    `translate3d(${glowX}px,${glowY}px,0) translate(-50%,-50%)`;
+
+  requestAnimationFrame(animateCursor);
+}
+
+animateCursor();
+
+
+document.querySelectorAll("a,button,.brand").forEach(el=>{
+
+  el.addEventListener("mouseenter",()=>{
+    document.body.classList.add("cursor-active");
+  });
+
+  el.addEventListener("mouseleave",()=>{
+    document.body.classList.remove("cursor-active");
+  });
+
+});
+
+
+window.addEventListener("mousedown",()=>{
+  document.body.classList.add("cursor-click");
+});
+
+window.addEventListener("mouseup",()=>{
+  document.body.classList.remove("cursor-click");
+});
+
+
 function cart(e){
   e.preventDefault();
   alert("Cart will be connected later.");
 }
 
-function toggleTos(){
-  const box=document.getElementById("tos");
-  const open=box.style.maxHeight;
 
-  box.style.maxHeight=open?"0px":box.scrollHeight+"px";
+function toggleTos(){
+
+  const tos=document.getElementById("tos");
+
+  if(tos.style.maxHeight){
+
+    tos.style.maxHeight="";
+
+  }else{
+
+    tos.style.maxHeight=tos.scrollHeight+"px";
+
+  }
 }
 </script>
 
